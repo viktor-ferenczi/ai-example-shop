@@ -23,6 +23,9 @@ namespace Shop.Data.Seeds
                     context.Categories.AddRange(Categories.Select(c => c.Value));
                 }
 
+                // Call the Categories property to initialize the dictionary
+                var categories = Categories;
+
                 if (!context.Foods.Any())
                 {
                     var foods = new Food[]
