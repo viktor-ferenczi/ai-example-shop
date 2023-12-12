@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Shop.Data.Seeds
 {
-    public class DbInitializer
+    public static class DbInitializer
     {
         public static void Seed(IApplicationBuilder applicationBuilder)
         {
