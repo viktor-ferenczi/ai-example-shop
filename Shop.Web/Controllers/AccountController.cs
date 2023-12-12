@@ -245,7 +245,7 @@ namespace Shop.Web.Controllers
             GetRoles();
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByIdAsync(model.Id);
                 _mapper.AccountSettingsModelToApplicationUser(model, user);
 
                 if (!string.IsNullOrEmpty(model.OldPassword)
