@@ -71,7 +71,7 @@ namespace Shop.Service
                 return GetPreferred(10);
             }
 
-            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+            return _context.Foods.Where(item => queries.Any(query => item.Name.ToLower().Contains(query)));
         }
 
         public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
