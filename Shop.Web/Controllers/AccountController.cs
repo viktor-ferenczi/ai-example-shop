@@ -1,4 +1,4 @@
-﻿using System.Reflection.Metadata;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -175,11 +175,6 @@ namespace Shop.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    var loginModel = new AccountLoginModel
-                    {
-                        Email = register.Email,
-                        Password = register.Password,
-                    };
                     await _userManager.AddToRoleAsync(user, "Customer");
                     if(!_signInManager.IsSignedIn(User) )
                     {
@@ -250,7 +245,7 @@ namespace Shop.Web.Controllers
             GetRoles();
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByIdAsync(model.Id);
                 _mapper.AccountSettingsModelToApplicationUser(model, user);
 
                 if (!string.IsNullOrEmpty(model.OldPassword)
@@ -310,7 +305,7 @@ namespace Shop.Web.Controllers
                 user = await _userManager.GetUserAsync(User);
             }
 
-            if(user!=null)
+            if(user != null)
             {
                 if(string.IsNullOrEmpty(userId) || !User.IsInRole("Admin"))
                 {

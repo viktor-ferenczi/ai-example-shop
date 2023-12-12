@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 using System;
@@ -22,7 +22,7 @@ namespace Shop.Service
             var category = GetById(id);
             if(category == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Category not found");
             }
             _context.Remove(category);
             _context.SaveChanges();

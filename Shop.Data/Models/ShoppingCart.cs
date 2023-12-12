@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -22,7 +22,6 @@ namespace Shop.Data.Models
 
 		public static ShoppingCart GetCart(IServiceProvider services)
 		{
-			//TODO design issue: Data layer referencing web specific details 
 			ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
 			var context = services.GetService<ApplicationDbContext>();
 			string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
@@ -31,9 +30,6 @@ namespace Shop.Data.Models
 			return new ShoppingCart(context) { Id = cartId };
 		}
 
-		//TODO design issue: returning bool, but no additional info if amount is invalid. View decides what error message to show
-		//TODO this is supposed to be application- or domain-level logic
-		//TODO too much branching
 		public bool AddToCart(Food food, int amount)
 		{
 			if(food.InStock == 0 || amount == 0)
@@ -46,36 +42,47 @@ namespace Shop.Data.Models
             var isValidAmount = true;
 			if (shoppingCartItem == null)
 			{
-                if (amount > food.InStock)
-                {
-                    isValidAmount = false;
-                }
-                shoppingCartItem = new ShoppingCartItem
-                {
-                    ShoppingCartId = Id,
-                    Food = food,
-                    Amount = Math.Min(food.InStock, amount)
-				};
-				_context.ShoppingCartItems.Add(shoppingCartItem);
+                isValidAmount = AddNewItem(food, amount);
 			}
 			else
 			{
-				//TODO clean code: complex evaluation as an if predicate. Wrap it in a function
-                if(food.InStock - shoppingCartItem.Amount - amount >= 0)
-                {
-                    shoppingCartItem.Amount +=  amount;
-                }
-                else
-                {
-	                //TODO redundant parenthesis
-					shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
-                    isValidAmount = false;
-                }
+                isValidAmount = AddExistingItem(shoppingCartItem, food, amount);
             }
-
 
 			_context.SaveChanges();
             return isValidAmount;
+		}
+
+		private bool AddNewItem(Food food, int amount)
+		{
+			var isValidAmount = true;
+			if (amount > food.InStock)
+			{
+				isValidAmount = false;
+			}
+			var shoppingCartItem = new ShoppingCartItem
+			{
+				ShoppingCartId = Id, // Initialize ShoppingCartId
+				Food = food, // Initialize Food
+				Amount = Math.Min(food.InStock, amount)
+			};
+			_context.ShoppingCartItems.Add(shoppingCartItem);
+			return isValidAmount;
+		}
+
+		private bool AddExistingItem(ShoppingCartItem shoppingCartItem, Food food, int amount)
+		{
+			var isValidAmount = true;
+			if(food.InStock - shoppingCartItem.Amount - amount >= 0)
+			{
+				shoppingCartItem.Amount +=  amount;
+			}
+			else
+			{
+				shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
+				isValidAmount = false;
+			}
+			return isValidAmount;
 		}
 
 		public int RemoveFromCart(Food food)

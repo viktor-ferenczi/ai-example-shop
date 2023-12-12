@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Data.Models;
@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Shop.Data.Seeds
 {
-    public class SeedRoles
+    public abstract class SeedRoles
     {
+        private SeedRoles()
+        {
+        }
+
         public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -22,6 +26,10 @@ namespace Shop.Data.Seeds
                 if (!roleExist)
                 {
                     roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new Exception($"Error creating role {roleName}: {roleResult.Errors}");
+                    }
                 }
             }
 
