@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Shop.Data.Seeds
 {
-    public class SeedRoles
+    public abstract class SeedRoles
     {
+        private SeedRoles()
+        {
+        }
+
         public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
