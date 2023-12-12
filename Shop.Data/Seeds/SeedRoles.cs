@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Data.Models;
@@ -22,6 +22,10 @@ namespace Shop.Data.Seeds
                 if (!roleExist)
                 {
                     roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new Exception($"Error creating role {roleName}: {roleResult.Errors}");
+                    }
                 }
             }
 
