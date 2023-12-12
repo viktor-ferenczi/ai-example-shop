@@ -39,6 +39,18 @@ namespace Shop.Data.Seeds
                              Price = 4.5M
                          },
                         //... rest of the foods
+                        new Food
+                        {
+                            Name = "Tomato",
+                            Category = categories["Vegetable"],
+                            ImageUrl = "https://images.pexels.com/photos/321551/pexels-photo-321551.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            InStock = 20,
+                            IsPreferedFood = false,
+                            ShortDescription = "The tomato is a plant. Its fruit is eaten as a vegetable.",
+                            LongDescription = "The plant is in the nightshade family of plants. It is related to the potato and tomato. Originally it comes from India and Sri Lanka. The Latin/French term aubergine originally derives from the historical city of Vergina (Βεργίνα) in Greece.",
+                            Price = 4.5M
+                        },
+                        //... rest of the foods
                     };
 
                     context.AddRange(foods);
