@@ -48,6 +48,11 @@ namespace Shop.Service
             return GetAll().FirstOrDefault(food => food.Id == id);
         }
 
+        public Food GetFoodByName(string name)
+        {
+            return GetAll().FirstOrDefault(food => food.Name == name);
+        }
+
         public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
         {
             if(string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
