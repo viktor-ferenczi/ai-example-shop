@@ -62,8 +62,8 @@ namespace Shop.Data.Models
 			}
 			var shoppingCartItem = new ShoppingCartItem
 			{
-				ShoppingCartId = Id,
-				Food = food,
+				ShoppingCartId = Id, // Initialize ShoppingCartId
+				Food = food, // Initialize Food
 				Amount = Math.Min(food.InStock, amount)
 			};
 			_context.ShoppingCartItems.Add(shoppingCartItem);
