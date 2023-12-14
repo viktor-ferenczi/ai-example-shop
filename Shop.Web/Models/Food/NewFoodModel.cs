@@ -27,7 +27,7 @@ namespace Shop.Web.Models.Food
         public string LongDescription { get; set; }
 
         [Required(ErrorMessage = "Please enter price of the food")]
-        [Range(0.1,double.MaxValue)]
+        [Range(0.1, double.MaxValue)]
         [Display(Name = "Price*")]
         public decimal? Price { get; set; }
 
@@ -41,7 +41,7 @@ namespace Shop.Web.Models.Food
         public int? InStock { get; set; }
 
         [Required(ErrorMessage = "Please select category")]
-        [Range(1,double.MaxValue)]
+        [Range(1, double.MaxValue)]
         public int? CategoryId { get; set; }
     }
 }

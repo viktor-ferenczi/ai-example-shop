@@ -16,7 +16,7 @@ namespace Shop.Web.Models.Food
         public int InStock { get; set; }
         public int CategoryId { get; set; }
         public int Amount { get; set; } = 1;
-        public string Total { get => (Price * Amount).ToString("c", CultureInfo.CreateSpecificCulture("en-US")) ; }
+        public string Total { get => (Price * Amount).ToString("c", CultureInfo.CreateSpecificCulture("en-US")); }
         public string CategoryName { get; set; }
     }
 }

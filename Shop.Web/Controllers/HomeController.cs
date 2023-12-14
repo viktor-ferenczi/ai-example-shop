@@ -24,7 +24,7 @@ namespace Shop.Web.Controllers
             _foodService = foodService;
             _mapper = new Mapper();
         }
-        
+
         [Route("/")]
         public IActionResult Index()
         {

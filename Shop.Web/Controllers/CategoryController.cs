@@ -10,164 +10,164 @@ using Shop.Web.DataMapper;
 
 namespace Shop.Web.Controllers
 {
-	public class CategoryController : Controller
-	{
-		private readonly ICategory _categoryService;
-		private readonly IFood _foodService;
-		private readonly ApplicationDbContext _context;
-		private readonly Mapper _mapper;
+    public class CategoryController : Controller
+    {
+        private readonly ICategory _categoryService;
+        private readonly IFood _foodService;
+        private readonly ApplicationDbContext _context;
+        private readonly Mapper _mapper;
 
-		public CategoryController(ICategory categoryService, IFood foodService, 
-			ApplicationDbContext context)
-		{
-			_categoryService = categoryService;
-			_foodService = foodService;
-			_context = context; //this is wrong to pull infra into web
-			_mapper = new Mapper();
-		}
+        public CategoryController(ICategory categoryService, IFood foodService,
+            ApplicationDbContext context)
+        {
+            _categoryService = categoryService;
+            _foodService = foodService;
+            _context = context; //this is wrong to pull infra into web
+            _mapper = new Mapper();
+        }
 
-		//TODO data layer access directly from the web, this is wrong from design perspective
-		public IActionResult LameIndex()
-		{
-			var result =  _context.Categories.Include(c => c.Foods)
-				.Select(category => new CategoryListingModel
-			{
-				Name = category.Name,
-				Description = category.Description,
-				Id = category.Id,
-				ImageUrl = category.ImageUrl
-			});
-			
-			var model = new CategoryIndexModel
-			{
-				CategoryList = result
-			};
-			
-			return View("Index", model);
-		}
-		public IActionResult Index()
-		{
-			var categories = _categoryService.GetAll().
-				Select(category => new CategoryListingModel
-				{
-					Name = category.Name,
-					Description = category.Description,
-					Id = category.Id,
-					ImageUrl = category.ImageUrl
-				});
+        //TODO data layer access directly from the web, this is wrong from design perspective
+        public IActionResult LameIndex()
+        {
+            var result = _context.Categories.Include(c => c.Foods)
+                .Select(category => new CategoryListingModel
+                {
+                    Name = category.Name,
+                    Description = category.Description,
+                    Id = category.Id,
+                    ImageUrl = category.ImageUrl
+                });
 
-			var model = new CategoryIndexModel
-			{
-				CategoryList = categories
-			};
+            var model = new CategoryIndexModel
+            {
+                CategoryList = result
+            };
 
-			return View(model);
-		}
+            return View("Index", model);
+        }
+        public IActionResult Index()
+        {
+            var categories = _categoryService.GetAll().
+                Select(category => new CategoryListingModel
+                {
+                    Name = category.Name,
+                    Description = category.Description,
+                    Id = category.Id,
+                    ImageUrl = category.ImageUrl
+                });
 
-		public IActionResult Topic(int id, string searchQuery)
-		{
-			var category = _categoryService.GetById(id);
-			var foods = _foodService.GetFilteredFoods(id, searchQuery);
+            var model = new CategoryIndexModel
+            {
+                CategoryList = categories
+            };
 
-			var foodListings = foods.Select(food => new FoodListingModel
-			{
-				Id = food.Id,
-				Name = food.Name,
-				InStock = food.InStock,
-				Price = food.Price,
-				ShortDescription = food.ShortDescription,
-				Category = _mapper.FoodToCategoryListing(food),
-				ImageUrl = food.ImageUrl
-			});
+            return View(model);
+        }
 
-			var model = new CategoryTopicModel
-			{
-				Category = _mapper.CategoryToCategoryListing(category),
-				Foods = foodListings
-			};
+        public IActionResult Topic(int id, string searchQuery)
+        {
+            var category = _categoryService.GetById(id);
+            var foods = _foodService.GetFilteredFoods(id, searchQuery);
 
-			return View(model);
-		}
+            var foodListings = foods.Select(food => new FoodListingModel
+            {
+                Id = food.Id,
+                Name = food.Name,
+                InStock = food.InStock,
+                Price = food.Price,
+                ShortDescription = food.ShortDescription,
+                Category = _mapper.FoodToCategoryListing(food),
+                ImageUrl = food.ImageUrl
+            });
 
-		public IActionResult Search(int id, string searchQuery)
-		{
-			return RedirectToAction("Topic", new { id, searchQuery });
-		}
+            var model = new CategoryTopicModel
+            {
+                Category = _mapper.CategoryToCategoryListing(category),
+                Foods = foodListings
+            };
 
-		[Authorize(Roles = "Admin")]
-		public IActionResult New()
-		{
-			ViewBag.ActionText = "create";
-			ViewBag.Action = "New";
-			ViewBag.CancelAction = "Index";
-			ViewBag.SubmitText = "Create Category";
-			return View("CreateEdit");
-		}
+            return View(model);
+        }
 
-		[HttpPost]
-		[Authorize(Roles = "Admin")]
-		public IActionResult New(CategoryListingModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				var category = _mapper.CategoryListingToModel(model);
-				_categoryService.NewCategory(category);
-				return RedirectToAction("Topic", new { id = category.Id, searchQuery = "" });
-			}
+        public IActionResult Search(int id, string searchQuery)
+        {
+            return RedirectToAction("Topic", new { id, searchQuery });
+        }
 
-			ViewBag.ActionText = "create";
-			ViewBag.Action = "New";
-			ViewBag.CancelAction = "Index";
-			ViewBag.SubmitText = "Create Category";
+        [Authorize(Roles = "Admin")]
+        public IActionResult New()
+        {
+            ViewBag.ActionText = "create";
+            ViewBag.Action = "New";
+            ViewBag.CancelAction = "Index";
+            ViewBag.SubmitText = "Create Category";
+            return View("CreateEdit");
+        }
 
-			return View("CreateEdit", model);
-		}
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult New(CategoryListingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = _mapper.CategoryListingToModel(model);
+                _categoryService.NewCategory(category);
+                return RedirectToAction("Topic", new { id = category.Id, searchQuery = "" });
+            }
 
-		[Authorize(Roles = "Admin")]
-		public IActionResult Edit(int id)
-		{
+            ViewBag.ActionText = "create";
+            ViewBag.Action = "New";
+            ViewBag.CancelAction = "Index";
+            ViewBag.SubmitText = "Create Category";
+
+            return View("CreateEdit", model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(int id)
+        {
             ViewBag.ActionText = "change";
             ViewBag.Action = "Edit";
             ViewBag.CancelAction = "Topic";
             ViewBag.SubmitText = "Save Changes";
-            ViewBag.RouteId=id;
+            ViewBag.RouteId = id;
 
-			var category = _categoryService.GetById(id);
-			if (category != null)
-			{
-				var model = _mapper.CategoryToCategoryListing(category);
-				return View("CreateEdit" ,model);
-			}
+            var category = _categoryService.GetById(id);
+            if (category != null)
+            {
+                var model = _mapper.CategoryToCategoryListing(category);
+                return View("CreateEdit", model);
+            }
 
-			return View("CreateEdit");
-		}
+            return View("CreateEdit");
+        }
 
-		[HttpPost]
-		[Authorize(Roles = "Admin")]
-		public IActionResult Edit(CategoryListingModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				var category = _mapper.CategoryListingToModel(model);
-				_categoryService.EditCategory(category);
-				return RedirectToAction("Topic", new { id = category.Id, searchQuery = "" });
-			}
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(CategoryListingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = _mapper.CategoryListingToModel(model);
+                _categoryService.EditCategory(category);
+                return RedirectToAction("Topic", new { id = category.Id, searchQuery = "" });
+            }
 
             ViewBag.ActionText = "change";
             ViewBag.Action = "Edit";
             ViewBag.CancelAction = "Topic";
             ViewBag.SubmitText = "Save Changes";
-            ViewBag.RouteId=model.Id;
+            ViewBag.RouteId = model.Id;
 
-			return View("CreateEdit",model);
-		}
+            return View("CreateEdit", model);
+        }
 
-		[Authorize(Roles = "Admin")]
-		public IActionResult Delete(int id)
-		{
-			_categoryService.DeleteCategory(id);
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
+        {
+            _categoryService.DeleteCategory(id);
 
-			return RedirectToAction("Index");
-		}
-	}
+            return RedirectToAction("Index");
+        }
+    }
 }

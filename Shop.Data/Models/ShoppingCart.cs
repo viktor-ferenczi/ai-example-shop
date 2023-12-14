@@ -8,44 +8,44 @@ using System.Text;
 
 namespace Shop.Data.Models
 {
-	public class ShoppingCart
-	{
-		private readonly ApplicationDbContext _context;
+    public class ShoppingCart
+    {
+        private readonly ApplicationDbContext _context;
 
-		public ShoppingCart(ApplicationDbContext context)
-		{
-			_context = context;
-		}
+        public ShoppingCart(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-		public string Id { get; set; }
-		public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+        public string Id { get; set; }
+        public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
 
-		public static ShoppingCart GetCart(IServiceProvider services)
-		{
-			//TODO design issue: Data layer referencing web specific details 
-			ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
-			var context = services.GetService<ApplicationDbContext>();
-			string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+        public static ShoppingCart GetCart(IServiceProvider services)
+        {
+            //TODO design issue: Data layer referencing web specific details 
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            var context = services.GetService<ApplicationDbContext>();
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
 
-			session.SetString("CartId", cartId);
-			return new ShoppingCart(context) { Id = cartId };
-		}
+            session.SetString("CartId", cartId);
+            return new ShoppingCart(context) { Id = cartId };
+        }
 
-		//TODO design issue: returning bool, but no additional info if amount is invalid. View decides what error message to show
-		//TODO this is supposed to be application- or domain-level logic
-		//TODO too much branching
-		public bool AddToCart(Food food, int amount)
-		{
-			if(food.InStock == 0 || amount == 0)
-			{
-				return false;
-			}
-			
-			var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
-				s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+        //TODO design issue: returning bool, but no additional info if amount is invalid. View decides what error message to show
+        //TODO this is supposed to be application- or domain-level logic
+        //TODO too much branching
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
             var isValidAmount = true;
-			if (shoppingCartItem == null)
-			{
+            if (shoppingCartItem == null)
+            {
                 if (amount > food.InStock)
                 {
                     isValidAmount = false;
@@ -55,73 +55,73 @@ namespace Shop.Data.Models
                     ShoppingCartId = Id,
                     Food = food,
                     Amount = Math.Min(food.InStock, amount)
-				};
-				_context.ShoppingCartItems.Add(shoppingCartItem);
-			}
-			else
-			{
-				//TODO clean code: complex evaluation as an if predicate. Wrap it in a function
-                if(food.InStock - shoppingCartItem.Amount - amount >= 0)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                //TODO clean code: complex evaluation as an if predicate. Wrap it in a function
+                if (food.InStock - shoppingCartItem.Amount - amount >= 0)
                 {
-                    shoppingCartItem.Amount +=  amount;
+                    shoppingCartItem.Amount += amount;
                 }
                 else
                 {
-	                //TODO redundant parenthesis
-					shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
+                    //TODO redundant parenthesis
+                    shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
                     isValidAmount = false;
                 }
             }
 
 
-			_context.SaveChanges();
+            _context.SaveChanges();
             return isValidAmount;
-		}
+        }
 
-		public int RemoveFromCart(Food food)
-		{
-			var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
-				s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
-			int localAmount = 0;
-			if (shoppingCartItem != null)
-			{
-				if (shoppingCartItem.Amount > 1)
-				{
-					shoppingCartItem.Amount--;
-					localAmount = shoppingCartItem.Amount;
-				}
-				else
-				{
-					_context.ShoppingCartItems.Remove(shoppingCartItem);
-				}
-			}
+        public int RemoveFromCart(Food food)
+        {
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            int localAmount = 0;
+            if (shoppingCartItem != null)
+            {
+                if (shoppingCartItem.Amount > 1)
+                {
+                    shoppingCartItem.Amount--;
+                    localAmount = shoppingCartItem.Amount;
+                }
+                else
+                {
+                    _context.ShoppingCartItems.Remove(shoppingCartItem);
+                }
+            }
 
-			_context.SaveChanges();
-			return localAmount;
-		}
+            _context.SaveChanges();
+            return localAmount;
+        }
 
-		public IEnumerable<ShoppingCartItem> GetShoppingCartItems()
-		{
-			return ShoppingCartItems ??
-				   (ShoppingCartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
-					   .Include(s => s.Food));
-		}
+        public IEnumerable<ShoppingCartItem> GetShoppingCartItems()
+        {
+            return ShoppingCartItems ??
+                   (ShoppingCartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                       .Include(s => s.Food));
+        }
 
-		public void ClearCart()
-		{
-			var cartItems = _context
-				.ShoppingCartItems
-				.Where(cart => cart.ShoppingCartId == Id);
+        public void ClearCart()
+        {
+            var cartItems = _context
+                .ShoppingCartItems
+                .Where(cart => cart.ShoppingCartId == Id);
 
-			_context.ShoppingCartItems.RemoveRange(cartItems);
-			_context.SaveChanges();
-		}
+            _context.ShoppingCartItems.RemoveRange(cartItems);
+            _context.SaveChanges();
+        }
 
-		public decimal GetShoppingCartTotal()
-		{
-			return _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
-				.Select(c => c.Food.Price * c.Amount).Sum();
-		}
+        public decimal GetShoppingCartTotal()
+        {
+            return _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                .Select(c => c.Food.Price * c.Amount).Sum();
+        }
 
-	}
+    }
 }

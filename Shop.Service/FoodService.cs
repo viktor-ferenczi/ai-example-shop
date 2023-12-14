@@ -19,28 +19,28 @@ namespace Shop.Service
             _context = context;
         }
 
-		public void DeleteFood(int id)
-		{
+        public void DeleteFood(int id)
+        {
             var food = GetById(id);
-            if(food == null)
+            if (food == null)
             {
                 throw new ArgumentException();
             }
             _context.Remove(food);
             _context.SaveChanges();
-		}
+        }
 
-		public void EditFood(Food food)
+        public void EditFood(Food food)
         {
             var model = _context.Foods.First(f => f.Id == food.Id);
             _context.Entry<Food>(model).State = EntityState.Detached;
             _context.Update(food);
             _context.SaveChanges();
         }
-		public IEnumerable<Food> GetAll()
+        public IEnumerable<Food> GetAll()
         {
             return _context.Foods
-                .Include(food => food.Category );
+                .Include(food => food.Category);
         }
 
         public Food GetById(int id)
@@ -50,8 +50,8 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
         {
-            
-            if(string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
             {
                 return GetFoodsByCategoryId(id);
             }
@@ -63,7 +63,7 @@ namespace Shop.Service
         public IEnumerable<Food> GetFilteredFoods(string q)
         {
             var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
-            if(queries == null)
+            if (queries == null)
             {
                 //TODO magic number
                 return GetPreferred(10);

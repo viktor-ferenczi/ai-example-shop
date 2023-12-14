@@ -240,7 +240,7 @@ namespace Shop.Web.DataMapper
             };
         }
 
-        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user, IOrder orderService,string role)
+        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user, IOrder orderService, string role)
         {
             return new AccountProfileModel
             {

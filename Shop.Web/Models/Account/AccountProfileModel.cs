@@ -17,7 +17,7 @@ namespace Shop.Web.Models.Account
         public string Email { get; set; }
         public string ImageUrl { get; set; }
         public decimal Balance { get; set; }
-        public string BalanceFormat { get => Balance.ToString("c", CultureInfo.CreateSpecificCulture("en-US"));  }
+        public string BalanceFormat { get => Balance.ToString("c", CultureInfo.CreateSpecificCulture("en-US")); }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string City { get; set; }
@@ -26,7 +26,7 @@ namespace Shop.Web.Models.Account
         public int OrderCount { get; set; }
         public string Role { get; set; }
         public decimal TotalSpent { get; set; }
-        public string TotalSpentFormat { get => TotalSpent.ToString("c", CultureInfo.CreateSpecificCulture("en-US"));  }
+        public string TotalSpentFormat { get => TotalSpent.ToString("c", CultureInfo.CreateSpecificCulture("en-US")); }
         public IEnumerable<OrderIndexModel> LatestOrders { get; set; }
         public IEnumerable<FoodSummaryModel> MostPopularFoods { get; set; }
     }

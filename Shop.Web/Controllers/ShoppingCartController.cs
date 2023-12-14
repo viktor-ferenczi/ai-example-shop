@@ -39,7 +39,7 @@ namespace Shop.Web.Controllers
 
         [HttpGet]
         [Route("/ShoppingCart/Add/{id}/{returnUrl?}")]
-        public IActionResult Add(int id, int? amount = 1, string returnUrl=null )
+        public IActionResult Add(int id, int? amount = 1, string returnUrl = null)
         {
             var food = _foodService.GetById(id);
             returnUrl = returnUrl.Replace("%2F", "/");
@@ -62,7 +62,7 @@ namespace Shop.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Back(string returnUrl="/")
+        public IActionResult Back(string returnUrl = "/")
         {
             return Redirect(returnUrl);
         }
