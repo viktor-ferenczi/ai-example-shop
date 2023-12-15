@@ -1,0 +1,46 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data.Models;
+using Shop.Web.Models.Category;
+using Shop.Web.Models.Food;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Shop.Web.DataMapper;
+
+namespace Shop.Web.Controllers
+{
+    public class CategoryController : Controller
+    {
+        private readonly ICategory _categoryService;
+        private readonly IFood _foodService;
+        private readonly Mapper _mapper;
+
+        public CategoryController(ICategory categoryService, IFood foodService)
+        {
+            _categoryService = categoryService;
+            _foodService = foodService;
+            _mapper = new Mapper();
+        }
+
+        public IActionResult Index()
+        {
+            var categories = _categoryService.GetAll().
+                Select(category => new CategoryListingModel
+                {
+                    Name = category.Name,
+                    Description = category.Description,
+                    Id = category.Id,
+                    ImageUrl = category.ImageUrl
+                });
+
+            var model = new CategoryIndexModel
+            {
+                CategoryList = categories
+            };
+
+            return View(model);
+        }
+
+        // other methods remain the same
+    }
+}
