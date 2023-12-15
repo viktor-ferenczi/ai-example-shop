@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Home.HomeIndexModel
+@model Shop.Web.Models.Home.HomeIndexModel
 
 <div class="container body-content">
     <div class="row frontPageSplash">
@@ -18,6 +18,7 @@
         @if (Model.FoodsList.Any())
         {
             <table class="table table-hover" id="latestFoodsTable">
+                <caption>Table of Foods</caption>
                 <tbody>
                     @foreach (var food in Model.FoodsList)
                     {
