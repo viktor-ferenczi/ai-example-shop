@@ -1,0 +1,36 @@
+ 
+The issue you're referring to is about using the `Any` method instead of the `Exists` method in LINQ. The `Any` method checks if any element in a sequence satisfies a condition, while the `Exists` method checks if at least one element in a sequence satisfies a condition.
+
+Here's how you can resolve the issue:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+In this code, I replaced `Any` with `Exists` in the LINQ query. This will ensure that the query checks if at least one query exists in the item's name.
+
+APPROVE_CHANGES
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+}
+```

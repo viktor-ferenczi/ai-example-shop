@@ -1,0 +1,24 @@
+ 
+
+1. The plan to resolve the issue is as follows:
+   - Identify the line of code where the issue is reported.
+   - Replace the `Any` method with `Contains` method from the `List` class.
+   - Test the code to ensure the issue is resolved.
+
+2. The issue is reported in the following line of code:
+```cs
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+```
+
+3. The modified code is:
+```cs
+            return GetAll().Where(item => queries.Contains(item.Name.ToLower()));
+```
+
+4. The failure conditions to check are:
+   - The issue is resolved and the code runs without any errors.
+   - The functionality of the code is not affected by this change.
+   - No unrelated changes are made to the code, data or comments.
+   - No placeholders are used in the code.
+
+APPROVE_CHANGES

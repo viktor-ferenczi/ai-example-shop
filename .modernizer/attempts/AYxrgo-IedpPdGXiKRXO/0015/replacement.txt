@@ -1,0 +1,32 @@
+// {
+//     return OrderDetailsToOrderDetailsListingModel(orderLines);
+// }
+```
+
+To resolve this issue, we can simply remove this commented out code block. Here is the modified source code:
+
+```cs
+using Microsoft.AspNetCore.Identity;
+using Shop.Data;
+using Shop.Data.Models;
+using Shop.Web.Models.Account;
+using Shop.Web.Models.Category;
+using Shop.Web.Models.Food;
+using Shop.Web.Models.Home;
+using Shop.Web.Models.Order;
+using Shop.Web.Models.OrderDetail;
+using Shop.Web.Views.Food;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.DataMapper
+{
+    public class Mapper
+    {
+
+        // Removed the commented out code block
+
+    }
+}

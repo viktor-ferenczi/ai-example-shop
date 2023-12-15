@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "EFFICIENT",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Service/FoodService.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "4de9e163b2d92013ee5f3a2c5b9bb5fe",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9Y_edpPdGXiJkOq",
+  "line": 72,
+  "message": "Collection-specific \"Exists\" method should be used instead of the \"Any\" extension.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S6605",
+  "scope": "MAIN",
+  "severity": "MINOR",
+  "status": "OPEN",
+  "tags": [
+    "performance"
+  ],
+  "textRange": {
+    "endLine": 72,
+    "endOffset": 53,
+    "startLine": 72,
+    "startOffset": 50
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

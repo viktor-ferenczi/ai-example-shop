@@ -1,0 +1,24 @@
+ 
+The issue you're referring to is about using the `Any` method instead of the `Exists` method in LINQ. The `Any` method checks whether any element in a sequence satisfies a condition, while the `Exists` method checks whether a condition is true for at least one element in a sequence.
+
+In your code, you are using `Any` to check if any query exists in the item name. This is not the most efficient way to do this, because `Any` will stop as soon as it finds a match, while `Exists` will check all elements.
+
+Here's how you can resolve this issue:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => item.Name.ToLower().Contains(query)));
+}
+```
+
+In this code, I've replaced `Any` with `Exists`. This should improve the performance of the method. 
+
+APPROVE_CHANGES

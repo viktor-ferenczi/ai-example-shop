@@ -1,0 +1,22 @@
+ 
+Based on the provided context, the issue is related to the usage of the `Any` method in the `GetFilteredFoods` method. The `Any` method is a collection-specific method that checks if any element in the collection satisfies a condition. In this case, the `Any` method is used to check if any query matches the food name.
+
+To resolve this issue, we can replace the `Any` method with the `Contains` method. The `Contains` method checks if a collection contains a specific element. In this case, we can use the `Contains` method to check if the food name contains any of the queries.
+
+Here is the modified code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+APPROVE_CHANGES
