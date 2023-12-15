@@ -1,0 +1,50 @@
+ 
+Based on the issue reported, the static code analysis tool suggests that the variable `_foodService` is not being used in the `OrderController` class. This variable is declared but never used in the `Checkout` method. 
+
+Here is the revised version of the code:
+
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly IOrder _orderService;
+        private readonly ShoppingCart _shoppingCart;
+
+        public OrderController(IOrder orderService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _orderService = orderService;
+            _shoppingCart = shoppingCart;
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // Rest of the code...
+    }
+}
+```
+
+I have removed the `_foodService` variable declaration and its usage in the `Checkout` method. The code still maintains its intended functionality.

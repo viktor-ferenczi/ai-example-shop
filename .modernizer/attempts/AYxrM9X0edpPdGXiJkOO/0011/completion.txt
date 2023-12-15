@@ -1,0 +1,51 @@
+ 
+I'm sorry, but the code you provided does not contain the issue you mentioned. The static code analysis tool found an issue with the unread private field '_foodService'. However, the issue is not mentioned in the provided context. 
+
+If the issue is indeed with '_foodService', the code can be resolved by removing the unused private field. Here is the updated code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly IOrder _orderService;
+        private readonly ShoppingCart _shoppingCart;
+
+        public OrderController(IOrder orderService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _orderService = orderService;
+            _shoppingCart = shoppingCart;
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // Rest of the code...
+    }
+}
+```
+
+I hope this helps. If you have any other issues or code you need help with, feel free to ask.

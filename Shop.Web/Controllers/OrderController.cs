@@ -16,14 +16,12 @@ namespace Shop.Web.Controllers
     public class OrderController : Controller
     {
         private readonly IOrder _orderService;
-        private readonly IFood _foodService;
         private readonly ShoppingCart _shoppingCart;
 
-        public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        public OrderController(IOrder orderService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
             _shoppingCart = shoppingCart;
-            _foodService = foodService;
         }
 
         public IActionResult Checkout()
