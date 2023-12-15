@@ -1,0 +1,11 @@
+ The issue is that the `Count()` method is used to check if the `ShoppingCartItems` collection is empty. This is not the most efficient way because `Count()` iterates through the entire collection to count the number of items, which can be slow for large collections.
+
+A better way to check if a collection is empty is to use the `Any()` method, which returns `true` if any item in the collection satisfies the condition, and `false` otherwise. In this case, we don't need to specify any condition because we just want to check if the collection is empty, so we can use `Any()` without any arguments.
+
+Here is the corrected code:
+
+```cshtml
+    @if(Model.ShoppingCart.ShoppingCartItems.Any())
+```
+
+APPROVE_CHANGES
