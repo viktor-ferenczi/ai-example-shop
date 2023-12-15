@@ -1,0 +1,51 @@
+ 
+The issue reported is about adding table headers to the table. The table currently does not have any headers, which can make it difficult for users to understand the data in each column.
+
+Here's a modification to the code that adds table headers:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Home.HomeIndexModel
+
+<div class="container body-content">
+    <div class="row frontPageSplash">
+        <div class="col-md-6 frontPageLearn">
+            <div class="frontPageHeading">Healthy, Cheap, Easy...</div>
+            <p class="frontPageSubHeading">This is online shopping site for food</p>
+            <div>
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestFoods">Prefered products</h3>
+        <table class="table table-hover" id="latestFoodsTable" summary="This table contains a list of the latest foods available for purchase.">
+            <thead>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <!-- Add more headers as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in Model.FoodsList)
+                {
+                    <tr>
+                        <td>
+                           @Html.Partial("FoodSummary", food) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+```
+
+In this modification, I've added a `<thead>` section to the table, and inside that, a `<tr>` element with `<th>` elements. The text inside the `<th>` elements should be replaced with the actual headers you want to display. You can add more `<th>` elements as needed for your table.
+
+APPROVE_CHANGES

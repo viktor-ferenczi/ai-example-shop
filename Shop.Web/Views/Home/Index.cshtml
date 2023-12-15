@@ -16,6 +16,11 @@
     <div class="row frontPageContent">
         <h3 id="latestFoods">Prefered products</h3>
         <table class="table table-hover" id="latestFoodsTable" summary="This table contains a list of the latest foods available for purchase.">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach (var food in Model.FoodsList)
                 {
