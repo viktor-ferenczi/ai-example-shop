@@ -1,0 +1,33 @@
+ 
+The issue raised in the static code analysis is related to the exception handling in the DeleteCategory method. The ArgumentException thrown when the category is not found is not providing any meaningful information to the user.
+
+Here is the modified code:
+
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} does not exist.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```
+
+In this modified code, an ArgumentException is thrown with a custom message indicating that the category with the given id does not exist. This provides a more meaningful error message to the user, which can help them understand the issue more easily.
+
+APPROVE_CHANGES
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} does not exist.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```

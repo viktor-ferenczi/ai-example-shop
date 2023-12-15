@@ -1,0 +1,26 @@
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} not found.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```
+
+In this code, an `ArgumentException` is thrown with a meaningful message indicating that the category with the specified id was not found. This makes it easier for the caller to understand why an exception was thrown.
+
+APPROVE_CHANGES
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} not found.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}

@@ -1,0 +1,85 @@
+ 
+
+1. Plan: 
+   To resolve this issue, we need to modify the `ArgumentException` to include a meaningful message. This message should be specific to the argument that caused the exception. Here's a step-by-step plan:
+
+   1.1. Identify the argument that caused the exception.
+   
+   1.2. Create a custom exception class that extends `ArgumentException`.
+   
+   1.3. Override the constructor of the custom exception class to include the argument as part of the exception message.
+   
+   1.4. Replace all instances of `ArgumentException` with the custom exception class.
+
+2. Code:
+```cs
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Service
+{
+    public class CategoryService : ICategory
+    {
+        private readonly ApplicationDbContext _context;
+
+        public CategoryService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public void DeleteCategory(int id)
+        {
+            var category = GetById(id);
+            if (category == null)
+            {
+                throw new CategoryNotFoundException(id);
+            }
+            _context.Remove(category);
+            _context.SaveChanges();
+        }
+
+        public void EditCategory(Category category)
+        {
+            _context.Update(category);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Category> GetAll()
+        {
+            return _context.Categories.Include(c => c.Foods);
+        }
+
+        public Category GetById(int id)
+        {
+            return GetAll().FirstOrDefault(category => category.Id == id);
+        }
+
+        public void NewCategory(Category category)
+        {
+            _context.Add(category);
+            _context.SaveChanges();
+        }
+    }
+
+    public class CategoryNotFoundException : ArgumentException
+    {
+        public CategoryNotFoundException(int id) : base($"Category with id {id} not found.")
+        {
+        }
+    }
+}
+```
+
+3. Check:
+   - The changes are limited to the topic of the issue.
+   - The changes are compatible with all existing functionality.
+   - The code does not replace any code, data or comments unrelated to the issue.
+   - All instances of `ArgumentException` are replaced with `CategoryNotFoundException`.
+   - The custom exception class includes the argument as part of the exception message.
+
+APPROVE_CHANGES

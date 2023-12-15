@@ -1,0 +1,18 @@
+public class OrderFilterOptions
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; }
+    public int Offset { get; set; }
+    public int Limit { get; set; }
+    public decimal? MinimalPrice { get; set; }
+    public decimal? MaximalPrice { get; set; }
+    public DateTime? MinDate { get; set; }
+    public DateTime? MaxDate { get; set; }
+    public string ZipCode { get; set; }
+}
+```
+
+Then, you can modify the `GetFilteredOrders` method to accept an instance of `OrderFilterOptions`:
+
+```cs
+IEnumerable<Order> GetFilteredOrders(OrderFilterOptions options);

@@ -1,0 +1,22 @@
+ 
+The issue reported is about the lack of a meaningful exception message in the `DeleteCategory` method. This is a common practice in programming to provide a more detailed error message for debugging and logging purposes.
+
+Here is the modified code:
+
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} does not exist.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```
+
+In this code, if a category with the provided id does not exist, an `ArgumentException` is thrown with a meaningful error message. This message can help identify and debug the issue more easily.
+
+APPROVE_CHANGES
+```

@@ -1,0 +1,10 @@
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new InvalidOperationException($"Category with ID {id} was not found.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
