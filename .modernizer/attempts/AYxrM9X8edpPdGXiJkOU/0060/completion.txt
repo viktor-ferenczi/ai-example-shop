@@ -1,0 +1,22 @@
+ 
+1. Since the issue is about a null reference exception, we need to ensure that the `roleName` is not null before using it to find a role in the `_roleManager.Roles` collection. 
+
+2. Here is the revised code:
+
+```cs
+string roleId = string.IsNullOrEmpty(roleName) ? null : _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+```
+
+3. The original code:
+
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+```
+
+4. The revised code:
+
+```cs
+string roleId = string.IsNullOrEmpty(roleName) ? null : _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+```
+
+APPROVE_CHANGES

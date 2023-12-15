@@ -60,10 +60,10 @@ namespace Shop.Service
         }
 
         //TODO ambiguous method parameter naming
-        public IEnumerable<Food> GetFilteredFoods(string q)
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
         {
             const int defaultCount = 10;
-            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
             if (queries == null)
             {
                 return GetPreferred(defaultCount);

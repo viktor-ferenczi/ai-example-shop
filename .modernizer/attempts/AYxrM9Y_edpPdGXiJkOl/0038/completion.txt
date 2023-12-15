@@ -1,0 +1,85 @@
+ 
+
+1. The plan to resolve this issue is to consider using use-case specific repositories instead of exposing the entire DbContext. This will help in separating the concerns of each use-case and make the code more maintainable and testable.
+
+2. The original code uses the DbContext directly to perform CRUD operations. This can lead to tight coupling between the service and the database, making it difficult to test and maintain.
+
+3. To resolve this issue, we can create a new interface for each use-case and implement it with a repository class that uses the DbContext. This way, we can decouple the service from the DbContext and make it easier to test and maintain.
+
+4. Here is the modified source code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _repository;
+
+        public FoodService(IFoodRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public void DeleteFood(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new ArgumentException($"No food found with id: {id}");
+            }
+            _repository.DeleteFood(id);
+        }
+
+        public void EditFood(Food food)
+        {
+            _repository.EditFood(food);
+        }
+
+        public IEnumerable<Food> GetAll()
+        {
+            return _repository.GetAll();
+        }
+
+        public Food GetById(int id)
+        {
+            return _repository.GetById(id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+            return _repository.GetFilteredFoods(id, searchQuery);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            return _repository.GetFilteredFoods(q);
+        }
+
+        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
+        {
+            return _repository.GetFoodsByCategoryId(categoryId);
+        }
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return _repository.GetPreferred(count);
+        }
+
+        public void NewFood(Food food)
+        {
+            _repository.NewFood(food);
+        }
+    }
+}
+```
+APPROVE_CHANGES

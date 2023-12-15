@@ -1,0 +1,21 @@
+
+The issue is reported at the method parameter naming in the method `GetFilteredFoods(string q)`. The parameter name `q` is not clear and can lead to confusion. It could be more descriptive, for example, `query` or `searchQuery`.
+
+Here is the modified code:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+APPROVE_CHANGES

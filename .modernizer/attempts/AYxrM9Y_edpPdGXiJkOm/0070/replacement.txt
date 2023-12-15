@@ -1,0 +1,12 @@
+//TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string query)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(query) ? null : Regex.Replace(query, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }

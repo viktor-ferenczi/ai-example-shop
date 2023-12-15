@@ -1,0 +1,14 @@
+public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+{
+    if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+    {
+        return GetFoodsByCategoryId(id);
+    }
+
+    return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+}
+```
+
+In this modified code, I've renamed the parameter 'q' to 'searchQuery' to make it more clear what this parameter represents.
+
+APPROVE_CHANGES

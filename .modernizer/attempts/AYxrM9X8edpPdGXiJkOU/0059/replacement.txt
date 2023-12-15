@@ -1,0 +1,8 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+4. The modified code checks if `role` is `null` before trying to access its `Id` property. If `role` is `null`, the `Id` property access is skipped and `roleId` is assigned `null`.
+
+APPROVE_CHANGES
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;

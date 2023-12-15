@@ -1,0 +1,28 @@
+if (_roleManager.Roles.Any(role => role.Name == roleName))
+{
+    string roleId = _roleManager.Roles.First(role => role.Name == roleName).Id;
+}
+else
+{
+    // Handle the case where the role does not exist
+    // This could be as simple as logging an error or throwing an exception
+    // depending on the requirements of your application
+    throw new InvalidOperationException($"Role with name '{roleName}' does not exist.");
+}
+```
+
+3. The modified code checks if there is a role with the name `roleName` before trying to access its Id. If the role does not exist, it throws an `InvalidOperationException`.
+
+4. Here is the modified source code:
+
+```cs
+if (_roleManager.Roles.Any(role => role.Name == roleName))
+{
+    string roleId = _roleManager.Roles.First(role => role.Name == roleName).Id;
+    var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+    return View(model);
+}
+else
+{
+    throw new InvalidOperationException($"Role with name '{roleName}' does not exist.");
+}

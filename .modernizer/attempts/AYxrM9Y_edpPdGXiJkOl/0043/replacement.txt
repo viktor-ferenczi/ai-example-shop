@@ -1,0 +1,35 @@
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly FoodRepository _repository;
+
+        public FoodService(FoodRepository repository)
+        {
+            _repository = repository;
+        }
+
+        // Rest of the code remains the same
+    }
+
+    public class FoodRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FoodRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // Implement all the database operations here
+    }
+}

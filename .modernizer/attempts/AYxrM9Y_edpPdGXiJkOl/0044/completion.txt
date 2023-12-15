@@ -1,0 +1,51 @@
+ 
+
+1. The issue at hand is suggesting to consider using use-case specific repositories instead of exposing the entire DbContext. This would allow for better separation of concerns and make the code more maintainable.
+
+2. To resolve this issue, we can create a new interface for each use-case and have it implement a generic repository interface. This way, we can have specific methods for each use-case.
+
+Here's how we can modify the code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public interface IFoodRepository
+    {
+        void DeleteFood(int id);
+        void EditFood(Food food);
+        IEnumerable<Food> GetAll();
+        Food GetById(int id);
+        IEnumerable<Food> GetFilteredFoods(int id, string searchQuery);
+        IEnumerable<Food> GetFilteredFoods(string q);
+        IEnumerable<Food> GetFoodsByCategoryId(int categoryId);
+        IEnumerable<Food> GetPreferred(int count);
+        void NewFood(Food food);
+    }
+
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        //... other methods remain the same
+    }
+}
+```
+
+APPROVE_CHANGES
+
+In this modification, we have created a new interface `IFoodRepository` which includes all the methods that are currently in the `FoodService` class. Then, we have modified the `FoodService` class to depend on this new interface instead of directly on the DbContext. This way, we can now easily switch between different implementations of the `IFoodRepository` interface, depending on the use-case.

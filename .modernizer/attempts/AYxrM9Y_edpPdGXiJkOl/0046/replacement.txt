@@ -1,0 +1,23 @@
+public class FoodService : IFood
+{
+    private readonly IFoodRepository _foodRepository;
+
+    public FoodService(IFoodRepository foodRepository)
+    {
+        _foodRepository = foodRepository;
+    }
+
+    //... other methods omitted for brevity
+
+    public void DeleteFood(int id)
+    {
+        var food = _foodRepository.GetById(id);
+        if (food == null)
+        {
+            throw new ArgumentException($"No food found with id: {id}");
+        }
+        _foodRepository.Delete(food);
+    }
+
+    //... other methods omitted for brevity
+}

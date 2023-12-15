@@ -1,0 +1,37 @@
+ 
+The issue at hand is about ambiguous method parameter naming. The method `GetFilteredFoods(string q)` is using a parameter named `q` which is not very descriptive. This could lead to confusion for other developers who are reading the code.
+
+Here is the modified code:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+I've changed the parameter name from `q` to `searchQuery` which is more descriptive and easier to understand.
+
+APPROVE_CHANGES
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```

@@ -1,0 +1,15 @@
+ 
+The issue is occurring because the `FirstOrDefault()` method is being called on `_roleManager.Roles`, which is a collection of roles. If there is no role with the name `roleName`, `FirstOrDefault()` will return null. This will cause a NullReferenceException when trying to access the `Id` property of the null object.
+
+Here's a modified version of the code that checks if `role` is null before trying to access its `Id` property:
+
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+In this modified version, if `role` is null, `?.Id` will return null instead of throwing an exception. This will prevent the NullReferenceException from occurring.
+
+APPROVE_CHANGES
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```

@@ -1,0 +1,103 @@
+ 
+
+1. The plan to resolve this issue involves creating use-case specific repositories for each use-case in the FoodService. This will allow for more granular control over the data access and will make the code more maintainable and testable.
+
+2. The source code with the modifications to resolve the issue is as follows:
+
+```cs
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(ApplicationDbContext context, IFoodRepository foodRepository)
+        {
+            _context = context;
+            _foodRepository = foodRepository;
+        }
+
+        public void DeleteFood(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new ArgumentException($"No food found with id: {id}");
+            }
+            _foodRepository.Delete(food);
+            _context.SaveChanges();
+        }
+
+        public void EditFood(Food food)
+        {
+            var model = _foodRepository.GetById(food.Id);
+            _context.Entry<Food>(model).State = EntityState.Detached;
+            _foodRepository.Update(food);
+            _context.SaveChanges();
+        }
+        public IEnumerable<Food> GetAll()
+        {
+            return _foodRepository.GetAll()
+                .Include(food => food.Category);
+        }
+
+        public Food GetById(int id)
+        {
+            return _foodRepository.GetById(id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return _foodRepository.GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
+        {
+            return _foodRepository.GetAll().Where(food => food.Category.Id == categoryId);
+        }
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return _foodRepository.GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+        }
+
+        public void NewFood(Food food)
+        {
+            _foodRepository.Add(food);
+            _context.SaveChanges();
+        }
+    }
+}
+```
+
+APPROVE_CHANGES
+
+The modifications made are to inject a FoodRepository into the FoodService and use it to perform the data access operations. This allows for more granular control over the data access and makes the code more maintainable and testable.

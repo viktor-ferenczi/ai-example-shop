@@ -1,0 +1,1 @@
+string roleId = string.IsNullOrEmpty(roleName) ? null : _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;

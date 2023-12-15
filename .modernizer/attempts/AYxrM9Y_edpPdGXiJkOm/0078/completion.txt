@@ -1,0 +1,33 @@
+ 
+The issue with the method parameter naming in the `GetFilteredFoods` method is a bit ambiguous. The method is used to filter foods based on a search query and a category id. However, the method parameters are not clear. The `q` parameter could be misleading as it is not clear whether it is a query or a category id.
+
+Here's a possible solution:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery, int categoryId)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(categoryId);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+        }
+```
+
+In this solution, I have changed the parameters to `searchQuery` and `categoryId` which makes it more clear what each parameter represents.
+
+APPROVE_CHANGES
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery, int categoryId)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(categoryId);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+        }
+```

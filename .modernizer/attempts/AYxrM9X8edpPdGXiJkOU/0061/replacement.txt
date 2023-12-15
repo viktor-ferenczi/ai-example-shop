@@ -1,0 +1,17 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+if (roleId == null)
+{
+    roleId = "defaultRoleId"; // Assign a default value
+}
+```
+
+4. The modified source code:
+
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+if (roleId == null)
+{
+    roleId = "defaultRoleId"; // Assign a default value
+}
+var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+return View(model);
