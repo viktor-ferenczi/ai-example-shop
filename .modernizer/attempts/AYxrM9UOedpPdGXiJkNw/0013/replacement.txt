@@ -1,0 +1,24 @@
+if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+{
+    shoppingCartItem.Amount += amount;
+}
+else
+{
+    shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
+    isValidAmount = false;
+}
+```
+The redundant parenthesis can be removed to make the code more readable and easier to understand.
+
+2. Code modification:
+
+```cs
+if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+{
+    shoppingCartItem.Amount += amount;
+}
+else
+{
+    shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
+    isValidAmount = false;
+}
