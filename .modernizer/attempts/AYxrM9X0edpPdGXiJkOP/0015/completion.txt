@@ -1,0 +1,32 @@
+ The issue reported is related to the `_userManager` field being assigned in the constructor of the `OrderController` class. This field is static, which means it belongs to the class itself, not to instances of the class. In this case, it's being assigned a value in the constructor, which is not recommended.
+
+Here's how you can resolve this issue:
+
+1. First, you need to understand that the `UserManager` is a service that is injected into the controller via the constructor. This service is not static and should not be assigned a value in the constructor.
+
+2. The `UserManager` should be used as an instance field in the controller and should be assigned a value in the constructor.
+
+Here's the corrected code:
+
+```cs
+public class OrderController : Controller
+{
+    private readonly IOrder _orderService;
+    private readonly IFood _foodService;
+    private readonly ShoppingCart _shoppingCart;
+    private readonly Mapper _mapper;
+    private UserManager<ApplicationUser> _userManager;
+
+    public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+    {
+        _orderService = orderService;
+        _shoppingCart = shoppingCart;
+        _userManager = userManager;
+        _foodService = foodService;
+        _mapper = new Mapper();
+    }
+    // Rest of the code...
+}
+```
+
+In the corrected code, `_userManager` is not static and is assigned a value in the constructor. This is the correct way to use the `UserManager` service in the controller.

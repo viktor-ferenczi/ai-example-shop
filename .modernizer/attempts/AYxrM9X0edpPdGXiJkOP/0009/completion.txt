@@ -1,0 +1,58 @@
+ 
+The issue reported is about the static field '_userManager' being assigned in the constructor of the OrderController class. This is against the best practices of .NET Core, which recommends to avoid static fields in controllers.
+
+Here's the revised code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly IOrder _orderService;
+        private readonly IFood _foodService;
+        private readonly ShoppingCart _shoppingCart;
+        private readonly Mapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+
+        public OrderController(IOrder orderService, IField foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _orderService = orderService;
+            _shoppingCart = shoppingCart;
+            _userManager = userManager;
+            _foodService = foodService;
+            _mapper = new Mapper();
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (items.Count() == 0)
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // ... rest of the code remains the same ...
+    }
+}
+```
+
+APPROVE_CHANGES
