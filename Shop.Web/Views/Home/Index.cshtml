@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Home.HomeIndexModel
+@model Shop.Web.Models.Home.HomeIndexModel
 
 <div class="container body-content">
     <div class="row frontPageSplash">
@@ -16,6 +16,13 @@
     <div class="row frontPageContent">
         <h3 id="latestFoods">Prefered products</h3>
         <table class="table table-hover" id="latestFoodsTable">
+            <thead>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Food Description</th>
+                    <th>Food Price</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach (var food in Model.FoodsList)
                 {
