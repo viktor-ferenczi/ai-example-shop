@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.Models.Account;
@@ -147,17 +147,18 @@ namespace Shop.Web.DataMapper
             };
         }
 
-        private IEnumerable<OrderDetail> OrderDetailsListingModelToOrderDetails(IEnumerable<OrderDetailListingModel> orderLines)
-        {
-            return orderLines.Select(line => new OrderDetail
-            {
-                Amount = line.Amount,
-                FoodId = line.Food.Id,
-                Id = line.Id,
-                OrderId = line.OrderId,
-                Price = line.Price
-            });
-        }
+        // Removed the unused method
+        // private IEnumerable<OrderDetail> OrderDetailsListingModelToOrderDetails(IEnumerable<OrderDetailListingModel> orderLines)
+        // {
+        //     return orderLines.Select(line => new OrderDetail
+        //     {
+        //         Amount = line.Amount,
+        //         FoodId = line.Food.Id,
+        //         Id = line.Id,
+        //         OrderId = line.OrderId,
+        //         Price = line.Price
+        //     });
+        // }
 
         public IEnumerable<OrderIndexModel> OrdersToOrderIndexModels(IEnumerable<Order> orders)
         {
