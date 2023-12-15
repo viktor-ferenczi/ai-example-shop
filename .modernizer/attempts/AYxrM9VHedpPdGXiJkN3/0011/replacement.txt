@@ -1,0 +1,14 @@
+public class OrderOptions
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; } = OrderBy.None;
+    public int Offset { get; set; }
+    public int Limit { get; set; } = 10;
+    public decimal? MinimalPrice { get; set; }
+    public decimal? MaximalPrice { get; set; }
+    public DateTime? MinDate { get; set; }
+    public DateTime? MaxDate { get; set; }
+    public string ZipCode { get; set; }
+}
+
+IEnumerable<Order> GetFilteredOrders(OrderOptions options);

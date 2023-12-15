@@ -1,0 +1,27 @@
+ 
+I'm sorry, but the issue you've provided doesn't seem to be related to the original source code provided. The static code analysis found an issue with the `GetFilteredOrders` method, which has more than the authorized 7 parameters. 
+
+However, the issue is not related to the original source code provided. The static code analysis found an issue with the `GetFilteredOrders` method, which has more than the authorized 7 parameters. 
+
+To resolve this issue, you could consider refactoring the method to reduce the number of parameters. One possible solution is to create a separate class or struct to hold the parameters, and pass an instance of this class or struct to the method instead of passing the parameters individually.
+
+Here's a simple example:
+
+```cs
+public class OrderFilter
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; }
+    public int Offset { get; set; }
+    public int Limit { get; set; }
+    public decimal? MinimalPrice { get; set; }
+    public decimal? MaximalPrice { get; set; }
+    public DateTime? MinDate { get; set; }
+    public DateTime? MaxDate { get; set; }
+    public string ZipCode { get; set; }
+}
+
+public IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+```
+
+In this way, you can reduce the number of parameters in the `GetFilteredOrders` method to one, which is within the authorized limit.

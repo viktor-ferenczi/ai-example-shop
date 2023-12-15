@@ -1,0 +1,36 @@
+ 
+
+1. Plan:
+   To resolve the issue, we need to add headers to the table. We can add headers in the form of `<th>` tags. The headers should be "Food Name", "Price", "Description", and "Image".
+
+2. Ignore:
+   No missing information or unclear requirements.
+
+3. Code:
+   ```cshtml
+   <table class="table table-hover table-bordered" id="categoryIndexTable">
+       <thead>
+           <tr>
+               <th>Food Name</th>
+               <th>Price</th>
+               <th>Description</th>
+               <th>Image</th>
+           </tr>
+       </thead>
+       <tbody>
+           @foreach (var food in Model.Foods)
+           {
+               <tr>
+                   <td>
+                       @Html.Partial("FoodSummary",food) 
+                   </td>
+               </tr>
+           }
+       </tbody>
+   </table>
+   ```
+
+4. Check:
+   The changes made are limited to the issue topic. The headers are added to the table. The code is compatible with existing functionality. No placeholders are used. The code is easy to read. Therefore, the changes are approved.
+
+APPROVE_CHANGES

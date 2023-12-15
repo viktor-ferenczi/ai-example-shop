@@ -1,0 +1,55 @@
+ 
+
+1. Plan:
+   The issue is a result of a method having too many parameters. This is a common code smell in object-oriented programming and can lead to code that is hard to maintain and understand. 
+
+   One possible solution is to refactor the method into smaller, more focused methods. For instance, instead of having a single method with many parameters, we could have several methods each with fewer parameters. 
+
+   Another approach could be to create a class that encapsulates the parameters and pass an instance of this class to the method. This would make the method signature cleaner and more readable.
+
+2. Code:
+   ```cs
+   // TOP-MARKER
+   using System;
+   using System.Collections.Generic;
+   using System.Threading.Tasks;
+   using Shop.Data.Enums;
+   using Shop.Data.Models;
+
+   namespace Shop.Data
+   {
+       public interface IOrder
+       {
+           void CreateOrder(Order order);
+           Order GetById(int orderId);
+           IEnumerable<Order> GetByUserId(string userId);
+           IEnumerable<Order> GetAll();
+           IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+           IEnumerable<Food> GetUserMostPopularFoods(string id);
+           IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+       }
+
+       public class OrderFilter
+       {
+           public string UserId { get; set; }
+           public OrderBy OrderBy { get; set; }
+           public int Offset { get; set; }
+           public int Limit { get; set; }
+           public decimal? MinimalPrice { get; set; }
+           public decimal? MaximalPrice { get; set; }
+           public DateTime? MinDate { get; set; }
+           public DateTime? MaxDate { get; set; }
+           public string ZipCode { get; set; }
+       }
+   }
+   ```
+
+3. Failure conditions:
+   - The `GetFilteredOrders` method now takes a single parameter of type `OrderFilter`, which is a class that encapsulates all the parameters.
+   - The `OrderFilter` class has properties for each of the parameters in the original method.
+   - The `OrderFilter` class is defined within the same namespace as the `IOrder` interface.
+   - The `OrderFilter` class is public, so it can be used outside of the `Shop.Data` namespace if needed.
+   - The `OrderFilter` class does not have any methods or properties that are not related to the issue.
+
+4. Approval:
+   APPROVE_CHANGES

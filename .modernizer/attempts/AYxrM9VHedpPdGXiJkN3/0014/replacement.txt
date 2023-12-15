@@ -1,0 +1,43 @@
+public IEnumerable<Order> GetFilteredOrders(
+    string userId = null,
+    OrderBy orderBy = OrderBy.None,
+    int offset = 0,
+    int limit = 10,
+    decimal? minimalPrice = null,
+    decimal? maximalPrice = null,
+    DateTime? minDate = null,
+    DateTime? maxDate = null,
+    string zipCode = null
+)
+{
+    var orders = GetAll();
+
+    if (!string.IsNullOrEmpty(userId))
+        orders = FilterByUserId(orders, userId);
+
+    if (orderBy != OrderBy.None)
+        orders = OrderBy(orders, orderBy);
+
+    if (offset > 0)
+        orders = Offset(orders, offset);
+
+    if (limit > 0)
+        orders = Limit(orders, limit);
+
+    if (minimalPrice.HasValue)
+        orders = FilterByMinimalPrice(orders, minimalPrice.Value);
+
+    if (maximalPrice.HasValue)
+        orders = FilterByMaximalPrice(orders, maximalPrice.Value);
+
+    if (minDate.HasValue)
+        orders = FilterByMinDate(orders, minDate.Value);
+
+    if (maxDate.HasValue)
+        orders = FilterByMaxDate(orders, maxDate.Value);
+
+    if (!string.IsNullOrEmpty(zipCode))
+        orders = FilterByZipCode(orders, zipCode);
+
+    return orders;
+}

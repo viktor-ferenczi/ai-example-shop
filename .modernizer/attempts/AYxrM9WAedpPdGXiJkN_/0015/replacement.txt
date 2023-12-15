@@ -1,0 +1,37 @@
+<thead>
+       <tr>
+           <th>Food Name</th>
+           <th>Price</th>
+           <th>Description</th>
+           <th>Image</th>
+       </tr>
+   </thead>
+   ```
+   This code will be placed within the "<table>" tags.
+
+2. Ignore:
+   No missing information or unclear understanding of the issue.
+
+3. Modified Source Code:
+   ```cshtml
+   <table class="table table-hover table-bordered" id="categoryIndexTable">
+       <thead>
+           <tr>
+               <th>Food Name</th>
+               <th>Price</th>
+               <th>Description</th>
+               <th>Image</th>
+           </tr>
+       </thead>
+       <tbody>
+           @foreach (var food in Model.Foods)
+           {
+               <tr>
+                   <td>
+                       @Html.Partial("FoodSummary",food) 
+                   </td>
+               </tr>
+           }
+       </tbody>
+   </table>
+   

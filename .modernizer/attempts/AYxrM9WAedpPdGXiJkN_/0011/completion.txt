@@ -1,0 +1,32 @@
+
+Sure, let's resolve the issue.
+
+1. The issue is about adding "<th>" headers to this "<table>". We need to add headers for each column in the table.
+
+2. Here is the modified source code:
+
+```cshtml
+<table class="table table-hover table-bordered" id="categoryIndexTable">
+    <thead>
+        <tr>
+            <th>Food</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model.Foods)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary",food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+3. I have added a "<thead>" section with a "<tr>" row containing a "<th>" header for the "Food" column. This will serve as the header for the table.
+
+4. I have also added the "<tbody>" section to contain the rows of the table. This is where the food items will be displayed.
+
+APPROVE_CHANGES
