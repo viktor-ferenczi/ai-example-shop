@@ -1,0 +1,12 @@
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+}
+```
+
+3. Now, let's check the failure conditions. We will ensure that the number of preferred foods returned is now controlled by the `count` parameter, and not a hard-coded number.
+
+4. If everything is working as expected, we will approve the changes by saying "APPROVE_CHANGES".
+
+```cs
+APPROVE_CHANGES

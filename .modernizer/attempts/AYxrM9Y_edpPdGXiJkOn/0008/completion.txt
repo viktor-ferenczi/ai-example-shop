@@ -1,0 +1,13 @@
+ 
+The issue at the marked line is a magic number. A magic number is a direct use of a number in the code without explanation. In this case, the magic number is `10` in the `GetPreferred` method.
+
+Here is the revised code:
+
+```cs
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+}
+```
+
+APPROVE_CHANGES

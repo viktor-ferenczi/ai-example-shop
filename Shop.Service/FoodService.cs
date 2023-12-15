@@ -62,11 +62,11 @@ namespace Shop.Service
         //TODO ambiguous method parameter naming
         public IEnumerable<Food> GetFilteredFoods(string q)
         {
+            const int defaultCount = 10;
             var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
             if (queries == null)
             {
-                //TODO magic number
-                return GetPreferred(10);
+                return GetPreferred(defaultCount);
             }
 
             return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));

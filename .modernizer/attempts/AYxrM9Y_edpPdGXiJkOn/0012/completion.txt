@@ -1,0 +1,31 @@
+ 
+
+1. Plan:
+   To resolve the issue, we need to replace the magic number '10' with a variable. This will make the code more flexible and easier to maintain. 
+
+2. Code:
+```cs
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+        }
+```
+
+3. Failure Conditions:
+   - The code changes should not break the functionality of getting preferred foods.
+   - The changes should not introduce any performance or security issues.
+   - The changes should not change any comments or string literals unrelated to the issue.
+   - The changes should not remove any code, data or comments unrelated to the issue.
+   - The changes should not break any existing functionality.
+
+4. Code:
+```cs
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            const int defaultCount = 10;
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count > 0 ? count : defaultCount);
+        }
+```
+
+5. Approval:
+   APPROVE_CHANGES

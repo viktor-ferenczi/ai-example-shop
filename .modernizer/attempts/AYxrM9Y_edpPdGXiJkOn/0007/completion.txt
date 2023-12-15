@@ -1,0 +1,20 @@
+ 
+
+1. Plan:
+   - The magic number `10` is used in the `GetPreferred` method. This method is used to get a specific number of preferred foods. The magic number `10` is hardcoded, which can be a potential issue if we want to change the number of preferred foods in the future.
+   - To resolve this issue, we can make the number of preferred foods a parameter of the `GetPreferred` method. This way, we can easily change the number of preferred foods without modifying the code.
+
+2. Code:
+```cs
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+        }
+```
+
+3. Check:
+   - The magic number `10` is removed from the `GetPreferred` method.
+   - The `GetPreferred` method now takes an argument `count` which specifies the number of preferred foods to return.
+   - The method still returns the same result as before, but now it is more flexible and easier to modify in the future.
+
+APPROVE_CHANGES

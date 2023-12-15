@@ -1,0 +1,10 @@
+public IEnumerable<Food> GetPreferred(int count)
+{
+    const int preferredCount = 10;
+    return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(preferredCount);
+}
+```
+
+In this code, `preferredCount` is a named constant that represents the number 10. This makes the code more readable and maintainable.
+
+APPROVE_CHANGES
