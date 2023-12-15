@@ -1,0 +1,34 @@
+ The issue you're facing is related to the access modifier of the Program class. In C#, the access modifier of a class is either `public` or `internal`. In your case, the class is not explicitly specified, so it defaults to `internal`. However, the `Main` method, which is the entry point of the application, needs to be `public`.
+
+Here is the corrected code:
+
+```cs
+// TOP-MARKER
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+namespace Shop.Web
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            BuildWebHost(args).Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
+    }
+}
+```
+
+APPROVE_CHANGES

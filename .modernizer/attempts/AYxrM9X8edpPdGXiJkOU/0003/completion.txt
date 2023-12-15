@@ -1,0 +1,74 @@
+ 
+1. The issue arises because the `FirstOrDefault` method is used to find a role by its name. If no role with the specified name exists, it will return `null`. This can lead to a `NullReferenceException` when trying to access the `Id` property of the role.
+
+2. Here's a possible solution:
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+This code will return `null` if no role with the specified name exists, preventing the `NullReferenceException`.
+
+3. Here's the modified source code:
+```cs
+// TOP-MARKER
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Data;
+using Shop.Data.Extensions;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        // ...
+
+        [Authorize]
+        public async Task<IActionResult> Settings(string userId)
+        {
+            ApplicationUser user;
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+                GetRoles();
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+
+            if (user != null)
+            {
+                string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+                var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // ...
+    }
+}
+```
+4. Failure conditions:
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is not `null`.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is `null`.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is an empty string.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is a non-existent role name.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is a non-existent role name and the `roleName` is an empty string.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is a non-existent role name and the `roleName` is `null`.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is a non-existent role name and the `roleName` is a non-existent role name.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is a non-existent role name and the `roleName` is a non-existent role name and the `roleName` is an empty string.
+   - The issue is not fully resolved if the `roleId` is still `null` when the `roleName` is a non-existent role name and the `roleName` is a non-existent role name and the `roleName` is `null`.
+
+APPROVE_CHANGES

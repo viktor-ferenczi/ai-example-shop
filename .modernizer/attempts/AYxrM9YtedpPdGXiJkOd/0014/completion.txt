@@ -1,0 +1,39 @@
+ The issue reported is about the lack of a constructor in the `Program` class. Constructors are necessary in classes to initialize objects of that class. In this case, the `Program` class does not have any constructor, so it's considered a violation of the C# language rules.
+
+Here is the corrected code:
+
+```cs
+// TOP-MARKER
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+namespace Shop.Web
+{
+    public class Program
+    {
+        protected Program()
+        {
+            // Constructor is protected to prevent instantiation of this class
+        }
+
+        public static void Main(string[] args)
+        {
+            BuildWebHost(args).Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
+    }
+}
+```
+
+In this corrected code, I've added a protected constructor to the `Program` class. This constructor does nothing, but it prevents the instantiation of the class, which is what the static code analysis was complaining about.
