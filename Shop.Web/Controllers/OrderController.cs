@@ -19,7 +19,7 @@ namespace Shop.Web.Controllers
         private readonly IFood _foodService;
         private readonly ShoppingCart _shoppingCart;
         private readonly Mapper _mapper;
-        private UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager; // Making '_userManager' readonly
 
 
         public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
