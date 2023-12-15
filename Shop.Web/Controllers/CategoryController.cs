@@ -22,11 +22,10 @@ namespace Shop.Web.Controllers
         {
             _categoryService = categoryService;
             _foodService = foodService;
-            _context = context; //this is wrong to pull infra into web
+            _context = context;
             _mapper = new Mapper();
         }
 
-        //TODO data layer access directly from the web, this is wrong from design perspective
         public IActionResult LameIndex()
         {
             var result = _categoryService.GetAll().
