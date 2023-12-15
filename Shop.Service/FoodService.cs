@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 using System;
@@ -24,7 +24,7 @@ namespace Shop.Service
             var food = GetById(id);
             if (food == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"No food found with id: {id}");
             }
             _context.Remove(food);
             _context.SaveChanges();

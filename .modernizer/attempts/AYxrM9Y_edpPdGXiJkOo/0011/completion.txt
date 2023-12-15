@@ -1,0 +1,19 @@
+ 
+The issue reported is about the lack of a meaningful exception message when an invalid argument is passed to the `DeleteFood` method. This can make debugging more difficult, especially when dealing with multiple methods that can throw exceptions.
+
+Here's a revised version of the `DeleteFood` method that includes a more meaningful exception message:
+
+```cs
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new ArgumentException($"No food with id {id} found to delete.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
+```
+
+In this revised version, an `ArgumentException` is thrown with a message that includes the id of the food that was not found. This makes it clear what the problem was, and it can help with debugging.

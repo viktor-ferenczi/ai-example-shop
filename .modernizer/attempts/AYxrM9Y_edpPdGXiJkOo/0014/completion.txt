@@ -1,0 +1,20 @@
+ The issue reported is related to the way exceptions are handled in the code. The current implementation is throwing a generic `ArgumentException` without providing any meaningful information about the error. This can make debugging more difficult as the exception message is not descriptive.
+
+Here's a revised version of the `DeleteFood` method:
+
+```cs
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new ArgumentException($"Food with ID {id} does not exist.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
+```
+
+In this revised version, we are throwing a `ArgumentException` with a custom message that includes the ID of the food that was not found. This provides more context and helps in debugging.
+
+Please note that this is just one example and the actual implementation can vary based on the specific requirements and error handling strategy of your application.

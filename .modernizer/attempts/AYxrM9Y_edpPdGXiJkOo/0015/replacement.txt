@@ -1,0 +1,26 @@
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new ArgumentException($"Food with id {id} does not exist.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
+```
+
+In this modified code, we are providing a meaningful exception message when the food item does not exist. This message will help the caller of the `DeleteFood` method to understand what went wrong and how to fix it.
+
+APPROVE_CHANGES
+```cs
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new ArgumentException($"Food with id {id} does not exist.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
