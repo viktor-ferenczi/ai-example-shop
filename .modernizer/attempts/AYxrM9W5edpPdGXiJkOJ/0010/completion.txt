@@ -1,0 +1,20 @@
+
+Given the issue, it seems that the table is missing a description. The issue is reported at the line where the table is defined. To resolve this issue, we can add a description to the table using the `aria-describedby` attribute. Here's the modified code:
+
+```cshtml
+<table class="table table-hover" id="latestFoodsTable" aria-describedby="latestFoodsDescription">
+    <caption id="latestFoodsDescription">This table displays the most popular foods.</caption>
+    <tbody>
+        @foreach (var food in Model.FoodsList)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary", food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+APPROVE_CHANGES

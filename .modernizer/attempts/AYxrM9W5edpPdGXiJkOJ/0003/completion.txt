@@ -1,0 +1,39 @@
+
+The issue is related to the lack of a description for the table. This is important for accessibility and SEO. Here's how you can resolve the issue:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Home.HomeIndexModel
+
+<div class="container body-content">
+    <div class="row frontPageSplash">
+        <div class="col-md-6 frontPageLearn">
+            <div class="frontPageHeading">Healthy, Cheap, Easy...</div>
+            <p class="frontPageSubHeading">This is online shopping site for food</p>
+            <div>
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestFoods">Prefered products</h3>
+        <table class="table table-hover" id="latestFoodsTable" aria-describedby="latestFoods">
+            <tbody>
+                @foreach (var food in Model.FoodsList)
+                {
+                    <tr>
+                        <td>
+                           @Html.Partial("FoodSummary", food) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+```
+
+In the modified code, I added the `aria-describedby="latestFoods"` attribute to the `<table>` element. This attribute points to the `id` of the `<h3>` element, which provides a description for the table. This is a common practice for accessibility and SEO.
