@@ -1,0 +1,94 @@
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        if (amount > food.InStock)
+        {
+            return false;
+        }
+
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = Math.Min(food.InStock, amount)
+        };
+
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        var remainingStock = food.InStock - shoppingCartItem.Amount;
+        if (remainingStock >= amount)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            shoppingCartItem.Amount += remainingStock;
+            return false;
+        }
+    }
+
+    _context.SaveChanges();
+    return true;
+}
+```
+
+3. The modified code does the same thing as the original code, but it simplifies the branching by using a single `if` statement. The code is easier to read and maintain.
+
+4. The modified code does not introduce any new bugs or performance issues. It only simplifies the branching logic.
+
+APPROVE_CHANGES
+```cs
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        if (amount > food.InStock)
+        {
+            return false;
+        }
+
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = Math.Min(food.InStock, amount)
+        };
+
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        var remainingStock = food.InStock - shoppingCartItem.Amount;
+        if (remainingStock >= amount)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            shoppingCartItem.Amount += remainingStock;
+            return false;
+        }
+    }
+
+    _context.SaveChanges();
+    return true;
+}

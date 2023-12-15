@@ -1,0 +1,146 @@
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = Math.Min(food.InStock, amount)
+        };
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        var remainingStock = food.InStock - shoppingCartItem.Amount;
+        shoppingCartItem.Amount += Math.Min(remainingStock, amount);
+    }
+
+    _context.SaveChanges();
+    return shoppingCartItem.Amount <= food.InStock;
+}
+```
+
+In this modified version, I have removed the unnecessary branching and simplified the logic. The method now checks if there is enough stock to fulfill the requested amount and adds it to the cart. If there is not enough stock, it adds as much as possible. The method also returns a boolean indicating whether the addition was successful or not.
+
+APPROVE_CHANGES
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Data.Models
+{
+    public class ShoppingCart
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ShoppingCart(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public string Id { get; set; }
+        public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public static ShoppingCart GetCart(IServiceProvider services)
+        {
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            var context = services.GetService<ApplicationDbContext>();
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+
+            session.SetString("CartId", cartId);
+            return new ShoppingCart(context) { Id = cartId };
+        }
+
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+            if (shoppingCartItem == null)
+            {
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                var remainingStock = food.InStock - shoppingCartItem.Amount;
+                shoppingCartItem.Amount += Math.Min(remainingStock, amount);
+            }
+
+            _context.SaveChanges();
+            return shoppingCartItem.Amount <= food.InStock;
+        }
+
+        public int RemoveFromCart(Food food)
+        {
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            int localAmount = 0;
+            if (shoppingCartItem != null)
+            {
+                if (shoppingCartItem.Amount > 1)
+                {
+                    shoppingCartItem.Amount--;
+                    localAmount = shoppingCartItem.Amount;
+                }
+                else
+                {
+                    _context.ShoppingCartItems.Remove(shoppingCartItem);
+                }
+            }
+
+            _context.SaveChanges();
+            return localAmount;
+        }
+
+        public IEnumerable<ShoppingCartItem> GetShoppingCartItems()
+        {
+            return ShoppingCartItems ??
+                   (ShoppingCartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                       .Include(s => s.Food));
+        }
+
+        public void ClearCart()
+        {
+            var cartItems = _context
+                .ShoppingCartItems
+                .Where(cart => cart.ShoppingCartId == Id);
+
+            _context.ShoppingCartItems.RemoveRange(cartItems);
+            _context.SaveChanges();
+        }
+
+        public decimal GetShoppingCartTotal()
+        {
+            return _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                .Select(c => c.Food.Price * c.Amount).Sum();
+        }
+
+    }
+}

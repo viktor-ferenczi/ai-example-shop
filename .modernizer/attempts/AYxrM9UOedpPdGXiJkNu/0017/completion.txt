@@ -1,0 +1,60 @@
+ 
+
+1. Plan:
+   The issue at hand is related to the branching in the `AddToCart` method. The method contains multiple nested if-else statements, which can lead to code that is hard to read and maintain. 
+
+2. Stop here if:
+   I have all the necessary information to resolve the issue.
+
+3. Code:
+```cs
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            var isValidAmount = true;
+            if (shoppingCartItem == null)
+            {
+                if (amount > food.InStock)
+                {
+                    isValidAmount = false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                var newAmount = shoppingCartItem.Amount + amount;
+                if (newAmount <= food.InStock)
+                {
+                    shoppingCartItem.Amount = newAmount;
+                }
+                else
+                {
+                    shoppingCartItem.Amount = food.InStock;
+                    isValidAmount = false;
+                }
+            }
+
+            _context.SaveChanges();
+            return isValidAmount;
+        }
+```
+
+4. Check:
+   - The changes I made have resolved the issue of excessive branching in the `AddToCart` method.
+   - There are no unrelated changes to the code, data or comments.
+   - The code is compatible with all existing functionality.
+   - The code does not contain any placeholders.
+
+APPROVE_CHANGES

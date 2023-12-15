@@ -1,0 +1,55 @@
+
+1. The issue at hand is related to the `AddToCart` method, specifically the branching logic in the `if` statement. This could be resolved by simplifying the condition and extracting it into a separate method.
+
+2. Here is the modified code:
+
+```cs
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+    var isValidAmount = true;
+    if (shoppingCartItem == null)
+    {
+        if (amount > food.InStock)
+        {
+            isValidAmount = false;
+        }
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = Math.Min(food.InStock, amount)
+        };
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        if (!CanAddAmountToShoppingCartItem(shoppingCartItem, food, amount))
+        {
+            isValidAmount = false;
+        }
+        else
+        {
+            shoppingCartItem.Amount += amount;
+        }
+    }
+
+    _context.SaveChanges();
+    return isValidAmount;
+}
+
+private bool CanAddAmountToShoppingCartItem(ShoppingCartItem shoppingCartItem, Food food, int amount)
+{
+    return food.InStock - shoppingCartItem.Amount - amount >= 0;
+}
+```
+
+In this modified version, the branching logic in the `if` statement is extracted into a separate method `CanAddAmountToShoppingCartItem`. This makes the code easier to read and maintain, and reduces the complexity of the `AddToCart` method.
+
+APPROVE_CHANGES
