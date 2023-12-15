@@ -1,0 +1,22 @@
+ 
+The issue is about adding a description to the table. However, the original source code already includes a description in the `<h2>` tag. 
+
+```cshtml
+<div style="background-color:rgba(248,248,248,0.6);">
+    <h2 >Your shopping cart 
+        <br/>Here are the products in your shopping cart.</h2>
+</div>
+```
+
+This description is clear and concise, and it provides context for the table. It's not necessary to add another description in the `<table>` tag.
+
+If you still want to add a description, you can add a `<caption>` tag within the `<table>` tag. Here's how you can do it:
+
+```cshtml
+<table class="table table-hover table-dark table-stripped table-bordered">
+    <caption>Here are the products in your shopping cart.</caption>
+    <!-- Rest of the table code -->
+</table>
+```
+
+This will add a description to the table, and it will be displayed above the table.

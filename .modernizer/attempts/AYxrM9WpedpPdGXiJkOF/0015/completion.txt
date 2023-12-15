@@ -1,0 +1,41 @@
+ 
+Adding a description to the table can be done by adding a `<caption>` tag within the `<table>` tag. This tag will provide a brief description of the table's purpose. Here's how you can modify the code:
+
+```cshtml
+<table class="table table-hover table-dark table-stripped table-bordered">
+    <caption>List of products in the shopping cart</caption>
+    <thead>
+        <tr>
+            <th>Selected amount</th>
+            <th>Product</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+        {
+            <tr>
+                <td class="text-center">@line.Amount</td>
+                <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@line.Food.Name</a></td>
+                <td class="text-right">@line.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US"))</td>
+                <td class="text-right">
+                    @((line.Amount * line.Food.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                </td>
+                <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="Remove" asp-route-foodId="@line.Food.Id"></a></td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">
+                @(Model.ShoppingCartTotal.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+            </td>
+        </tr>
+    </tfoot>
+</table>
+```
+
+APPROVE_CHANGES

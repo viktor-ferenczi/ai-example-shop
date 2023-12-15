@@ -1,0 +1,16 @@
+ 
+To address the issue of missing description for the table, you can add a `<caption>` tag within the `<table>` element. This tag is used to provide a description for the table. Here's how you can modify the code:
+
+```cshtml
+<table class="table table-hover table-dark table-stripped table-bordered">
+    <caption>Description of the table</caption>
+    <thead>
+        <!-- Rest of the code -->
+    </thead>
+    <!-- Rest of the code -->
+</table>
+```
+
+Please replace `"Description of the table"` with the actual description you want to provide.
+
+APPROVE_CHANGES

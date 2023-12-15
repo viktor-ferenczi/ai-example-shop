@@ -1,0 +1,6 @@
+<table class="table table-hover table-dark table-stripped table-bordered">
+    <caption>List of products in the shopping cart</caption>
+    <thead>
+        <!-- rest of the code remains the same -->
+    </thead>
+</table>
