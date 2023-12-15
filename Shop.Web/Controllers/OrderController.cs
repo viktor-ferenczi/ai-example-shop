@@ -18,7 +18,6 @@ namespace Shop.Web.Controllers
         private readonly IOrder _orderService;
         private readonly IFood _foodService;
         private readonly ShoppingCart _shoppingCart;
-        private readonly Mapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager; // Making '_userManager' readonly
 
 
@@ -28,7 +27,6 @@ namespace Shop.Web.Controllers
             _shoppingCart = shoppingCart;
             _userManager = userManager;
             _foodService = foodService;
-            _mapper = new Mapper();
         }
 
         public IActionResult Checkout()

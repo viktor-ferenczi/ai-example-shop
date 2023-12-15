@@ -1,0 +1,61 @@
+ 
+I'm sorry for the confusion, but the issue you've mentioned is not related to the provided code. The issue is about the '_mapper' field which is not being used anywhere in the code, and it's not clear what the code analysis tool is suggesting.
+
+Based on the provided context, the static code analysis tool is suggesting that the '_mapper' field is not being used anywhere in the code. This is not necessarily a problem, as unused variables can sometimes be intentional. However, if you want to remove this field, you can do so by simply deleting the line where it's declared:
+
+```cs
+        private readonly Mapper _mapper;
+```
+
+After removing this line, your code should look like this:
+
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly IOrder _orderService;
+        private readonly IFood _foodService;
+        private readonly ShoppingCart _shoppingCart;
+        private readonly UserManager<ApplicationUser> _userManager; // Making '_userManager' readonly
+
+
+        public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _orderService = orderService;
+            _shoppingCart = shoppingCart;
+            _userManager = userManager;
+            _foodService = foodService;
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // Rest of the code...
+    }
+}
+```
+
+Please note that this is a simple removal and may not be suitable for all scenarios, as it depends on the specific use case of the '_mapper' field. If the '_mapper' field is used elsewhere in the code, you may need to adjust your code accordingly.
