@@ -15,12 +15,10 @@ namespace Shop.Web.Controllers
     [Authorize]
     public class OrderController : Controller
     {
-        private readonly IOrder _orderService;
         private readonly ShoppingCart _shoppingCart;
 
-        public OrderController(IOrder orderService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        public OrderController(ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
         {
-            _orderService = orderService;
             _shoppingCart = shoppingCart;
         }
 

@@ -1,0 +1,50 @@
+ 
+
+1. The issue is reported at the private field '_orderService' which is not used in any method. This field is not being used in any method, so it can be safely removed.
+
+2. Here is the modified source code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly ShoppingCart _shoppingCart;
+
+        public OrderController(ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _shoppingCart = shoppingCart;
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // Rest of the code...
+    }
+}
+```
+
+APPROVE_CHANGES

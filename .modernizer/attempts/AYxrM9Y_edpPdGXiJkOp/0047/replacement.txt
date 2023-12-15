@@ -1,0 +1,20 @@
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll()
+        .Where(food => food.IsPreferedFood && food.InStock != 0)
+        .OrderByDescending(food => food.Id)
+        .Take(count);
+}
+```
+
+In this corrected version, the `Where` clause is applied first to filter the foods based on the condition `IsPreferedFood && InStock != 0`, then the `OrderByDescending` clause is applied to sort the results in descending order based on the `Id` property, and finally the `Take` clause is used to limit the number of results to the specified count.
+
+APPROVE_CHANGES
+```cs
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll()
+        .Where(food => food.IsPreferedFood && food.InStock != 0)
+        .OrderByDescending(food => food.Id)
+        .Take(count);
+}

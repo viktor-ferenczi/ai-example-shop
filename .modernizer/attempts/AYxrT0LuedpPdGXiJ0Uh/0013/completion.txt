@@ -1,0 +1,49 @@
+ 
+The issue reported is suggesting that the private field '_orderService' is not being used. This is an intentional issue, and it's a clear indication that the '_orderService' field is not being used in the code.
+
+To resolve this issue, you can remove the '_orderService' field from the constructor and the Checkout() method. Here is the modified code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly ShoppingCart _shoppingCart;
+
+        public OrderController(ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _shoppingCart = shoppingCart;
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // Rest of the code...
+    }
+}
+```
+
+APPROVE_CHANGES
