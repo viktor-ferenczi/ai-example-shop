@@ -1,0 +1,44 @@
+
+Sure, here's how you can resolve the issue:
+
+1. First, let's plan our approach. We need to add `<th>` headers to the table. The `<th>` tag defines a header cell in an HTML table.
+
+2. Now, let's implement the plan. We will add `<th>` headers to the table:
+
+```cshtml
+<table class="table table-hover" id="categoryIndexTable">
+    <caption>Table of food categories</caption>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.CategoryList)
+        {
+            <tr>
+                <td>
+                    <div class="categoryLogo" style="background-image: url(@category.ImageUrl); background-size:100%;"></div>
+                    <a class="btn btn-info" asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">
+                        @category.Name
+                    </a>
+                </td>
+                <td>
+                    @category.Description
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+3. Now, we have implemented the plan and added `<th>` headers to the table.
+
+4. Let's check our changes:
+   - We have fully resolved the issue by adding `<th>` headers to the table.
+   - We have not missed any related changes that humans would expect to be part of our issue resolution.
+   - We have not made any changes, additions or removals to code, data or comments not related to the issue.
+   - We have not replaced any part of the source code with a placeholder.
+
+So, we can approve these changes by saying "APPROVE_CHANGES".

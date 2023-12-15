@@ -1,0 +1,2 @@
+
+I'm sorry, but the code you provided does not include the part that needs refactoring. Could you please provide the part of the code that needs refactoring and the specific issue related to cognitive complexity?

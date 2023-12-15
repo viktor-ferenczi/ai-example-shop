@@ -1,0 +1,87 @@
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Data;
+using Shop.Data.Extensions;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        // ... existing code ...
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+        {
+            GetRoles();
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    await ChangePassword(user, model.OldPassword, model.NewPassword);
+                }
+
+                await UpdateUserRole(user, model.RoleId);
+
+                await _userManager.UpdateAsync(user);
+
+                await HttpContext.RefreshLoginAsync();
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
+            }
+            return View("Settings", model);
+        }
+
+        private async Task ChangePassword(ApplicationUser user, string oldPassword, string newPassword)
+        {
+            if (string.IsNullOrEmpty(oldPassword))
+            {
+                ModelState.AddModelError("OldPassword", "Enter your current password to change it");
+                return;
+            }
+            if (string.IsNullOrEmpty(newPassword))
+            {
+                ModelState.AddModelError("NewPassword", "Enter your new password to change it");
+                return;
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+            }
+        }
+
+        private async Task UpdateUserRole(ApplicationUser user, string roleId)
+        {
+            var role = _roleManager.Roles.First(r => r.Id == roleId).Name;
+            var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            if (role != userRole)
+            {
+                await _userManager.RemoveFromRoleAsync(user, userRole);
+                await _userManager.AddToRoleAsync(user, role);
+            }
+        }
+
+        // ... existing code ...
+    }
+}
