@@ -56,11 +56,6 @@ namespace Shop.Data.Seeds
                         }
                     };
 
-                    //foreach (var food in foods)
-                    //{
-                    //    food.ImageUrl = $"/images/Foods/{food.Name}.png";
-                    //}
-
                     context.AddRange(foods);
                 }
 
@@ -113,7 +108,6 @@ namespace Shop.Data.Seeds
 
                     foreach (Category genre in genresList)
                     {
-                        //genre.ImageUrl = $"/images/Categories/{genre.Name}.png";
                         categories.Add(genre.Name, genre);
                     }
                 }
