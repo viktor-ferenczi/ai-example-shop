@@ -1,0 +1,74 @@
+ 
+1. The issue is that the commented out line of code is not necessary. It is removing all the drinks from the context, which is not necessary for the seeding of the foods. This line of code is commented out and can be removed.
+
+2. Below is the modified source code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Shop.Data;
+using Shop.Data.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Shop.Data.Seeds
+{
+    public class DbInitializer
+    {
+        public static void Seed(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                ApplicationDbContext context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                context.Database.EnsureCreated();
+
+                if (!context.Categories.Any())
+                {
+                    context.Categories.AddRange(Categories.Select(c => c.Value));
+                }
+
+                if (!context.Foods.Any())
+                {
+                    var foods = new Food[]
+                    {
+                        //...
+                    };
+
+                    context.AddRange(foods);
+                }
+
+                context.SaveChanges();
+            }
+        }
+
+        private static Dictionary<string, Category> categories;
+        public static Dictionary<string, Category> Categories
+        {
+            get
+            {
+                if (categories == null)
+                {
+                    var genresList = new Category[]
+                    {
+                        //...
+                    };
+
+                    categories = new Dictionary<string, Category>();
+
+                    foreach (Category genre in genresList)
+                    {
+                        categories.Add(genre.Name, genre);
+                    }
+                }
+
+                return categories;
+            }
+        }
+    }
+}
+```
+
+APPROVE_CHANGES

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Data;
 using Shop.Data.Models;
@@ -23,7 +23,6 @@ namespace Shop.Data.Seeds
                     context.Categories.AddRange(Categories.Select(c => c.Value));
                 }
 
-                //context.Drinks.RemoveRange(context.Drinks);
                 if (!context.Foods.Any())
                 {
                     var foods = new Food[]
@@ -143,7 +142,7 @@ namespace Shop.Data.Seeds
                         {
                             Name = "Butter",
                             Category = categories["Milk"],
-                            ImageUrl = "https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = 20,
                             IsPreferedFood = false,
                             ShortDescription = "Butter is a dairy product with high butterfat content which is solid when chilled and at room temperature in some regions, and liquid when warmed.",
