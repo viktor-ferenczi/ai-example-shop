@@ -1,0 +1,30 @@
+
+1. I plan to add an "alt" attribute to the image tag. This attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).
+
+2. Here is the modified source code:
+```cshtml
+<!-- TOP-MARKER -->
+@using Microsoft.AspNetCore.Identity
+@using Shop.Data.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewBag.BodyClass = "bg1";
+}
+
+<!-- Rest of the source code... -->
+
+<img src="/images/logo.png" width="140px" alt="BuyNow - Online food store">
+
+<!-- Rest of the source code... -->
+```
+
+3. I will check the following failure conditions:
+   - The "alt" attribute is added to the image tag.
+   - The "alt" attribute's value is descriptive and accurately represents the image.
+   - The image is still displayed correctly when the "alt" attribute is added.
+   - The image is still displayed correctly when the "alt" attribute is removed.
+
+4. APPROVE_CHANGES

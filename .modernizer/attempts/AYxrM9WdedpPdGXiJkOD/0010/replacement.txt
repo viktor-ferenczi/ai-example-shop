@@ -1,0 +1,1 @@
+<img src="/images/logo.png" width="140px" alt="BuyNow - Online food store">

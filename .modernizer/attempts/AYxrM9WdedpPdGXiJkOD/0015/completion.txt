@@ -1,0 +1,13 @@
+
+The issue with the image tag is that it lacks an "alt" attribute. The "alt" attribute provides alternative information for an image if a user for some reason cannot view it. This could be due to slow connection, an error in the src attribute, or if the user uses a screen reader.
+
+Here is the modified code:
+
+```cshtml
+<img src="/images/logo.png" width="140px" alt="BuyNow - Online food store logo">
+```
+
+I have added an "alt" attribute with a description of the image. This is a best practice for accessibility and SEO.
+
+APPROVE_CHANGES
+```
