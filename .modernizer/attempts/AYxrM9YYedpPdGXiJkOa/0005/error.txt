@@ -1,0 +1,1 @@
+Only whitespace changes after stripping trailing whitespace
