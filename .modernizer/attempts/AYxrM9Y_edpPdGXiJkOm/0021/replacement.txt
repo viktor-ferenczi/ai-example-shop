@@ -1,0 +1,28 @@
+//TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+To resolve this issue, we can rename the `searchQuery` parameter to something more descriptive, like `queryString`. Here's the updated code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string queryString)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(queryString) ? null : Regex.Replace(queryString, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }

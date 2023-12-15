@@ -1,0 +1,33 @@
+ 
+The issue at hand is about the ambiguous method parameter naming. The method `GetFilteredFoods(int id, string searchQuery)` and `GetFilteredFoods(string searchQuery)` have the same parameter type but different names. This can lead to confusion and ambiguity.
+
+Here's a possible solution:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery, int categoryId)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(categoryId);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+        }
+```
+
+In this solution, I've added a new method `GetFilteredFoods(string searchQuery, int categoryId)` which provides a clearer distinction between the two methods. The first method `GetFilteredFoods(string searchQuery)` remains unchanged.
+
+APPROVE_CHANGES

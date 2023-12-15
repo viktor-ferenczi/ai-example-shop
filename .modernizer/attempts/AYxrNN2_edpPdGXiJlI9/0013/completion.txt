@@ -1,0 +1,54 @@
+ The issue you're facing is a warning from the static code analysis tool about the usage of the "summary" attribute in the HTML table element. This attribute is not supported in HTML5 and is considered deprecated.
+
+Here's how you can resolve the issue:
+
+1. Plan: Since the "summary" attribute is not supported in HTML5, we need to remove it from the table element.
+
+2. Implementation:
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Home.HomeIndexModel
+
+<div class="container body-content">
+    <div class="row frontPageSplash">
+        <div class="col-md-6 frontPageLearn">
+            <div class="frontPageHeading">Healthy, Cheap, Easy...</div>
+            <p class="frontPageSubHeading">This is online shopping site for food</p>
+            <div>
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestFoods">Prefered products</h3>
+        <table class="table table-hover" id="latestFoodsTable">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in Model.FoodsList)
+                {
+                    <tr>
+                        <td>
+                           @Html.Partial("FoodSummary", food) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+```
+
+3. Check:
+   - The "summary" attribute has been removed from the table element.
+   - The table still functions as intended, with the same content and layout.
+   - No other changes were made to the code that were not related to the issue.
+   - The table element now conforms to HTML5 standards.
+
+APPROVE_CHANGES

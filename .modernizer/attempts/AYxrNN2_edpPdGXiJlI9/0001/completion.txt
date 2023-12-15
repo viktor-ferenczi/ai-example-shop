@@ -1,0 +1,43 @@
+ 
+The issue reported is about the deprecated "summary" attribute in the HTML table element. This attribute is not supported in HTML5 and can be safely removed. Here's the corrected code:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Home.HomeIndexModel
+
+<div class="container body-content">
+    <div class="row frontPageSplash">
+        <div class="col-md-6 frontPageLearn">
+            <div class="frontPageHeading">Healthy, Cheap, Easy...</div>
+            <p class="frontPageSubHeading">This is online shopping site for food</p>
+            <div>
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestFoods">Prefered products</h3>
+        <table class="table table-hover" id="latestFoodsTable">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in Model.FoodsList)
+                {
+                    <tr>
+                        <td>
+                           @Html.Partial("FoodSummary", food) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+```
+APPROVE_CHANGES

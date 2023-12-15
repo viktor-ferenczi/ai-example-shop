@@ -1,0 +1,23 @@
+ 
+The issue you're facing is about the "summary" attribute in the HTML table tag. This attribute is not standard and is deprecated in HTML5. 
+
+Here's how you can resolve the issue:
+
+1. Plan:
+   - Remove the "summary" attribute from the HTML table tag.
+
+2. Code:
+```cshtml
+        <table class="table table-hover" id="latestFoodsTable">
+```
+
+3. Check:
+   - Check if the "summary" attribute has been removed from the HTML table tag.
+   - Check if the table still functions as expected.
+   - Check if there are any other changes that are not related to the issue.
+
+4. Approval:
+```cshtml
+        <table class="table table-hover" id="latestFoodsTable">
+```
+APPROVE_CHANGES

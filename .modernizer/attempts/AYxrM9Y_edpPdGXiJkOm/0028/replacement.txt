@@ -1,0 +1,24 @@
+public IEnumerable<Food> GetFilteredFoods(string searchQuery, int id)
+{
+    if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+    {
+        return GetFoodsByCategoryId(id);
+    }
+
+    return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+}
+```
+
+In this revised version, the parameter `searchQuery` is used to filter the foods based on the provided search query. The `id` parameter is used to filter the foods based on the category id.
+
+APPROVE_CHANGES
+```cs
+public IEnumerable<Food> GetFilteredFoods(string searchQuery, int id)
+{
+    if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+    {
+        return GetFoodsByCategoryId(id);
+    }
+
+    return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+}
