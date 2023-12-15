@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -123,5 +123,6 @@ namespace Shop.Data.Models
                 .Select(c => c.Food.Price * c.Amount).Sum();
         }
 
+        public int InvalidAmount { get; set; }
     }
 }
