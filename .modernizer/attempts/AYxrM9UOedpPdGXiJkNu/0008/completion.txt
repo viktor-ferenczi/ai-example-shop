@@ -1,0 +1,45 @@
+
+Here's a proposed solution for the issue you've mentioned:
+
+```cs
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        var amountToAdd = Math.Min(food.InStock, amount);
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = amountToAdd
+        };
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        var remainingStock = food.InStock - shoppingCartItem.Amount;
+        if (remainingStock >= amount)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            shoppingCartItem.Amount += remainingStock;
+            return false;
+        }
+    }
+
+    _context.SaveChanges();
+    return true;
+}
+```
+
+APPROVE_CHANGES

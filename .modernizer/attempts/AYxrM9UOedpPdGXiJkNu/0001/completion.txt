@@ -1,0 +1,65 @@
+ 
+
+1. Plan:
+   The issue here is that there is a lot of branching in the `AddToCart` method. This can be simplified by using a helper method to handle the complex condition.
+
+2. Code:
+```cs
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            var isValidAmount = true;
+            if (shoppingCartItem == null)
+            {
+                if (amount > food.InStock)
+                {
+                    isValidAmount = false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                isValidAmount = UpdateShoppingCartItem(shoppingCartItem, food, amount);
+            }
+
+            _context.SaveChanges();
+            return isValidAmount;
+        }
+
+        private bool UpdateShoppingCartItem(ShoppingCartItem shoppingCartItem, Food food, int amount)
+        {
+            if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+            {
+                shoppingCartItem.Amount += amount;
+                return true;
+            }
+            else
+            {
+                shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
+                return false;
+            }
+        }
+```
+
+3. Check:
+   - The `AddToCart` method now only has two branches, one for when the `shoppingCartItem` is null and one for when it is not null.
+   - The complex condition in the `else` branch of the `AddToCart` method has been moved to the `UpdateShoppingCartItem` method.
+   - The `UpdateShoppingCartItem` method now returns a boolean indicating whether the amount was valid.
+   - The `AddToCart` method now correctly returns whether the amount was valid.
+   - The `AddToCart` method now correctly updates the `shoppingCartItem` amount.
+   - The `AddToCart` method now correctly saves changes to the database.
+
+4. Approve:
+   APPROVE_CHANGES

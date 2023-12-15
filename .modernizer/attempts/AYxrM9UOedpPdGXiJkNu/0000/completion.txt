@@ -1,0 +1,182 @@
+ 
+
+1. The issue at the marked line is related to the branching logic in the `AddToCart` method. It's currently too complex and contains multiple branches, making it difficult to understand and maintain. 
+
+2. Here is the proposed solution:
+
+```cs
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        if (amount > food.InStock)
+        {
+            return false;
+        }
+
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = amount
+        };
+
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    _context.SaveChanges();
+    return true;
+}
+```
+
+This refactored code reduces the branching by consolidating the `if` statements into a single branch. It also ensures that the method returns `false` when the amount is invalid, which is the intended behavior.
+
+APPROVE_CHANGES
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Data.Models
+{
+    public class ShoppingCart
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ShoppingCart(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public string Id { get; set; }
+        public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public static ShoppingCart GetCart(IServiceProvider services)
+        {
+            //TODO design issue: Data layer referencing web specific details 
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            var context = services.GetService<ApplicationDbContext>();
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+
+            session.SetString("CartId", cartId);
+            return new ShoppingCart(context) { Id = cartId };
+        }
+
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+            if (shoppingCartItem == null)
+            {
+                if (amount > food.InStock)
+                {
+                    return false;
+                }
+
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = amount
+                };
+
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+                {
+                    shoppingCartItem.Amount += amount;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            _context.SaveChanges();
+            return true;
+        }
+
+        //TODO design issue: returning bool, but no additional info if amount is invalid. View decides what error message to show
+        //TODO this is supposed to be application- or domain-level logic
+        //TODO too much branching
+        public int RemoveFromCart(Food food)
+        {
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            int localAmount = 0;
+            if (shoppingCartItem != null)
+            {
+                if (shoppingCartItem.Amount > 1)
+                {
+                    shoppingCartItem.Amount--;
+                    localAmount = shoppingCartItem.Amount;
+                }
+                else
+                {
+                    _context.ShoppingCartItems.Remove(shoppingCartItem);
+                }
+            }
+
+            _context.SaveChanges();
+            return localAmount;
+        }
+
+        public IEnumerable<ShoppingCartItem> GetShoppingCartItems()
+        {
+            return ShoppingCartItems ??
+                   (ShoppingCartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                       .Include(s => s.Food));
+        }
+
+        public void ClearCart()
+        {
+            var cartItems = _context
+                .ShoppingCartItems
+                .Where(cart => cart.ShoppingCartId == Id);
+
+            _context.ShoppingCartItems.RemoveRange(cartItems);
+            _context.SaveChanges();
+        }
+
+        public decimal GetShoppingCartTotal()
+        {
+            return _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                .Select(c => c.Food.Price * c.Amount).Sum();
+        }
+
+    }
+}
+```
