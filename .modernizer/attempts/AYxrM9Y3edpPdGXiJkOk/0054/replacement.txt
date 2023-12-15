@@ -1,0 +1,30 @@
+string userId,
+```
+This is a method parameter without a default value, which is a violation of the C# language rules. The method signature should be updated to include a default value for the `userId` parameter.
+
+2. The modified source code is as follows:
+```cs
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Service
+{
+    public class OrderService : IOrder
+    {
+        // ...
+
+        public IEnumerable<Order> GetByUserId(string userId = "")
+        {
+            return GetAll()
+                .Where(order => order.User.Id == userId);
+        }
+
+        // ...
+    }
+}

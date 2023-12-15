@@ -1,0 +1,28 @@
+ 
+1. Plan:
+   The issue is related to the parameter `userId` in the method `GetByUserId(string userId)`. The method is called without any parameter, which leads to a compilation error. To resolve this issue, we need to provide a default value for the `userId` parameter.
+
+2. Code:
+```cs
+public IEnumerable<Order> GetByUserId(string userId = "")
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
+```
+In the above code, I have added a default value for the `userId` parameter. This will prevent the compilation error and allow the method to be called without a parameter.
+
+3. Failure conditions:
+   - The method `GetByUserId(string userId)` is called without any parameter.
+   - The method `GetByUserId(string userId)` is called with a non-empty string.
+   - The method `GetByUserId(string userId)` is called with an empty string.
+
+4. APPROVE_CHANGES
+
+```cs
+public IEnumerable<Order> GetByUserId(string userId = "")
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
+```

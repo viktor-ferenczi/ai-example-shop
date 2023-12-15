@@ -1,0 +1,2 @@
+ 
+I'm sorry, but the code you provided does not contain any method or function that accepts a parameter named `userId` without a default value. The error message you provided seems to be referring to a different issue. Could you please provide the exact context or the line number where the error is reported?

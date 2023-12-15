@@ -1,0 +1,58 @@
+ 
+The issue is reported at the following line:
+```cs
+            string userId,
+```
+
+The issue is that the `userId` parameter is not assigned a default value in the `GetFilteredOrders` method. This is causing a compilation error because the method signature does not match the call to the method.
+
+To resolve this issue, we need to assign a default value to the `userId` parameter. Since the method signature does not specify a default value, we can use `null` as the default value. Here is the corrected code:
+
+```cs
+public IEnumerable<Order> GetFilteredOrders(
+            string userId = null,
+            OrderBy orderBy = OrderBy.None,
+            int offset = 0, int limit = 10,
+            decimal? minimalPrice = null,
+            decimal? maximalPrice = null,
+            DateTime? minDate = null,
+            DateTime? maxDate = null,
+            string zipCode = null)
+        {
+            var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+
+            if (orderBy != OrderBy.None)
+            {
+                orders = SetOrderBy(orders, orderBy);
+            }
+
+            if (minimalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > minimalPrice);
+            }
+
+            if (maximalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > maximalPrice);
+            }
+
+            if (minDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+            }
+
+            if (maxDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+            }
+
+            if (!string.IsNullOrEmpty(zipCode))
+            {
+                orders = orders.Where(order => order.ZipCode == zipCode);
+            }
+
+            return orders.Skip(offset).Take(limit);
+        }
+```
+
+APPROVE_CHANGES

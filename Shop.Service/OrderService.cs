@@ -60,7 +60,7 @@ namespace Shop.Service
         }
 
         public IEnumerable<Order> GetFilteredOrders(
-            string userId,
+            string userId = "",
             OrderBy orderBy = OrderBy.None,
             int offset = 0, int limit = 10,
             decimal? minimalPrice = null,

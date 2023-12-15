@@ -1,0 +1,61 @@
+ 
+
+1. The issue is with the `GetFilteredOrders` method where the `userId` parameter is not given a default value. This is causing the issue as the method is being called without providing a value for this parameter.
+
+2. Here is the modified code:
+
+```cs
+public IEnumerable<Order> GetFilteredOrders(
+            string userId = null,
+            OrderBy orderBy = OrderBy.None,
+            int offset = 0, int limit = 10,
+            decimal? minimalPrice = null,
+            decimal? maximalPrice = null,
+            DateTime? minDate = null,
+            DateTime? maxDate = null,
+            string zipCode = null)
+        {
+            var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+
+            if (orderBy != OrderBy.None)
+            {
+                orders = SetOrderBy(orders, orderBy);
+            }
+
+            if (minimalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > minimalPrice);
+            }
+
+            if (maximalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > maximalPrice);
+            }
+
+            if (minDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+            }
+
+            if (maxDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+            }
+
+            if (!string.IsNullOrEmpty(zipCode))
+            {
+                orders = orders.Where(order => order.ZipCode == zipCode);
+            }
+
+            return orders.Skip(offset).Take(limit);
+        }
+```
+
+3. The modified code has a default value for the `userId` parameter, making it optional when calling the method.
+
+4. The failure conditions are:
+   - The `userId` parameter should be optional when calling the method.
+   - The `userId` parameter should be a `string`.
+   - The `userId` parameter should have a default value of `null`.
+
+APPROVE_CHANGES

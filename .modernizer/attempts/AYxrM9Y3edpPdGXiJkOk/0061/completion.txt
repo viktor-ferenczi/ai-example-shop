@@ -1,0 +1,106 @@
+ 
+
+1. The issue is with the method `GetFilteredOrders`. The parameter `userId` is not given a default value. This can cause an issue if the method is called without providing a value for `userId`.
+
+2. Here is the corrected code:
+
+```cs
+public IEnumerable<Order> GetFilteredOrders(
+            string userId = "",
+            OrderBy orderBy = OrderBy.None,
+            int offset = 0, int limit = 10,
+            decimal? minimalPrice = null,
+            decimal? maximalPrice = null,
+            DateTime? minDate = null,
+            DateTime? maxDate = null,
+            string zipCode = null)
+        {
+            var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+
+            if (orderBy != OrderBy.None)
+            {
+                orders = SetOrderBy(orders, orderBy);
+            }
+
+            if (minimalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > minimalPrice);
+            }
+
+            if (maximalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > maximalPrice);
+            }
+
+            if (minDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+            }
+
+            if (maxDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+            }
+
+            if (!string.IsNullOrEmpty(zipCode))
+            {
+                orders = orders.Where(order => order.ZipCode == zipCode);
+            }
+
+            return orders.Skip(offset).Take(limit);
+        }
+```
+
+3. Here is the modified code:
+
+```cs
+public IEnumerable<Order> GetFilteredOrders(
+            string userId = "",
+            OrderBy orderBy = OrderBy.None,
+            int offset = 0, int limit = 10,
+            decimal? minimalPrice = null,
+            decimal? maximalPrice = null,
+            DateTime? minDate = null,
+            DateTime? maxDate = null,
+            string zipCode = null)
+        {
+            var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+
+            if (orderBy != OrderBy.None)
+            {
+                orders = SetOrderBy(orders, orderBy);
+            }
+
+            if (minimalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > minimalPrice);
+            }
+
+            if (maximalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > maximalPrice);
+            }
+
+            if (minDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+            }
+
+            if (maxDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+            }
+
+            if (!string.IsNullOrEmpty(zipCode))
+            {
+                orders = orders.Where(order => order.ZipCode == zipCode);
+            }
+
+            return orders.Skip(offset).Take(limit);
+        }
+```
+
+4. The changes I made are:
+   - Added a default value for the `userId` parameter.
+
+APPROVE_CHANGES
