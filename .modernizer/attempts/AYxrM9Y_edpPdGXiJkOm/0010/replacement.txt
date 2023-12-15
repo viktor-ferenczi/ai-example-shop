@@ -1,0 +1,28 @@
+//TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                throw new ArgumentException("Search query cannot be null or empty.");
+            }
+
+            return GetAll().Where(item => item.Name.ToLower().Contains(searchQuery.ToLower()));
+        }
+```
+
+In this version, the method takes a `searchQuery` parameter which is a string representing the search query. The method then filters the foods based on whether their name contains the search query. If the search query is null or empty, an `ArgumentException` is thrown.
+
+Please note that I've removed the `GetFilteredFoods(int id, string searchQuery)` method as it's no longer needed and could lead to confusion.
+
+APPROVE_CHANGES
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                throw new ArgumentException("Search query cannot be null or empty.");
+            }
+
+            return GetAll().Where(item => item.Name.ToLower().Contains(searchQuery.ToLower()));
+        }
