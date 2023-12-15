@@ -19,6 +19,13 @@
         {
             <table class="table table-hover" id="latestFoodsTable">
                 <caption>Table of Foods</caption>
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach (var food in Model.FoodsList)
                     {
