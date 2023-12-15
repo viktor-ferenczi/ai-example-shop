@@ -1,0 +1,27 @@
+
+I'm sorry, but as an AI model, I don't have the ability to modify the source code directly or interact with the file system. However, I can provide a solution based on the given context.
+
+The issue is about adding a description to the table. We can add a `<caption>` tag inside the `<table>` tag to provide a description. Here is the modified code:
+
+```cshtml
+<table class="table table-hover table-bordered" id="categoryIndexTable">
+    <caption>Table of Foods in @Model.Category.Name Category</caption>
+    <thead>
+        <tr>
+            <th>Food</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model.Foods)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary",food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+In this code, I added a `<caption>` tag with a description of the table's content. The description is "Table of Foods in [Category Name] Category", which provides a clear and concise description of the table's content.

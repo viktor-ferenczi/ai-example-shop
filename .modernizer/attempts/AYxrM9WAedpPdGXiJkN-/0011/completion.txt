@@ -1,0 +1,25 @@
+ 
+1. To resolve the issue, I will add a `<caption>` tag to the table. This tag will provide a description of the table to screen readers and other assistive technologies. Here is the updated code:
+
+```cshtml
+<table class="table table-hover table-bordered" id="categoryIndexTable">
+    <caption>Table showing the list of food items for the category @Model.Category.Name</caption>
+    <thead>
+        <tr>
+            <th>Food</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model.Foods)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary",food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+2. After reviewing the changes, I have found that the changes I made are fully resolving the issue. The `<caption>` tag provides a description of the table, which is crucial for screen readers and other assistive technologies. I have not made any changes to code, data or comments unrelated to the issue. The changes I made are compatible with all existing functionality. Therefore, I approve the code changes by saying "APPROVE_CHANGES".

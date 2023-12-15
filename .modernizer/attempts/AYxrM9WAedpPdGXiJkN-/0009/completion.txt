@@ -1,0 +1,25 @@
+ 
+Based on the provided context, the issue is that the table does not have a description. This can be resolved by adding a caption to the table. Here is the modified code:
+
+```cshtml
+<table class="table table-hover table-bordered" id="categoryIndexTable">
+    <caption>Table of @Model.Category.Name</caption>
+    <thead>
+        <tr>
+            <th>Food</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model.Foods)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary",food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+APPROVE_CHANGES
