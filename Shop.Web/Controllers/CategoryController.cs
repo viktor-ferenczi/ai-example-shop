@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
@@ -29,8 +29,8 @@ namespace Shop.Web.Controllers
         //TODO data layer access directly from the web, this is wrong from design perspective
         public IActionResult LameIndex()
         {
-            var result = _context.Categories.Include(c => c.Foods)
-                .Select(category => new CategoryListingModel
+            var result = _categoryService.GetAll().
+                Select(category => new CategoryListingModel
                 {
                     Name = category.Name,
                     Description = category.Description,
