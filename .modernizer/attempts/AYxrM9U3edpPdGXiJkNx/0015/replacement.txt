@@ -1,0 +1,58 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Shop.Data.Models;
+using System;
+using System.Threading.Tasks;
+
+namespace Shop.Data.Seeds
+{
+    public class SeedRoles
+    {
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
+
+        public SeedRoles(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        {
+            _roleManager = roleManager;
+            _userManager = userManager;
+            _configuration = configuration;
+        }
+
+        public async Task CreateRoles()
+        {
+            string[] roleNames = { "Admin", "Customer" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await _roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var poweruser = new ApplicationUser
+            {
+                UserName = _configuration.GetSection("UserSettings")["UserEmail"],
+                Email = _configuration.GetSection("UserSettings")["UserEmail"],
+                ImageUrl = _configuration.GetSection("UserSettings")["ImageUrl"],
+                FirstName = _configuration.GetSection("UserSettings")["FirstName"]
+            };
+
+            string UserPassword = _configuration.GetSection("UserSettings")["UserPassword"];
+            var _user = await _userManager.FindByEmailAsync(_configuration.GetSection("UserSettings")["UserEmail"]);
+
+            if (_user == null)
+            {
+                var createPowerUser = await _userManager.CreateAsync(poweruser, UserPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(poweruser, "Admin");
+                }
+            }
+        }
+    }
+}

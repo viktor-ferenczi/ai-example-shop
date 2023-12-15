@@ -1,0 +1,67 @@
+ The issue reported is about the class `SeedRoles` not having a constructor or being static. This is a common issue in C# when you want to instantiate an object of a class. The error message is suggesting that you should either add a constructor or make the class static.
+
+Here is the corrected code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Shop.Data.Models;
+using System;
+using System.Threading.Tasks;
+
+namespace Shop.Data.Seeds
+{
+    public class SeedRoles
+    {
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
+
+        public SeedRoles(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        {
+            _roleManager = roleManager;
+            _userManager = userManager;
+            _configuration = configuration;
+        }
+
+        public async Task CreateRoles()
+        {
+            string[] roleNames = { "Admin", "Customer" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await _roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var poweruser = new ApplicationUser
+            {
+                UserName = _configuration.GetSection("UserSettings")["UserEmail"],
+                Email = _configuration.GetSection("UserSettings")["UserEmail"],
+                ImageUrl = _configuration.GetSection("UserSettings")["ImageUrl"],
+                FirstName = _configuration.GetSection("UserSettings")["FirstName"]
+            };
+
+            string UserPassword = _configuration.GetSection("UserSettings")["UserPassword"];
+            var _user = await _userManager.FindByEmailAsync(_configuration.GetSection("UserSettings")["UserEmail"]);
+
+            if (_user == null)
+            {
+                var createPowerUser = await _userManager.CreateAsync(poweruser, UserPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(poweruser, "Admin");
+                }
+            }
+        }
+    }
+}
+```
+
+In this corrected version, I have added a constructor that takes in the necessary dependencies and assigned them to private fields. This allows the class to be instantiated with the necessary dependencies. The `CreateRoles` method has also been changed to an instance method, so it can be called on an instance of `SeedRoles`.
