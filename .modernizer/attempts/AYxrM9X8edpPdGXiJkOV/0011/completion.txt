@@ -1,0 +1,50 @@
+ 
+
+1. The issue is related to the `loginModel` variable in the `Login` method of the `AccountController`. This variable is not used anywhere else in the code and is not necessary for the functionality of the method.
+
+2. The `loginModel` variable can be removed from the `Login` method. Here is the modified code:
+
+```cs
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Data;
+using Shop.Data.Extensions;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        // Other code...
+
+        public IActionResult Login(string returnUrl = "/")
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            returnUrl = returnUrl.Replace("%2F", "/");
+
+            var model = new AccountLoginModel
+            {
+                ReturnUrl = returnUrl
+            };
+
+            return View(model);
+        }
+
+        // Other code...
+    }
+}
+```
+
+APPROVE_CHANGES

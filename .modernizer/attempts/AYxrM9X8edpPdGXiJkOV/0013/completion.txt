@@ -1,0 +1,35 @@
+ 
+1. The issue reported is about an unused local variable 'loginModel' in the Login method. This variable is not used anywhere in the method and can be safely removed.
+
+2. Here is the modified source code:
+
+```cs
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Login(AccountLoginModel login)
+{
+    if (!ModelState.IsValid)
+    {
+        return View(login);
+    }
+
+    var user = await _userManager.FindByEmailAsync(login.Email);
+
+    if (user != null)
+    {
+        var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
+        if (result.Succeeded)
+        {
+            if (string.IsNullOrEmpty(login.ReturnUrl))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return Redirect(login.ReturnUrl);
+        }
+    }
+    ModelState.AddModelError("IncorrectInput", "Username or Password is incorrect");
+    return View(login);
+}
+```
+
+APPROVE_CHANGES
