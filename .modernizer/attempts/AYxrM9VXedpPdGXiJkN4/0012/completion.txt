@@ -1,0 +1,5 @@
+ APPROVE_CHANGES
+```cshtml
+<table class="table table-bordered table-striped table-hover table-dark" summary="Order details">
+```
+The `summary` attribute provides a short description of the table's content. This helps users understand the table's purpose and helps assistive technologies to provide a better experience for visually impaired users.

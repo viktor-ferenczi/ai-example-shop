@@ -1,0 +1,40 @@
+ 
+1. To resolve the issue, we need to first check if the role exists before trying to access its Id. This can be done by using the `FirstOrDefault()` method to check if the role exists before trying to access its Id.
+
+2. Here is the modified source code:
+
+```cs
+[Authorize]
+public async Task<IActionResult> Settings(string userId)
+{
+    ApplicationUser user;
+    if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+    {
+        user = await _userManager.FindByIdAsync(userId);
+        GetRoles();
+    }
+    else
+    {
+        user = await _userManager.GetUserAsync(User);
+    }
+
+    if (user != null)
+    {
+        string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+        var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+        string roleId = role != null ? role.Id : "";
+        var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+        return View(model);
+    }
+
+    return RedirectToAction("Index", "Home");
+}
+```
+
+3. Failure conditions:
+   - If the role does not exist, `role` will be null, and `roleId` will be an empty string.
+   - If the role exists, `role` will not be null, and `roleId` will be the Id of the role.
+   - If the role exists but the role name does not match any of the roles assigned to the user, `role` will be null, and `roleId` will be an empty string.
+   - If the role exists and the role name matches a role assigned to the user, `role` will not be null, and `roleId` will be the Id of the role.
+
+APPROVE_CHANGES

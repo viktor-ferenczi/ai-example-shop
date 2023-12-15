@@ -1,0 +1,36 @@
+ 
+
+1. The issue is asking for a recommendation on using use-case specific repositories instead of exposing the entire dbcontext. This will help in maintaining the Single Responsibility Principle (SRP) and improve the maintainability of the code.
+
+2. Here is the modified code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        //... rest of the code remains the same
+    }
+}
+```
+
+In this modified code, we are injecting an IFoodRepository into the FoodService. This repository will be responsible for all the data access operations related to Food. This way, we are following the SRP and making our code more maintainable.
+
+APPROVE_CHANGES

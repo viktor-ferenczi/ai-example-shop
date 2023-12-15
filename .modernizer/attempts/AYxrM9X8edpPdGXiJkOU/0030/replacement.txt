@@ -1,0 +1,25 @@
+[Authorize]
+public async Task<IActionResult> Settings(string userId)
+{
+    ApplicationUser user;
+    if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+    {
+        user = await _userManager.FindByIdAsync(userId);
+        GetRoles();
+    }
+    else
+    {
+        user = await _userManager.GetUserAsync(User);
+    }
+
+    if (user != null)
+    {
+        string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+        var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+        string roleId = role != null ? role.Id : "";
+        var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+        return View(model);
+    }
+
+    return RedirectToAction("Index", "Home");
+}

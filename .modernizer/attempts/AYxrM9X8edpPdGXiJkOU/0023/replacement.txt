@@ -1,0 +1,6 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+2. Code:
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;

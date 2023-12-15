@@ -1,0 +1,1 @@
+<table class="table table-bordered table-striped table-hover table-dark" summary="This table contains the details of each order line, including the selected amount, product, price, and subtotal.">

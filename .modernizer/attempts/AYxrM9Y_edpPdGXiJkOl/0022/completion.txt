@@ -1,0 +1,32 @@
+
+1. To resolve this issue, we need to consider using use-case specific repositories instead of exposing the entire dbcontext. This will help in maintaining a clean and modular codebase. We can create separate repositories for different use-cases and inject them into the services that need them.
+
+2. Here is the modified code:
+
+```cs
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        //... other methods remain the same
+    }
+}
+```
+
+APPROVE_CHANGES

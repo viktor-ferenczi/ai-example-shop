@@ -1,0 +1,30 @@
+public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+3. The modified code replaces the `Any` method with the `Exists` method in the `GetFilteredFoods` method. The rest of the code remains unchanged.
+
+4. The modified code does not introduce any new or unrelated changes to the functionality of the code. It only replaces the `Any` method with the `Exists` method in the `GetFilteredFoods` method. The rest of the code remains unchanged. Therefore, the changes are compatible with all existing functionality.
+
+APPROVE_CHANGES
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+        }

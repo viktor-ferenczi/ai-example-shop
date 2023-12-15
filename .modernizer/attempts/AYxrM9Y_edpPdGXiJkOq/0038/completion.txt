@@ -1,0 +1,36 @@
+ 
+The issue is with the LINQ query in the `GetFilteredFoods` method. The `Any` method is used, which checks if any item in the collection satisfies the condition. However, the `Contains` method is used, which checks if the entire string contains the specified substring. 
+
+To resolve this issue, we should replace the `Any` method with the `Contains` method. Here is the corrected code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+Should be replaced with:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Contains(item.Name.ToLower()));
+        }
+```
+
+APPROVE_CHANGES

@@ -1,0 +1,67 @@
+ 
+I understand the issue and the proposed solution. However, I need to clarify that the issue is not about the number of parameters in the method `GetFilteredOrders`. The issue is about the method having too many parameters, which is against the best practices of software development.
+
+The method `GetFilteredOrders` has 9 parameters, and it's considered a bad practice to have methods with many parameters. This is because it can make the method harder to understand, test, and maintain. Instead, it's better to use an object to encapsulate these parameters.
+
+Here is a proposed solution:
+
+```cs
+public class OrderFilter
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; }
+    public int Offset { get; set; }
+    public int Limit { get; set; }
+    public decimal? MinimalPrice { get; set; }
+    public decimal? MaximalPrice { get; set; }
+    public DateTime? MinDate { get; set; }
+    public DateTime? MaxDate { get; set; }
+    public string ZipCode { get; set; }
+}
+
+public interface IOrder
+{
+    // ...
+    IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+}
+```
+
+In this solution, we create a new class `OrderFilter` that encapsulates all the parameters of the `GetFilteredOrders` method. This makes the method easier to understand and use, and it also makes it easier to test and maintain.
+
+Please note that this solution assumes that the `OrderBy` enum is already defined. If it's not, you need to define it.
+
+APPROVE_CHANGES
+```cs
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+
+namespace Shop.Data
+{
+    public class OrderFilter
+    {
+        public string UserId { get; set; }
+        public OrderBy OrderBy { get; set; }
+        public int Offset { get; set; }
+        public int Limit { get; set; }
+        public decimal? MinimalPrice { get; set; }
+        public decimal? MaximalPrice { get; set; }
+        public DateTime? MinDate { get; set; }
+        public DateTime? MaxDate { get; set; }
+        public string ZipCode { get; set; }
+    }
+
+    public interface IOrder
+    {
+        void CreateOrder(Order order);
+        Order GetById(int orderId);
+        IEnumerable<Order> GetByUserId(string userId);
+        IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+        IEnumerable<Food> GetUserMostPopularFoods(string id);
+        IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+    }
+}
+```

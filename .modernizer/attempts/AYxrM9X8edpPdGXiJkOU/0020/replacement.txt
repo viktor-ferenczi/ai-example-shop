@@ -1,0 +1,6 @@
+string roleId = "";
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+if (role != null)
+{
+    roleId = role.Id;
+}

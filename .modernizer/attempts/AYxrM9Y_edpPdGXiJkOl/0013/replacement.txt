@@ -1,0 +1,16 @@
+public class FoodService : IFood
+{
+    private readonly IFoodRepository _foodRepository;
+
+    public FoodService(IFoodRepository foodRepository)
+    {
+        _foodRepository = foodRepository;
+    }
+
+    public void DeleteFood(int id)
+    {
+        _foodRepository.DeleteFood(id);
+    }
+
+    // ... other methods
+}

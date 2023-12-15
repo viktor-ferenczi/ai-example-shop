@@ -1,0 +1,48 @@
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        // other methods remain the same
+    }
+
+    public interface IFoodRepository
+    {
+        void DeleteFood(int id);
+        void EditFood(Food food);
+        IEnumerable<Food> GetAll();
+        Food GetById(int id);
+        IEnumerable<Food> GetFilteredFoods(int id, string searchQuery);
+        IEnumerable<Food> GetFilteredFoods(string q);
+        IEnumerable<Food> GetFoodsByCategoryId(int categoryId);
+        IEnumerable<Food> GetPreferred(int count);
+        void NewFood(Food food);
+    }
+
+    public class FoodRepository : IFoodRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FoodRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // implement the methods from IFoodRepository
+    }
+}

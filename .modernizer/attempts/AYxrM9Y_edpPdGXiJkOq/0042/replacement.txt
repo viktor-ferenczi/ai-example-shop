@@ -1,0 +1,7 @@
+return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+```
+
+Here is the modified code:
+
+```cs
+return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));

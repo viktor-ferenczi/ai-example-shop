@@ -1,0 +1,61 @@
+ 
+
+1. The plan to resolve this issue involves creating use-case specific repositories instead of exposing the entire dbcontext. This will help in maintaining a clear separation of concerns and improve the maintainability of the code.
+
+2. The use-case specific repositories can be created by creating interfaces for each use-case and then implementing these interfaces in separate repositories. The FoodService can then depend on these interfaces instead of the ApplicationDbContext.
+
+3. Here is the modified code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        // other methods remain the same
+    }
+
+    public interface IFoodRepository
+    {
+        void DeleteFood(int id);
+        void EditFood(Food food);
+        IEnumerable<Food> GetAll();
+        Food GetById(int id);
+        IEnumerable<Food> GetFilteredFoods(int id, string searchQuery);
+        IEnumerable<Food> GetFilteredFoods(string q);
+        IEnumerable<Food> GetFoodsByCategoryId(int categoryId);
+        IEnumerable<Food> GetPreferred(int count);
+        void NewFood(Food food);
+    }
+
+    public class FoodRepository : IFoodRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FoodRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // implement the methods from IFoodRepository
+    }
+}
+```
+
+APPROVE_CHANGES

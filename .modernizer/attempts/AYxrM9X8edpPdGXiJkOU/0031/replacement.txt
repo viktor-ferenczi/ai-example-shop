@@ -1,0 +1,23 @@
+string roleId;
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+if (role == null)
+{
+    await _roleManager.CreateAsync(new IdentityRole(roleName));
+    role = _roleManager.Roles.First(role => role.Name == roleName);
+}
+roleId = role.Id;
+```
+
+4. After making these changes, the code should function correctly, even if the role does not exist. It will create the role if it does not exist, and then retrieve the role's ID.
+
+APPROVE_CHANGES
+
+```cs
+string roleId;
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+if (role == null)
+{
+    await _roleManager.CreateAsync(new IdentityRole(roleName));
+    role = _roleManager.Roles.First(role => role.Name == roleName);
+}
+roleId = role.Id;

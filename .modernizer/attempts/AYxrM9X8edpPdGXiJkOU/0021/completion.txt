@@ -1,0 +1,13 @@
+ 
+
+1. The issue is caused by the `FirstOrDefault` method returning null when no matching role is found. To resolve this, we can add a null check before accessing the `Id` property.
+
+2. Here is the modified code:
+
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+3. The modified code checks if `FirstOrDefault` returns null before attempting to access the `Id` property. This prevents a `NullReferenceException` from being thrown when the role does not exist.
+
+4. APPROVE_CHANGES

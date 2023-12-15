@@ -1,0 +1,20 @@
+ 
+The issue reported is about using the `Any` method instead of the `Exists` method. The `Any` method is more general and can be used with any collection, while the `Exists` method is specific to the `List` class and checks if any element in the list satisfies a condition.
+
+Here is the revised code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+In this revised code, I have replaced the `Any` method with the `Exists` method. This should resolve the issue reported.

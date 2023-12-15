@@ -1,0 +1,63 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+if (roleId == null)
+{
+    // Handle the error, e.g. return an error message
+    return StatusCode(500, "Role not found");
+}
+```
+
+3. Here is the modified source code:
+
+```cs
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Data;
+using Shop.Data.Extensions;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        // ... other code ...
+
+        private async Task<IActionResult> Settings(string userId)
+        {
+            ApplicationUser user;
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+                GetRoles();
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+
+            if (user != null)
+            {
+                string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+                if (roleId == null)
+                {
+                    return StatusCode(500, "Role not found");
+                }
+                var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // ... other code ...
+    }
+}
