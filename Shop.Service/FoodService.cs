@@ -48,22 +48,22 @@ namespace Shop.Service
             return GetAll().FirstOrDefault(food => food.Id == id);
         }
 
-        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        public IEnumerable<Food> GetFilteredFoods(int id, string q)
         {
 
-            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            if (string.IsNullOrEmpty(q) || string.IsNullOrWhiteSpace(q))
             {
                 return GetFoodsByCategoryId(id);
             }
 
-            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+            return GetFilteredFoods(q).Where(food => food.Category.Id == id);
         }
 
         //TODO ambiguous method parameter naming
-        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        public IEnumerable<Food> GetFilteredFoods(string q)
         {
             const int defaultCount = 10;
-            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
             if (queries == null)
             {
                 return GetPreferred(defaultCount);

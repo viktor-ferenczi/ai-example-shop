@@ -1,0 +1,9 @@
+public IEnumerable<Food> GetFilteredFoods(int id, string query)
+{
+    if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
+    {
+        return GetFoodsByCategoryId(id);
+    }
+
+    return GetFilteredFoods(query).Where(food => food.Category.Id == id);
+}

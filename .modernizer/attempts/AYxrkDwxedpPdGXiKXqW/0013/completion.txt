@@ -1,0 +1,18 @@
+ 
+Based on the issue reported, the parameter name in the method `GetFilteredFoods` should be changed to `q` to match the interface declaration. Here is the modified code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+I have made the necessary changes to the parameter name in the method `GetFilteredFoods`. Please review the changes and let me know if you approve them.

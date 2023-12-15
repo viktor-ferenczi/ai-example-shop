@@ -1,0 +1,59 @@
+ 
+The issue at hand is about the method parameter naming in the `GetFilteredFoods` method. The method has two overloads, one with a single integer parameter and another with a string parameter. The integer parameter is `id` and the string parameter is `searchQuery`. This could lead to confusion as it's not immediately clear what each parameter represents.
+
+Here's a proposed solution:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+```
+
+In this solution, the `searchQuery` parameter is renamed to `filter` in the first overload, and the `id` parameter is renamed to `categoryId` in the second overload. This makes it more clear what each parameter represents and how they are used in the method.
+
+APPROVE_CHANGES
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string filter)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(filter) ? null : Regex.Replace(filter, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(categoryId);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+        }
+```
