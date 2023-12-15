@@ -1,0 +1,14 @@
+ 
+The issue reported is about the order of LINQ methods in the GetPreferred method. The "Where" method should be used before the "OrderByDescending" method. Here is the corrected code:
+
+```cs
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll()
+        .Where(food => food.IsPreferedFood && food.InStock != 0)
+        .OrderByDescending(food => food.Id)
+        .Take(count);
+}
+```
+
+APPROVE_CHANGES

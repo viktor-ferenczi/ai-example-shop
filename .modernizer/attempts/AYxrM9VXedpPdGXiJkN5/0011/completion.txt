@@ -1,0 +1,14 @@
+ 
+Based on the issue reported, the code block is as follows:
+
+```cshtml
+@if(!Model.MostPopularFoods.Any())
+```
+
+This change will replace the line:
+
+```cshtml
+@if(Model.MostPopularFoods.Count() == 0)
+```
+
+APPROVE_CHANGES

@@ -1,0 +1,10 @@
+ 
+The issue reported is about checking if the collection `Model.MostPopularFoods` is empty or not. The code provided is using the `Count()` method to check if the collection is empty, which is not the most efficient way. The `Count()` method iterates through the entire collection to count the number of elements, which can be slow for large collections. Instead, the `Any()` method can be used, which stops iterating as soon as it finds a matching element.
+
+Here is the corrected code:
+
+```cshtml
+                    @if(!Model.MostPopularFoods.Any())
+```
+
+This code will check if the `MostPopularFoods` collection is empty or not more efficiently.

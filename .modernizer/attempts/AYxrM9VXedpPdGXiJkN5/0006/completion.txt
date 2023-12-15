@@ -1,0 +1,10 @@
+ 
+The issue is raised because the `Model.MostPopularFoods` is an `IEnumerable<Shop.Web.Views.Food.FoodSummaryModel>` and the `Count()` method is used to check if it is empty. Instead, you can use the `Any()` method which is more readable and more efficient.
+
+Here's the corrected code:
+
+```cshtml
+                    @if(!Model.MostPopularFoods.Any())
+```
+
+This will check if `Model.MostPopularFoods` is empty or not.

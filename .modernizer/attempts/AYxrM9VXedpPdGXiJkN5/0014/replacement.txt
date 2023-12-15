@@ -1,0 +1,8 @@
+@if(Model.MostPopularFoods.Count() == 0)
+```
+
+The issue is that the `Count()` function is used to check if the `MostPopularFoods` collection is empty. Instead, the `Any()` function should be used to check if the collection contains any elements. This is because `Count()` will always return a non-negative number, even if the collection is empty, which may cause confusion.
+
+Here is the corrected code:
+```cshtml
+                    @if(!Model.MostPopularFoods.Any())
