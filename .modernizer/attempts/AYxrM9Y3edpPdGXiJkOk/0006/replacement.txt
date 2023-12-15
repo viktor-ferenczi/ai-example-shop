@@ -1,0 +1,25 @@
+public IEnumerable<Order> GetFilteredOrders(
+            string userId,
+            OrderBy orderBy = OrderBy.None,
+            int offset = 0, int limit = 10,
+            decimal? minimalPrice = null,
+            decimal? maximalPrice = null,
+            DateTime? minDate = null,
+            DateTime? maxDate = null,
+            string zipCode = null)
+```
+
+The issue is with the `userId` parameter. It should have a default value, but it's not specified in the original code.
+
+To resolve this issue, you can add a default value to the `userId` parameter. Here is the modified code:
+
+```cs
+public IEnumerable<Order> GetFilteredOrders(
+            string userId = null,
+            OrderBy orderBy = OrderBy.None,
+            int offset = 0, int limit = 10,
+            decimal? minimalPrice = null,
+            decimal? maximalPrice = null,
+            DateTime? minDate = null,
+            DateTime? maxDate = null,
+            string zipCode = null)

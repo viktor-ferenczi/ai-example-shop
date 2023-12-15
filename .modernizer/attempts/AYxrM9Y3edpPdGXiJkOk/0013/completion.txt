@@ -1,0 +1,53 @@
+ 
+The issue reported is related to a missing default parameter value in the `GetFilteredOrders` method. The `userId` parameter is missing a default value, which is causing the issue.
+
+Here's the corrected version of the `GetFilteredOrders` method:
+
+```cs
+public IEnumerable<Order> GetFilteredOrders(
+    string userId = null,
+    OrderBy orderBy = OrderBy.None,
+    int offset = 0, int limit = 10,
+    decimal? minimalPrice = null,
+    decimal? maximalPrice = null,
+    DateTime? minDate = null,
+    DateTime? maxDate = null,
+    string zipCode = null)
+{
+    var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+
+    if (orderBy != OrderBy.None)
+    {
+        SetOrderBy(orders, orderBy);
+    }
+
+    if (minimalPrice.HasValue)
+    {
+        orders = orders.Where(order => order.OrderTotal > minimalPrice);
+    }
+
+    if (maximalPrice.HasValue)
+    {
+        orders = orders.Where(order => order.OrderTotal > maximalPrice);
+    }
+
+    if (minDate.HasValue)
+    {
+        orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+    }
+
+    if (maxDate.HasValue)
+    {
+        orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+    }
+
+    if (!string.IsNullOrEmpty(zipCode))
+    {
+        orders = orders.Where(order => order.ZipCode == zipCode);
+    }
+
+    return orders.Skip(offset).Take(limit);
+}
+```
+
+I've added `string userId = null` as the default value for the `userId` parameter. Now, the method will work correctly even if no `userId` is provided.

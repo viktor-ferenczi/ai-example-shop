@@ -1,0 +1,34 @@
+ 
+The issue is with the method `SetOrderBy`, where the parameter `orders` is passed by value instead of by reference. This means that the `orders` variable inside the method is a local copy, and any changes made to it will not affect the original variable outside the method.
+
+To resolve this issue, we need to pass `orders` by reference, so any changes made to it inside the method will also affect the original variable.
+
+Here's the corrected code:
+
+```cs
+private void SetOrderBy(ref IEnumerable<Order> orders, OrderBy orderBy)
+{
+    switch (orderBy)
+    {
+        case OrderBy.DateDesc:
+            orders = orders.OrderByDescending(order => order.OrderPlaced);
+            break;
+        case OrderBy.DateAsc:
+            orders = orders.OrderBy(order => order.OrderPlaced);
+            break;
+        case OrderBy.PriceAsc:
+            orders = orders.OrderBy(order => order.OrderTotal);
+            break;
+        case OrderBy.PriceDesc:
+            orders = orders.OrderByDescending(order => order.OrderTotal);
+            break;
+        default: throw new NotImplementedException();
+    }
+}
+```
+
+And here's the approval message:
+
+```
+APPROVE_CHANGES
+```
