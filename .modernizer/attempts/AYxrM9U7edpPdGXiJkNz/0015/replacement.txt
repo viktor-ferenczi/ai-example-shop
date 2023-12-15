@@ -1,0 +1,9 @@
+public static class DbInitializer
+{
+    public static void Seed(IApplicationBuilder applicationBuilder)
+    {
+        // Rest of the code remains the same
+    }
+
+    // Rest of the class remains the same
+}

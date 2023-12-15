@@ -1,0 +1,4 @@
+public static class DbInitializer
+{
+    // Rest of the code...
+}
