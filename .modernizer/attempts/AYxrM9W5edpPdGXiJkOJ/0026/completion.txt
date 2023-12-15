@@ -1,0 +1,8 @@
+ 
+To resolve the issue, we need to add a description to the table. This can be done by adding the `summary` attribute to the `table` tag. Here is the modified code:
+
+```cshtml
+<table class="table table-hover" id="latestFoodsTable" summary="This table lists the latest foods available.">
+```
+
+APPROVE_CHANGES

@@ -1,0 +1,1 @@
+<table class="table table-hover" id="latestFoodsTable" summary="This table lists the latest foods available.">
