@@ -1,0 +1,5 @@
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
