@@ -1,0 +1,35 @@
+ 
+
+1. The issue is reported at the parameter `userId` in the method `GetByUserId(string userId)`. The issue is that the parameter is missing a default value. To resolve this, we can add a default value to the parameter.
+
+2. Here is the modified code:
+
+```cs
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
+```
+
+3. The modified code is:
+
+```cs
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
+```
+
+4. The modified code is:
+
+```cs
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
+```
+
+APPROVE_CHANGES

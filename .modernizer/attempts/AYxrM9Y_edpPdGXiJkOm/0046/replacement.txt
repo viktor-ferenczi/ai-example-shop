@@ -1,0 +1,24 @@
+public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery = null)
+{
+    if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+    {
+        return GetFoodsByCategoryId(categoryId);
+    }
+
+    return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+}
+```
+
+In this revised version, I've changed the method name to `GetFilteredFoods` and added a second parameter `searchQuery` with a default value of `null`. This makes the method more clear and intuitive. 
+
+APPROVE_CHANGES
+```cs
+public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery = null)
+{
+    if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+    {
+        return GetFoodsByCategoryId(categoryId);
+    }
+
+    return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+}

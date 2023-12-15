@@ -1,0 +1,6 @@
+public Order GetById(int orderId, string userId = null)
+```
+
+By adding a default value for the `userId` parameter, the static code analysis tool should no longer report the issue.
+
+APPROVE_CHANGES

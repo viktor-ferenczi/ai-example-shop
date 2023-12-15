@@ -1,0 +1,4 @@
+ 
+I'm sorry, but the issue you've mentioned seems to be missing context. The code you've provided does not contain any method that takes a parameter `userId` without a default value. The static code analysis tool is suggesting that you add a default value to the `userId` parameter in the `GetByUserId` method. However, there is no such method in the provided code.
+
+If you can provide more context or the specific method where the issue is occurring, I'd be glad to assist further.

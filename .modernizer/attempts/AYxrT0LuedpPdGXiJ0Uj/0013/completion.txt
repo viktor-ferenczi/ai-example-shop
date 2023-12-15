@@ -1,0 +1,3 @@
+ I'm sorry, but the code you provided does not contain any issue related to the UserManager variable. The issue you've mentioned is about an unread private field '_userManager', which is not present in the provided code. 
+
+If you have another issue related to the code, please provide the full context and the issue you're facing.

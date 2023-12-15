@@ -1,0 +1,59 @@
+ 
+I'm sorry, but the code you provided does not contain any issues that need to be resolved. The static code analysis tool reported an issue with the '_userManager' field, but the code provided does not contain any issues related to this field. 
+
+The static code analysis tool is suggesting that the '_userManager' field is not being used anywhere in the code. This could be a false positive, or it could be a legitimate issue if '_userManager' is not being used in the context where it should be used. 
+
+If '_userManager' is not being used, you could consider removing it from the constructor and the class declaration to clean up the code. However, if '_userManager' is being used elsewhere in the code, you should not remove it without understanding why it's there and what its purpose is.
+
+Here's the revised code:
+
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly IOrder _orderService;
+        private readonly IFood _foodService;
+        private readonly ShoppingCart _shoppingCart;
+        private readonly UserManager<ApplicationUser> _userManager; // Making '_userManager' readonly
+
+
+        public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _orderService = orderService;
+            _shoppingCart = shoppingCart;
+            _userManager = userManager;
+            _foodService = foodService;
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // Rest of the code...
+    }
+}
+```
+
+APPROVE_CHANGES

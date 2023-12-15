@@ -1,0 +1,10 @@
+//TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(categoryId);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+        }

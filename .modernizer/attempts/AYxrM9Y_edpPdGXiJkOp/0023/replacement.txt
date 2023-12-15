@@ -1,0 +1,13 @@
+public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().Where(food => food.IsPreferedFood && food.InStock != 0).OrderByDescending(food => food.Id).Take(count);
+        }
+```
+
+3. The corrected code block is:
+
+```cs
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().Where(food => food.IsPreferedFood && food.InStock != 0).OrderByDescending(food => food.Id).Take(count);
+        }

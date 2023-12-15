@@ -1,0 +1,53 @@
+ 
+Based on the provided context, the issue is related to a missing default parameter value in the `GetFilteredOrders` method. This method is called with a `userId` parameter, but it's not defined as optional in the method signature. 
+
+Here's the corrected code:
+
+```cs
+public IEnumerable<Order> GetFilteredOrders(
+    string userId = null,
+    OrderBy orderBy = OrderBy.None,
+    int offset = 0, int limit = 10,
+    decimal? minimalPrice = null,
+    decimal? maximalPrice = null,
+    DateTime? minDate = null,
+    DateTime? maxDate = null,
+    string zipCode = null)
+{
+    var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+
+    if (orderBy != OrderBy.None)
+    {
+        orders = SetOrderBy(orders, orderBy);
+    }
+
+    if (minimalPrice.HasValue)
+    {
+        orders = orders.Where(order => order.OrderTotal > minimalPrice);
+    }
+
+    if (maximalPrice.HasValue)
+    {
+        orders = orders.Where(order => order.OrderTotal > maximalPrice);
+    }
+
+    if (minDate.HasValue)
+    {
+        orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+    }
+
+    if (maxDate.HasValue)
+    {
+        orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+    }
+
+    if (!string.IsNullOrEmpty(zipCode))
+    {
+        orders = orders.Where(order => order.ZipCode == zipCode);
+    }
+
+    return orders.Skip(offset).Take(limit);
+}
+```
+
+By adding `string userId = null`, we make the `userId` parameter optional and provide a default value of `null`. This allows the method to be called without providing a `userId`, which was the issue.

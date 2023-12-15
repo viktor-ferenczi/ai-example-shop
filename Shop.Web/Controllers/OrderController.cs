@@ -18,14 +18,11 @@ namespace Shop.Web.Controllers
         private readonly IOrder _orderService;
         private readonly IFood _foodService;
         private readonly ShoppingCart _shoppingCart;
-        private readonly UserManager<ApplicationUser> _userManager; // Making '_userManager' readonly
-
 
         public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
             _shoppingCart = shoppingCart;
-            _userManager = userManager;
             _foodService = foodService;
         }
 

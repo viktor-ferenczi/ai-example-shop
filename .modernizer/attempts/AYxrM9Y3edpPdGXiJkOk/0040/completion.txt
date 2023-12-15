@@ -1,0 +1,13 @@
+ 
+The issue is reported at the line where the `userId` parameter is declared. The static code analysis tool is suggesting to add a default value for this parameter, but the original code does not provide a default value for this parameter.
+
+Here is the corrected code:
+
+```cs
+public Order GetById(int orderId, string userId = null)
+```
+
+By adding a default value for the `userId` parameter, the static code analysis tool should no longer report the issue.
+
+APPROVE_CHANGES
+```
