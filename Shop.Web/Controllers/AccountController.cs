@@ -1,4 +1,4 @@
-﻿using System.Reflection.Metadata;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -175,11 +175,6 @@ namespace Shop.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    var loginModel = new AccountLoginModel
-                    {
-                        Email = register.Email,
-                        Password = register.Password,
-                    };
                     await _userManager.AddToRoleAsync(user, "Customer");
                     if (!_signInManager.IsSignedIn(User))
                     {
