@@ -1,0 +1,86 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Data.Models
+{
+    public class ShoppingCart
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ShoppingCart(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public string Id { get; set; }
+        public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public static ShoppingCart GetCart(IServiceProvider services)
+        {
+            //TODO design issue: Data layer referencing web specific details 
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            var context = services.GetService<ApplicationDbContext>();
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+
+            session.SetString("CartId", cartId);
+            return new ShoppingCart(context) { Id = cartId };
+        }
+
+        //TODO design issue: returning bool, but no additional info if amount is invalid. View decides what error message to show
+        //TODO this is supposed to be application- or domain-level logic
+        //TODO too much branching
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            var isValidAmount = true;
+            if (shoppingCartItem == null)
+            {
+                if (amount > food.InStock)
+                {
+                    isValidAmount = false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                isValidAmount = IsValidAmount(food, shoppingCartItem, amount);
+                if (isValidAmount)
+                {
+                    shoppingCartItem.Amount += amount;
+                }
+                else
+                {
+                    shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
+                }
+            }
+
+
+            _context.SaveChanges();
+            return isValidAmount;
+        }
+
+        private bool IsValidAmount(Food food, ShoppingCartItem shoppingCartItem, int amount)
+        {
+            return food.InStock - shoppingCartItem.Amount - amount >= 0;
+        }
+
+        // Rest of the code remains the same
+    }
+}
