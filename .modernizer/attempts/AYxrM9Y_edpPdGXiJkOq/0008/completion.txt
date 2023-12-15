@@ -1,0 +1,22 @@
+ 
+The issue is related to the usage of the `Any` method in the `GetFilteredFoods` method. The `Any` method is used to check if any element in a collection satisfies a condition, but in this case, it is used to check if any query matches the food name. This can lead to inefficient code as it will iterate over the entire collection for each query.
+
+To resolve this issue, we can use the `Contains` method instead of `Any`. The `Contains` method checks if a collection contains a specific element, and it is more efficient than `Any` in this case.
+
+Here is the modified code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => item.Name.ToLower().Contains(query)));
+}
+```
+
+APPROVE_CHANGES

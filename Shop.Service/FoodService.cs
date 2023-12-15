@@ -48,15 +48,15 @@ namespace Shop.Service
             return GetAll().FirstOrDefault(food => food.Id == id);
         }
 
-        public IEnumerable<Food> GetFilteredFoods(int id, string q)
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
         {
 
-            if (string.IsNullOrEmpty(q) || string.IsNullOrWhiteSpace(q))
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
             {
                 return GetFoodsByCategoryId(id);
             }
 
-            return GetFilteredFoods(q).Where(food => food.Category.Id == id);
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
         }
 
         //TODO ambiguous method parameter naming
