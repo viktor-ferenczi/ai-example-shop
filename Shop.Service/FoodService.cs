@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 using System;
@@ -62,11 +62,12 @@ namespace Shop.Service
         //TODO ambiguous method parameter naming
         public IEnumerable<Food> GetFilteredFoods(string q)
         {
+            const int MAX_QUERY_LENGTH = 10;
             var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
             if (queries == null)
             {
                 //TODO magic number
-                return GetPreferred(10);
+                return GetPreferred(MAX_QUERY_LENGTH);
             }
 
             return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
