@@ -133,11 +133,11 @@ namespace Shop.Service
                 .Take(count);
         }
 
-        public IEnumerable<Food> GetUserMostPopularFoods(string userId)
+        public IEnumerable<Food> GetUserMostPopularFoods(string id)
         {
             Dictionary<Food, int> foods = new Dictionary<Food, int>();
 
-            var a = GetByUserId(userId);
+            var a = GetByUserId(id);
             foreach (var order in a)
             {
                 foreach (var line in order.OrderLines)
