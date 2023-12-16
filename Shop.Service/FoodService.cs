@@ -24,7 +24,7 @@ namespace Shop.Service
             var food = GetById(id);
             if (food == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"Food with ID {id} does not exist.");
             }
             _context.Remove(food);
             _context.SaveChanges();
