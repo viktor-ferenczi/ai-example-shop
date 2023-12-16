@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Data;
 using Shop.Data.Models;
@@ -23,7 +23,6 @@ namespace Shop.Data.Seeds
                     context.Categories.AddRange(Categories.Select(c => c.Value));
                 }
 
-                //context.Drinks.RemoveRange(context.Drinks);
                 if (!context.Foods.Any())
                 {
                     var foods = new Food[]
@@ -47,7 +46,7 @@ namespace Shop.Data.Seeds
                             InStock = 20,
                             IsPreferedFood = true,
                             ShortDescription = "Cauliflower is one of several vegetables in the species Brassica oleracea, in the family Brassicaceae.",
-                            LongDescription = "Cauliflower is a variety of cabbage, whose white flower head is eaten. Cauliflower is very nutritious, and may be eaten cooked, raw or pickled. It is a popular vegetable in Poland where it is eaten in a soup with cream or fried with bread crumbs.",
+                            LongDescription = "Cauliflower is very nutritious, and may be eaten cooked, raw or pickled. It is a popular vegetable in Poland where it is eaten in a soup with cream or fried with bread crumbs.",
                             Price = 5.3M
                         },
                         new Food
@@ -162,12 +161,6 @@ namespace Shop.Data.Seeds
                             Price = 4.4M
                         }
                     };
-
-
-                    //foreach (var food in foods)
-                    //{
-                    //    food.ImageUrl = $"/images/Foods/{food.Name}.png";
-                    //}
 
                     context.AddRange(foods);
                 }
