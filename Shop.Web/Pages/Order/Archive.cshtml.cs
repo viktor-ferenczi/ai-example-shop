@@ -21,9 +21,6 @@ namespace Shop.Web.Pages
         [BindProperty(SupportsGet = true)]
         public OrderArchiveModel Order { get; set; }
 
-        // [BindProperty(SupportsGet = true)]
-        // public int PageNumber { get; set; }
-
         public ArchiveModel(IOrder orderService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
