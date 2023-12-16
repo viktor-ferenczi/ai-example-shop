@@ -12,12 +12,16 @@ namespace Shop.Web
 {
     public class Program
     {
-        protected static void Main(string[] args)
+        protected Program()
+        {
+        }
+
+        public static void Main(string[] args)
         {
             BuildWebHost(args).Run();
         }
 
-        protected static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
