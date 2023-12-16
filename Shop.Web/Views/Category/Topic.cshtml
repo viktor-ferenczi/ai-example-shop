@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Category.CategoryTopicModel
+@model Shop.Web.Models.Category.CategoryTopicModel
 
 @using Microsoft.AspNetCore.Identity
 @using Shop.Data.Models
@@ -56,6 +56,13 @@
         @if (Model.Foods.Any())
         {
             <table class="table table-hover table-bordered" id="categoryIndexTable">
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Food Description</th>
+                        <th>Food Price</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach (var food in Model.Foods)
                     {
