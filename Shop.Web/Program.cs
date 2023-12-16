@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Shop.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        protected static void Main(string[] args)
         {
             BuildWebHost(args).Run();
         }
