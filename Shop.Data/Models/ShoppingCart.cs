@@ -43,7 +43,7 @@ namespace Shop.Data.Models
 
             var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
                 s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
-            var isValidAmount = true;
+            var isValidAmount = IsValidAmount(food, amount);
             if (shoppingCartItem == null)
             {
                 if (amount > food.InStock)
@@ -76,6 +76,25 @@ namespace Shop.Data.Models
 
             _context.SaveChanges();
             return isValidAmount;
+        }
+
+        public bool IsValidAmount(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            if (shoppingCartItem == null)
+            {
+                return amount <= food.InStock;
+            }
+            else
+            {
+                return food.InStock - shoppingCartItem.Amount - amount >= 0;
+            }
         }
 
         public int RemoveFromCart(Food food)
