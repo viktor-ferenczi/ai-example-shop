@@ -16,6 +16,13 @@
     <div class="row frontPageContent">
         <h3 id="latestFoods">Prefered products</h3>
         <table class="table table-hover" id="latestFoodsTable" aria-label="Latest Foods Table">
+            <thead>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach (var food in Model.FoodsList)
                 {
