@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Account.AccountProfileModel
+@model Shop.Web.Models.Account.AccountProfileModel
 @using System.Globalization
 
 
@@ -151,16 +151,19 @@
                     <p class="page-subtitle small">Most popular ordered products</p>
                 </div>
                 <div class="col-md-12">
-                    @if(Model.MostPopularFoods.Count() == 0)
+                    @if(Model.MostPopularFoods.Any())
+                    {
+                        <ul class="list-group">
+                            @foreach(var food in Model.MostPopularFoods)
+                            {
+                                <li class="list-group-item"><a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">@(food.Name)</a></li>
+                            }
+                        </ul>
+                    }
+                    else
                     {
                         <p>It looks like you havn't ordered anything yet...</p>
                     }
-                    <ul class="list-group">
-                        @foreach(var food in Model.MostPopularFoods)
-                        {
-                            <li class="list-group-item"><a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">@(food.Name)</a></li>
-                        }
-                    </ul>
                 </div>
             </div>
         </div>
