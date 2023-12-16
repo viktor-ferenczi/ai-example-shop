@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -123,5 +123,24 @@ namespace Shop.Data.Models
                 .Select(c => c.Food.Price * c.Amount).Sum();
         }
 
+        // New method to check if the amount is valid
+        private bool IsValidAmount(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            if (shoppingCartItem == null)
+            {
+                return amount <= food.InStock;
+            }
+            else
+            {
+                return food.InStock - shoppingCartItem.Amount - amount >= 0;
+            }
+        }
     }
 }
