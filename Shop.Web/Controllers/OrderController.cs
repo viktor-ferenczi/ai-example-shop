@@ -35,7 +35,7 @@ namespace Shop.Web.Controllers
         {
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
-            if (items.Count() == 0)
+            if (!items.Any())
             {
                 ModelState.AddModelError("", "Your cart is empty, add some items first");
                 return RedirectToAction("Index", "Home");
@@ -128,7 +128,7 @@ namespace Shop.Web.Controllers
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
 
-            if (items.Count() == 0)
+            if (!items.Any())
             {
                 ModelState.AddModelError("", "Your cart is empty, add some items first");
                 return RedirectToAction("Index", "Home");
