@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 using System;
@@ -13,7 +13,6 @@ namespace Shop.Service
     {
         private readonly ApplicationDbContext _context;
 
-        //TODO consider using use-case specific repositories instead of exposing the entire dbcontext
         public FoodService(ApplicationDbContext context)
         {
             _context = context;
@@ -50,7 +49,6 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
         {
-
             if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
             {
                 return GetFoodsByCategoryId(id);
@@ -59,7 +57,6 @@ namespace Shop.Service
             return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
         }
 
-        //TODO ambiguous method parameter naming
         public IEnumerable<Food> GetFilteredFoods(string q)
         {
             var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
