@@ -67,8 +67,7 @@ namespace Shop.Data.Models
                 }
                 else
                 {
-                    //TODO redundant parenthesis
-                    shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
+                    shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
                     isValidAmount = false;
                 }
             }
