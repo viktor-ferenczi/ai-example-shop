@@ -84,5 +84,10 @@ namespace Shop.Service
             _context.Add(food);
             _context.SaveChanges();
         }
+
+        public void CompleteTask()
+        {
+            // TODO: Complete the task associated to this 'TODO' comment.
+        }
     }
 }
