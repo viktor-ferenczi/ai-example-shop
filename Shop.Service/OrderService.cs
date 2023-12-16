@@ -53,14 +53,14 @@ namespace Shop.Service
                 .FirstOrDefault(order => order.Id == orderId);
         }
 
-        public IEnumerable<Order> GetByUserId(string id)
+        public IEnumerable<Order> GetByUserId(string userId)
         {
             return GetAll()
-                .Where(order => order.User.Id == id);
+                .Where(order => order.User.Id == userId);
         }
 
         public IEnumerable<Order> GetFilteredOrders(
-            string id,
+            string userId,
             OrderBy orderBy = OrderBy.None,
             int offset = 0, int limit = 10,
             decimal? minimalPrice = null,
@@ -69,7 +69,7 @@ namespace Shop.Service
             DateTime? maxDate = null,
             string zipCode = null)
         {
-            var orders = string.IsNullOrEmpty(id) ? GetAll() : GetByUserId(id);
+            var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
 
             if (orderBy != OrderBy.None)
             {
@@ -124,18 +124,18 @@ namespace Shop.Service
             }
         }
 
-        public IEnumerable<Order> GetUserLatestOrders(int count, string id)
+        public IEnumerable<Order> GetUserLatestOrders(int count, string userId)
         {
-            return GetByUserId(id)
+            return GetByUserId(userId)
                 .OrderByDescending(order => order.OrderPlaced)
                 .Take(count);
         }
 
-        public IEnumerable<Food> GetUserMostPopularFoods(string id)
+        public IEnumerable<Food> GetUserMostPopularFoods(string userId)
         {
             Dictionary<Food, int> foods = new Dictionary<Food, int>();
 
-            var a = GetByUserId(id);
+            var a = GetByUserId(userId);
             foreach (var order in a)
             {
                 foreach (var line in order.OrderLines)
