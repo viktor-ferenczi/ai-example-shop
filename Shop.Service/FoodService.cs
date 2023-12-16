@@ -76,7 +76,7 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetPreferred(int count)
         {
-            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+            return GetAll().Where(food => food.IsPreferedFood && food.InStock != 0).OrderByDescending(food => food.Id).Take(count);
         }
 
         public void NewFood(Food food)
