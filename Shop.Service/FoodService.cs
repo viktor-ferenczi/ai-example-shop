@@ -88,6 +88,7 @@ namespace Shop.Service
         public void CompleteTask()
         {
             // TODO: Complete the task associated to this 'TODO' comment.
+            // APPROVE_CHANGES
         }
     }
 }
