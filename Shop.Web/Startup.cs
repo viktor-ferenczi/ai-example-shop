@@ -16,6 +16,7 @@ using Shop.Data;
 using Shop.Data.Models;
 using Shop.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Shop.Web
 {
@@ -27,25 +28,14 @@ namespace Shop.Web
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("MSSqlConnection")));
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection")));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
-            }
+        
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
+            
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                options =>
@@ -73,11 +63,12 @@ namespace Shop.Web
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
-
-            services.AddMvc();
-            services.AddMemoryCache();
-            services.AddSession();
-        }
+            
+			services.AddMvc(options => { options.EnableEndpointRouting = false;});
+			services.AddMemoryCache();
+			services.AddSession();
+			
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
