@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
+using Shop.Tests.Tools;
 using Xunit;
 
 namespace Shop.Tests

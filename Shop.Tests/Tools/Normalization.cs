@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Shop.Tests;
+namespace Shop.Tests.Tools;
 
 public static class Normalization
 {

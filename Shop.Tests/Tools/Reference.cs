@@ -1,17 +1,18 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Text;
+using Shop.Tests.Tools;
 using Xunit;
 
-namespace Shop.Tests;
+namespace Shop.Tests.Tools;
 
 public class Reference
 {
     private readonly string _filename;
     private readonly Encoding _encoding;
 
-    private string TestsDir => @"C:\Dev\AI\Coding\example-shop\Shop.Tests";
-    private string OutputDir => Path.Combine(TestsDir, "Output");
+    private string ProjectDir => ProjectInfo.FindProjectDir();
+    private string OutputDir => Path.Combine(ProjectDir, "Output");
 
     private string ActualDir => Path.Combine(OutputDir, "Actual");
     private string ActualPath => Path.Combine(ActualDir, _filename);
@@ -23,9 +24,6 @@ public class Reference
     {
         _filename = filename;
         _encoding = encoding ?? Encoding.UTF8;
-
-        Assert.True(File.Exists(Path.Combine(TestsDir, $"{nameof(Reference)}.cs")),
-            $"Wrong TestsDir: {TestsDir}; Make sure to run the tests from the test project's directory.");
 
         Directory.CreateDirectory(OutputDir);
         Directory.CreateDirectory(ActualDir);
