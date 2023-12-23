@@ -401,3 +401,11 @@ FodyWeavers.xsd
 # Sonar scanner
 .sonarqube
 .scannerwork
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Test data
+Shop.Tests/Output/Actual/

@@ -14,10 +14,22 @@ namespace Shop.Tests
         }
 
         [Fact]
-        public async Task Get_returns_statusOK()
+        public async Task Get_Index_Status()
         {
             var response = await _webApp.Client.GetAsync("/");
-            Assert.Equal(HttpStatusCode.OK ,response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_Index_Content()
+        {
+            var response = await _webApp.Client.GetAsync("/");
+            var content = await response.Content.ReadAsStringAsync();
+
+            var normalizedContent = Normalization.NormalizePageContent(content);
+
+            var reference = new Reference("index.html");
+            reference.Verify(normalizedContent);
         }
     }
 }
