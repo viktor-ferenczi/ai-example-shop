@@ -4,11 +4,11 @@ using Xunit;
 
 namespace Shop.Tests
 {
-    public class SmokeTests : IClassFixture<WebAppFixture>
+    public class HomeIndexTests : IClassFixture<WebAppFixture>
     {
         private readonly WebAppFixture _webApp;
 
-        public SmokeTests(WebAppFixture webApp)
+        public HomeIndexTests(WebAppFixture webApp)
         {
             _webApp = webApp;
         }

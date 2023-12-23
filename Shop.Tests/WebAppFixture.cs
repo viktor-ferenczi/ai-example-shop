@@ -8,6 +8,7 @@ using Shop.Web;
 
 namespace Shop.Tests;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class WebAppFixture : IDisposable
 {
     private readonly TestServer _server;
