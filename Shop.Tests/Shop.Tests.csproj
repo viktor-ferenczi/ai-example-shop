@@ -25,4 +25,16 @@
       <ProjectReference Include="..\Shop.Web\Shop.Web.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Output\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Output\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Output\**" />
+    </ItemGroup>
+
 </Project>

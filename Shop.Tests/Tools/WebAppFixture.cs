@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Shop.Web;
 
-namespace Shop.Tests;
+namespace Shop.Tests.Tools;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class WebAppFixture : IDisposable
 {
     private readonly TestServer _server;
