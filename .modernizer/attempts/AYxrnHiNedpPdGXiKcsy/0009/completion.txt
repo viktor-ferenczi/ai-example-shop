@@ -1,0 +1,1 @@
+ I'm sorry, but the code provided does not contain any method parameter named 'q' that matches the interface declaration. The interface declaration is not provided in the context provided. Therefore, it's not possible to rename the parameter 'q' to 'searchQuery' as requested.

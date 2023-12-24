@@ -1,0 +1,84 @@
+
+1. Plan:
+   To resolve the issue, I will refactor the `AddToCart` method to extract the complex evaluation into a separate function. This will improve readability and maintainability of the code.
+
+2. Ignore:
+   No, I have all the necessary information to resolve this issue.
+
+3. Modified Code:
+```cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Data.Models
+{
+    public class ShoppingCart
+    {
+        // ...
+
+        //TODO design issue: returning bool, but no additional info if amount is invalid. View decides what error message to show
+        //TODO this is supposed to be application- or domain-level logic
+        //TODO too much branching
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            var isValidAmount = true;
+            if (shoppingCartItem == null)
+            {
+                if (amount > food.InStock)
+                {
+                    isValidAmount = false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                isValidAmount = UpdateShoppingCartItem(shoppingCartItem, food, amount);
+            }
+
+            _context.SaveChanges();
+            return isValidAmount;
+        }
+
+        private bool UpdateShoppingCartItem(ShoppingCartItem shoppingCartItem, Food food, int amount)
+        {
+            if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+            {
+                shoppingCartItem.Amount += amount;
+                return true;
+            }
+            else
+            {
+                shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
+                return false;
+            }
+        }
+
+        // ...
+    }
+}
+```
+
+4. Failure Conditions:
+   - The `AddToCart` method now only returns a boolean indicating if the amount is valid, but no additional information is provided if the amount is invalid.
+   - The complex evaluation in the `AddToCart` method has been extracted into a separate `UpdateShoppingCartItem` method, improving readability and maintainability of the code.
+   - The `UpdateShoppingCartItem` method now returns a boolean indicating if the amount is valid, allowing the `AddToCart` method to return an appropriate value.
+
+APPROVE_CHANGES

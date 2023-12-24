@@ -1,0 +1,30 @@
+//TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery, int categoryId)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))) && item.Category.Id == categoryId);
+        }
+```
+
+In this solution, I have renamed the second parameter to `categoryId`, which makes it clear that it's the ID of the category to filter the foods by.
+
+APPROVE_CHANGES
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery, int categoryId)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))) && item.Category.Id == categoryId);
+        }

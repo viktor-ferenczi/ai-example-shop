@@ -1,0 +1,39 @@
+{
+  "author": "viktor@ferenczi.eu",
+  "cleanCodeAttribute": "IDENTIFIABLE",
+  "cleanCodeAttributeCategory": "CONSISTENT",
+  "codeVariants": [],
+  "component": "Shop:Shop.Service/FoodService.cs",
+  "creationDate": "2023-12-15T04:53:41+01:00",
+  "debt": "10min",
+  "effort": "10min",
+  "flows": [],
+  "hash": "380e64be63565575fdc014b95add4ac2",
+  "impacts": [
+    {
+      "severity": "HIGH",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrnHiNedpPdGXiKcsy",
+  "line": 51,
+  "message": "Rename parameter 'q' to 'searchQuery' to match the interface declaration.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S927",
+  "scope": "MAIN",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "tags": [
+    "suspicious"
+  ],
+  "textRange": {
+    "endLine": 51,
+    "endOffset": 66,
+    "startLine": 51,
+    "startOffset": 65
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T04:53:41+01:00"
+}

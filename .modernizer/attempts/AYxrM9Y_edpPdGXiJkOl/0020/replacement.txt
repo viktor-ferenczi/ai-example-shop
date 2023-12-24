@@ -1,0 +1,33 @@
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(ApplicationDbContext context, IFoodRepository foodRepository)
+        {
+            _context = context;
+            _foodRepository = foodRepository;
+        }
+
+        // ... other methods remain the same ...
+
+        public IEnumerable<Food> GetAll()
+        {
+            return _foodRepository.GetAll()
+                .Include(food => food.Category);
+        }
+
+        // ... other methods remain the same ...
+    }
+}

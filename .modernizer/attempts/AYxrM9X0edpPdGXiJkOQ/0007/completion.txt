@@ -1,0 +1,44 @@
+ 
+
+1. The issue is raised because the `Count()` method is used to check if the `items` collection is empty. This method will iterate through the entire collection to count the number of items, which is not efficient for large collections. Instead, we can use the `Any()` method, which will stop as soon as it finds an item, making it more efficient.
+
+2. Here is the modified code:
+
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        // ...
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // ...
+    }
+}
+```
+
+APPROVE_CHANGES

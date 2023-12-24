@@ -1,0 +1,39 @@
+{
+  "author": "viktor@ferenczi.eu",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/OrderController.cs",
+  "creationDate": "2023-12-15T03:14:47+01:00",
+  "debt": "2min",
+  "effort": "2min",
+  "flows": [],
+  "hash": "3e5153389a7ecb904909c726e7dd90f4",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrQdJJedpPdGXiJst8",
+  "line": 22,
+  "message": "Make '_userManager' 'readonly'.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S2933",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "confusing"
+  ],
+  "textRange": {
+    "endLine": 22,
+    "endOffset": 57,
+    "startLine": 22,
+    "startOffset": 45
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T03:14:47+01:00"
+}

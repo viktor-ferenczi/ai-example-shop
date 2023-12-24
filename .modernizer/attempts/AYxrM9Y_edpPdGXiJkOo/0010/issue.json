@@ -1,0 +1,37 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "LOGICAL",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Service/FoodService.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "2min",
+  "effort": "2min",
+  "flows": [],
+  "hash": "808b6cc862a30409895d1583f254c256",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9Y_edpPdGXiJkOo",
+  "line": 27,
+  "message": "Use a constructor overloads that allows a more meaningful exception message to be provided.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S3928",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [],
+  "textRange": {
+    "endLine": 27,
+    "endOffset": 45,
+    "startLine": 27,
+    "startOffset": 22
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

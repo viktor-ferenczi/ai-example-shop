@@ -1,0 +1,55 @@
+ 
+Sure, I understand the issue and the code context. Here's how I would resolve it:
+
+1. The issue is about adding a description to the table. This is a minor issue, so I will add a description to the table.
+
+2. Here is the modified code:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Category.CategoryIndexModel
+@using Microsoft.AspNetCore.Identity
+@using Shop.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<h1>Food categories</h1>
+
+@if(User.IsInRole("Admin"))
+{
+    <div>
+        <a class="btn btn-block btn-default" asp-controller="Category" asp-action="New">New category</a>
+    </div>
+}
+@if(!Model.CategoryList.Any())
+{
+<h3>It looks like there are no categories right now...</h3>
+}
+else
+{
+    <table class="table table-hover" id="categoryIndexTable" aria-describedby="categoryIndexTableDescription">
+        <caption id="categoryIndexTableDescription">This table lists all the food categories available.</caption>
+        <tbody>
+            @foreach (var category in Model.CategoryList)
+            {
+                <tr>
+                    <td>
+                        
+                        <div class="categoryLogo" style="background-image: url(@category.ImageUrl); background-size:100%;"></div>
+                        <a class="btn btn-info" asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">
+                            @category.Name
+                        </a>
+                    </td>
+                    <td>
+                        @category.Description
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+```
+
+I added an `aria-describedby` attribute to the table, which references the `id` of a `caption` element that describes the table. This provides a description for the table to screen reader users.
+
+APPROVE_CHANGES

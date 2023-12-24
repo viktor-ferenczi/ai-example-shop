@@ -1,0 +1,10 @@
+
+I'm sorry, but the issue you've provided does not seem to be related to the provided source code. The issue is about a static field being assigned in a non-static context, which is not allowed in C#. This is a logical error, and it should be resolved by making the `_userManager` field static.
+
+Here's the corrected code:
+
+```cs
+private static UserManager<ApplicationUser> _userManager;
+```
+
+Please let me know if you need help with anything else.

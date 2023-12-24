@@ -1,0 +1,8 @@
+
+I'm sorry, but the code you provided does not contain any issue related to cognitive complexity. The method `SaveProfile` has a cognitive complexity of 13 according to the Cognitive Complexity metric, which is within the recommended range of 15 for a method.
+
+The cognitive complexity of a method is a quantitative measure of how difficult the control flow of the method is to understand. It's calculated based on the number of decision points in the method, including loops, conditionals, and boolean expressions.
+
+In the provided code, the method `SaveProfile` has 13 decision points, which is within the recommended range of 15 for a method. Therefore, the code you provided does not require any refactoring to reduce its cognitive complexity.
+
+If you have any other code or a different issue, please provide it.

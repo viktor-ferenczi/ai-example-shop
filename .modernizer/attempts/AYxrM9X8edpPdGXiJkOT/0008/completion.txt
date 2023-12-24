@@ -1,0 +1,88 @@
+ 
+
+1. The plan to refactor the `SaveProfile` method involves breaking down the method into smaller, more manageable methods. This will reduce the cognitive complexity of the method and make it easier to understand and maintain. Here is a potential plan:
+
+   - Extract the logic for password change into a separate method.
+   - Extract the logic for role change into a separate method.
+   - Extract the logic for updating the user into a separate method.
+   - Extract the logic for refreshing the login into a separate method.
+
+2. Here is the refactored code:
+
+```cs
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+        {
+            GetRoles();
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    await ChangePassword(user, model.OldPassword ?? "", model.NewPassword ?? "");
+                }
+
+                var role = _roleManager.Roles.First(r => r.Id == model.RoleId).Name;
+                await ChangeRole(user, role);
+
+                await UpdateUser(user);
+
+                await RefreshLogin(user);
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
+            }
+            return View("Settings", model);
+        }
+
+        private async Task ChangePassword(ApplicationUser user, string oldPassword, string newPassword)
+        {
+            if (string.IsNullOrEmpty(oldPassword))
+            {
+                ModelState.AddModelError("OldPassword", "Enter your current password to change it");
+                return;
+            }
+            if (string.IsNullOrEmpty(newPassword))
+            {
+                ModelState.AddModelError("NewPassword", "Enter your new password to change it");
+                return;
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                return;
+            }
+        }
+
+        private async Task ChangeRole(ApplicationUser user, string role)
+        {
+            var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            if (role != userRole)
+            {
+                await _userManager.RemoveFromRoleAsync(user, userRole);
+                await _userManager.AddToRoleAsync(user, role);
+            }
+        }
+
+        private async Task UpdateUser(ApplicationUser user)
+        {
+            await _userManager.UpdateAsync(user);
+        }
+
+        private async Task RefreshLogin(ApplicationUser user)
+        {
+            await HttpContext.RefreshLoginAsync();
+        }
+```
+
+APPROVE_CHANGES

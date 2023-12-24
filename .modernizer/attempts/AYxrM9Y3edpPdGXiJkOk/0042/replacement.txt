@@ -1,0 +1,25 @@
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
+```
+
+3. The modified code is:
+
+```cs
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}
+```
+
+4. The modified code is:
+
+```cs
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}

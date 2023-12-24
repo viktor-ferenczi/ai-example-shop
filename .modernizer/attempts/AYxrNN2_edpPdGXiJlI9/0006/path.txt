@@ -1,0 +1,1 @@
+C:\Dev\AI\Coding\example-shop\Shop.Web/Views/Home/Index.cshtml

@@ -1,0 +1,51 @@
+
+1. The issue at hand is related to the branching logic in the `AddToCart` method. The method currently has a lot of branching, which makes it hard to read and understand. 
+
+2. Here is the modified code:
+
+```cs
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            var isValidAmount = true;
+            if (shoppingCartItem == null)
+            {
+                if (amount > food.InStock)
+                {
+                    isValidAmount = false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                if (food.InStock - shoppingCartItem.Amount >= amount)
+                {
+                    shoppingCartItem.Amount += amount;
+                }
+                else
+                {
+                    shoppingCartItem.Amount = food.InStock;
+                    isValidAmount = false;
+                }
+            }
+
+            _context.SaveChanges();
+            return isValidAmount;
+        }
+```
+
+3. This modified code reduces the branching by combining the two branches into one. It also simplifies the condition for checking if the amount is valid.
+
+APPROVE_CHANGES

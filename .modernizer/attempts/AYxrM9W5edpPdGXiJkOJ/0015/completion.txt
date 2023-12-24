@@ -1,0 +1,20 @@
+
+The issue reported is about adding a description to the table. This can be achieved by adding a `caption` tag to the table. Here is the updated code:
+
+```cshtml
+<table class="table table-hover" id="latestFoodsTable">
+    <caption>Table Description: This is a table of prefered products</caption>
+    <tbody>
+        @foreach (var food in Model.FoodsList)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary", food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+APPROVE_CHANGES

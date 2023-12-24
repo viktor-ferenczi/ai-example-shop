@@ -1,0 +1,9 @@
+ 
+1. The issue is raised because the `_roleManager.Roles.FirstOrDefault(role => role.Name == roleName)` might return null if there is no role with the given name. To resolve this, we can add a null check before accessing the Id property.
+
+2. Here is the modified code:
+```cs
+                string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+APPROVE_CHANGES

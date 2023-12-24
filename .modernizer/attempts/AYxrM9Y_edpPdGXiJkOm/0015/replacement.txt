@@ -1,0 +1,28 @@
+public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+In this revised version, I've changed the parameter name from `q` to `searchQuery`, which makes it clearer what the method is searching for.
+
+APPROVE_CHANGES
+```cs
+public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}

@@ -1,0 +1,13 @@
+<table class="table table-hover" id="latestFoodsTable" aria-describedby="latestFoodsDescription">
+    <caption id="latestFoodsDescription">This table displays the most popular foods.</caption>
+    <tbody>
+        @foreach (var food in Model.FoodsList)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary", food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

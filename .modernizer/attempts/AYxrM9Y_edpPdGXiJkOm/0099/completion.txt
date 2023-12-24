@@ -1,0 +1,99 @@
+ 
+The issue with the ambiguous method parameter naming is not addressed in the current code. However, the code does not follow the best practices for method naming in .NET. The method names are not descriptive enough to understand what they do. 
+
+Here is the revised code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FoodService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public void DeleteFood(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new ArgumentException($"No food found with id: {id}");
+            }
+            _context.Remove(food);
+            _context.SaveChanges();
+        }
+
+        public void EditFood(Food food)
+        {
+            var model = _context.Foods.First(f => f.Id == food.Id);
+            _context.Entry<Food>(model).State = EntityState.Detached;
+            _context.Update(food);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Food> GetAllFoods()
+        {
+            return _context.Foods
+                .Include(food => food.Category);
+        }
+
+        public Food GetFoodById(int id)
+        {
+            return GetAllFoods().FirstOrDefault(food => food.Id == id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoodsByCategoryId(int id, string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
+        {
+            return GetAllFoods().Where(food => food.Category.Id == categoryId);
+        }
+
+        public IEnumerable<Food> GetPreferredFoods(int count)
+        {
+            return GetAllFoods().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+        }
+
+        public void AddNewFood(Food food)
+        {
+            _context.Add(food);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferredFoods(defaultCount);
+            }
+
+            return GetAllFoods().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+    }
+}
+```
+
+APPROVE_CHANGES

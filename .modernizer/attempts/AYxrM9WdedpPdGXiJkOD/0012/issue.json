@@ -1,0 +1,40 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "COMPLETE",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Views/Shared/_Layout.cshtml",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "ec8a662436fd4efe5a6e427792cdbfb9",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "RELIABILITY"
+    }
+  ],
+  "key": "AYxrM9WdedpPdGXiJkOD",
+  "line": 36,
+  "message": "Add an \"alt\" attribute to this image.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "Web:ImgWithoutAltCheck",
+  "scope": "MAIN",
+  "severity": "MINOR",
+  "status": "OPEN",
+  "tags": [
+    "accessibility",
+    "wcag2-a"
+  ],
+  "textRange": {
+    "endLine": 36,
+    "endOffset": 54,
+    "startLine": 36,
+    "startOffset": 12
+  },
+  "type": "BUG",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

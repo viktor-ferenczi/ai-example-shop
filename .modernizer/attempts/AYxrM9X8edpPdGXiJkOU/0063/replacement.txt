@@ -1,0 +1,29 @@
+string roleId;
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+if (role != null)
+{
+    roleId = role.Id;
+}
+else
+{
+    // Handle the situation where no role with the given name exists
+    // For example, we could throw an exception, log an error, or use a default role
+    throw new Exception($"No role with name {roleName} exists.");
+}
+```
+
+4. Here is the modified source code:
+
+```cs
+string roleId;
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+if (role != null)
+{
+    roleId = role.Id;
+}
+else
+{
+    throw new Exception($"No role with name {roleName} exists.");
+}
+
+var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);

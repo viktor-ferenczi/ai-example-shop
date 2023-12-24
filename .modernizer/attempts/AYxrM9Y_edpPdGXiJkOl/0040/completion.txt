@@ -1,0 +1,88 @@
+
+1. The problem with the current implementation is that the entire `ApplicationDbContext` is exposed to the `FoodService`, which is not a good practice as it can lead to potential security issues and also violates the principle of least privilege.
+
+2. To resolve this, we can create a repository interface for the `Food` entity and its implementation. This way, we can control which methods are exposed to the service, and we can also mock the repository in our unit tests.
+
+```cs
+//TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public interface IFoodRepository
+    {
+        Food GetById(int id);
+        IEnumerable<Food> GetAll();
+        void Add(Food food);
+        void Update(Food food);
+        void Delete(int id);
+    }
+
+    public class FoodRepository : IFoodRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FoodRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public void Delete(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new ArgumentException($"No food found with id: {id}");
+            }
+            _context.Remove(food);
+            _context.SaveChanges();
+        }
+
+        public void Update(Food food)
+        {
+            var model = _context.Foods.First(f => f.Id == food.Id);
+            _context.Entry<Food>(model).State = EntityState.Detached;
+            _context.Update(food);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Food> GetAll()
+        {
+            return _context.Foods
+                .Include(food => food.Category);
+        }
+
+        public Food GetById(int id)
+        {
+            return GetAll().FirstOrDefault(food => food.Id == id);
+        }
+
+        public void Add(Food food)
+        {
+            _context.Add(food);
+            _context.SaveChanges();
+        }
+    }
+
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _repository;
+
+        public FoodService(IFoodRepository repository)
+        {
+            _repository = repository;
+        }
+
+        //... other methods
+    }
+}
+```
+
+APPROVE_CHANGES

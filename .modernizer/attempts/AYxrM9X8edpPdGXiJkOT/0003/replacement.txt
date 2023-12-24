@@ -1,0 +1,65 @@
+public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+        {
+            GetRoles();
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    if (!ChangePassword(user, model.OldPassword ?? "", model.NewPassword ?? ""))
+                    {
+                        ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                }
+
+                if (!ChangeRole(user, model.RoleId))
+                {
+                    ModelState.AddModelError("Role", "Failed to change role");
+                    return View("Settings", model);
+                }
+
+                if (!UpdateUser(user))
+                {
+                    ModelState.AddModelError("Update", "Failed to update user");
+                    return View("Settings", model);
+                }
+
+                await HttpContext.RefreshLoginAsync();
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
+            }
+            return View("Settings", model);
+        }
+
+        private bool ChangePassword(ApplicationUser user, string oldPassword, string newPassword)
+        {
+            var result = _userManager.ChangePasswordAsync(user, oldPassword, newPassword).Result;
+            return result.Succeeded;
+        }
+
+        private bool ChangeRole(ApplicationUser user, string roleId)
+        {
+            var role = _roleManager.Roles.First(r => r.Id == roleId).Name;
+            var userRole = _userManager.GetRolesAsync(user).Result.FirstOrDefault();
+            if (role != userRole)
+            {
+                _userManager.RemoveFromRoleAsync(user, userRole).Wait();
+                _userManager.AddToRoleAsync(user, role).Wait();
+            }
+            return true;
+        }
+
+        private bool UpdateUser(ApplicationUser user)
+        {
+            _userManager.UpdateAsync(user).Wait();
+            return true;
+        }

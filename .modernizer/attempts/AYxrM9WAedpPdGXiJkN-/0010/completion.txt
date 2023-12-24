@@ -1,0 +1,33 @@
+ 
+
+1. Plan:
+   To add a description to this table, we need to add a `<caption>` element within the `<table>` tag. This element will contain a brief description of the table's content.
+
+2. Code:
+```cshtml
+<table class="table table-hover table-bordered" id="categoryIndexTable">
+    <caption>List of food items in the @Model.Category.Name category</caption>
+    <thead>
+        <tr>
+            <th>Food</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model.Foods)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary",food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+3. Failure Conditions:
+   - The `<caption>` element is added within the `<table>` tag.
+   - The `<caption>` element contains a brief description of the table's content.
+   - The description clearly states what category the food items belong to.
+
+APPROVE_CHANGES

@@ -1,0 +1,39 @@
+{
+  "author": "viktor@ferenczi.eu",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/DataMapper/Mapper.cs",
+  "creationDate": "2023-12-15T04:25:26+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "af3ba550c98ef931ba3c14d121c99b28",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrgo-IedpPdGXiKRXO",
+  "line": 152,
+  "message": "Remove this commented out code.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S125",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 152,
+    "endOffset": 12,
+    "startLine": 152,
+    "startOffset": 8
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T04:25:26+01:00"
+}

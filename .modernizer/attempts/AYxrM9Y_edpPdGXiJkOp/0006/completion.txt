@@ -1,0 +1,13 @@
+ 
+The issue is that the `OrderByDescending` method is being used before the `Where` method. This is incorrect because the `Where` method needs to be called before the `OrderByDescending` method. 
+
+Here is the corrected code:
+
+```cs
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().Where(food => food.IsPreferedFood && food.InStock != 0).OrderByDescending(food => food.Id).Take(count);
+        }
+```
+
+APPROVE_CHANGES

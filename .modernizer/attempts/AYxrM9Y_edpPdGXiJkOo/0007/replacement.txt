@@ -1,0 +1,29 @@
+using System;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        // ...
+
+        public void DeleteFood(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new FoodNotFoundException($"Food with id {id} not found.");
+            }
+            _context.Remove(food);
+            _context.SaveChanges();
+        }
+
+        // ...
+    }
+
+    public class FoodNotFoundException : ArgumentException
+    {
+        public FoodNotFoundException(string message) : base(message)
+        {
+        }
+    }
+}

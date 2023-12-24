@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Pages/Order/Archive.cshtml",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "670f7a21724135d5674b47e3d9c20ded",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9YYedpPdGXiJkOa",
+  "line": 133,
+  "message": "Remove this commented out code.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "Web:AvoidCommentedOutCodeCheck",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 133,
+    "endOffset": 52,
+    "startLine": 133,
+    "startOffset": 0
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T03:26:27+01:00"
+}

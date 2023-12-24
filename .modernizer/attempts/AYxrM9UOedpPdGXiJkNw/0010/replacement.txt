@@ -1,0 +1,10 @@
+//TODO redundant parenthesis
+        if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
+            isValidAmount = false;
+        }

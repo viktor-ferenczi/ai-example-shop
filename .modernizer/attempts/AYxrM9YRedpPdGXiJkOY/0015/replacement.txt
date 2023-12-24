@@ -1,0 +1,40 @@
+public async Task<IActionResult> OnGetAsync(int? pageNumber)
+{
+    ApplicationUser user;
+    if (!string.IsNullOrEmpty(Order.UserId) && User.IsInRole("Admin"))
+    {
+        user = await _userManager.FindByIdAsync(Order.UserId);
+    }
+    else
+    {
+        user = await _userManager.GetUserAsync(User);
+    }
+
+    if (!pageNumber.HasValue)
+    {
+        pageNumber = 1;
+    }
+
+    int orderInPage = 5;
+    int count = _orderService.GetByUserId(user.Id).Count();
+    int pageCount = (int)Math.Ceiling(count / (double)orderInPage);
+    var orders = _orderService.GetFilteredOrders(user.Id, OrderBy.None, (pageNumber.Value - 1) * orderInPage, orderInPage).ToList();
+    var models = _mapper.OrdersToOrderIndexModels(orders);
+
+    if (Order == null)
+    {
+        Order = new OrderArchiveModel
+        {
+            Orders = models,
+            Page = pageNumber.Value,
+            PageCount = pageCount,
+            UserId = user.Id,
+        };
+    }
+    else
+    {
+        Order.Orders = models;
+    }
+
+    return Page();
+}

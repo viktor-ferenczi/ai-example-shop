@@ -1,0 +1,47 @@
+ 
+
+1. The issue is related to the method `GetFilteredOrders` having too many parameters. This is a code smell, indicating that the method may be doing too much and could be refactored to be more modular and easier to maintain. Here is a step-by-step plan:
+
+   - Create a new class, say `OrderFilter`, which will encapsulate all the parameters of `GetFilteredOrders`.
+   - Move the parameters of `GetFilteredOrders` into the `OrderFilter` class.
+   - Change `GetFilteredOrders` to accept an instance of `OrderFilter` as its parameter.
+   - In the body of `GetFilteredOrders`, use the properties of `OrderFilter` to perform the filtering.
+
+2. Here is the modified source code:
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+
+namespace Shop.Data
+{
+    public class OrderFilter
+    {
+        public string UserId { get; set; }
+        public OrderBy OrderBy { get; set; } = OrderBy.None;
+        public int Offset { get; set; } = 0;
+        public int Limit { get; set; } = 10;
+        public decimal? MinimalPrice { get; set; } = null;
+        public decimal? MaximalPrice { get; set; } = null;
+        public DateTime? MinDate { get; set; } = null;
+        public DateTime? MaxDate { get; set; } = null;
+        public string ZipCode { get; set; } = null;
+    }
+
+    public interface IOrder
+    {
+        void CreateOrder(Order order);
+        Order GetById(int orderId);
+        IEnumerable<Order> GetByUserId(string userId);
+        IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+        IEnumerable<Food> GetUserMostPopularFoods(string id);
+        IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+    }
+}
+```
+
+APPROVE_CHANGES

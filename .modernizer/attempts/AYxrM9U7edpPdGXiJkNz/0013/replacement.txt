@@ -1,0 +1,7 @@
+namespace Shop.Data.Seeds
+{
+    internal class DbInitializer
+    {
+        // Rest of the code...
+    }
+}

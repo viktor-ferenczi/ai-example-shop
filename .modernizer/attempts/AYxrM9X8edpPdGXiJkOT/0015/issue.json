@@ -1,0 +1,152 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "FOCUSED",
+  "cleanCodeAttributeCategory": "ADAPTABLE",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "6min",
+  "effort": "6min",
+  "flows": [
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 251,
+            "endOffset": 14,
+            "startLine": 251,
+            "startOffset": 12
+          },
+          "msgFormattings": []
+        }
+      ]
+    },
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 256,
+            "endOffset": 18,
+            "startLine": 256,
+            "startOffset": 16
+          },
+          "msgFormattings": []
+        }
+      ]
+    },
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 257,
+            "endOffset": 22,
+            "startLine": 257,
+            "startOffset": 20
+          },
+          "msgFormattings": []
+        }
+      ]
+    },
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 260,
+            "endOffset": 22,
+            "startLine": 260,
+            "startOffset": 20
+          },
+          "msgFormattings": []
+        }
+      ]
+    },
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 265,
+            "endOffset": 22,
+            "startLine": 265,
+            "startOffset": 20
+          },
+          "msgFormattings": []
+        }
+      ]
+    },
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 272,
+            "endOffset": 22,
+            "startLine": 272,
+            "startOffset": 20
+          },
+          "msgFormattings": []
+        }
+      ]
+    },
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 281,
+            "endOffset": 18,
+            "startLine": 281,
+            "startOffset": 16
+          },
+          "msgFormattings": []
+        }
+      ]
+    },
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+          "textRange": {
+            "endLine": 292,
+            "endOffset": 18,
+            "startLine": 292,
+            "startOffset": 16
+          },
+          "msgFormattings": []
+        }
+      ]
+    }
+  ],
+  "hash": "52a0bb9cfc6ac9732a67fe324be69b12",
+  "impacts": [
+    {
+      "severity": "HIGH",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9X8edpPdGXiJkOT",
+  "line": 248,
+  "message": "Refactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S3776",
+  "scope": "MAIN",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "tags": [
+    "brain-overload"
+  ],
+  "textRange": {
+    "endLine": 248,
+    "endOffset": 52,
+    "startLine": 248,
+    "startOffset": 41
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

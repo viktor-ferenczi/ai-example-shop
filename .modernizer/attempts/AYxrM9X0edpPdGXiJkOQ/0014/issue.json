@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/OrderController.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "2min",
+  "effort": "2min",
+  "flows": [],
+  "hash": "aa3137c406c91acca0b39d0f210d1a07",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9X0edpPdGXiJkOQ",
+  "line": 38,
+  "message": "Use '.Any()' to test whether this 'IEnumerable<Shop.Data.Models.ShoppingCartItem>' is empty or not.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S1155",
+  "scope": "MAIN",
+  "severity": "MINOR",
+  "status": "OPEN",
+  "tags": [
+    "performance"
+  ],
+  "textRange": {
+    "endLine": 38,
+    "endOffset": 27,
+    "startLine": 38,
+    "startOffset": 22
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

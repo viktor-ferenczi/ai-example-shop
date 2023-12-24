@@ -1,0 +1,21 @@
+ 
+
+1. Here's a step-by-step plan for resolving the issue:
+   - The issue is that the code is checking if the shopping cart is empty by counting the number of items. This can be inefficient for large lists. Instead, we can use the `Any()` method which checks if there are any items in the list.
+   - We will replace `items.Count() == 0` with `items.Any()`.
+
+2. The code after the changes would look like this:
+```cs
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+```
+APPROVE_CHANGES

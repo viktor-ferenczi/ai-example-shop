@@ -1,0 +1,87 @@
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IRepository<Food> _foodRepository;
+
+        public FoodService(IRepository<Food> foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        public void DeleteFood(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new ArgumentException($"No food found with id: {id}");
+            }
+            _foodRepository.Delete(food);
+            _foodRepository.SaveChanges();
+        }
+
+        public void EditFood(Food food)
+        {
+            _foodRepository.Update(food);
+            _foodRepository.SaveChanges();
+        }
+        public IEnumerable<Food> GetAll()
+        {
+            return _foodRepository.GetAll()
+                .Include(food => food.Category);
+        }
+
+        public Food GetById(int id)
+        {
+            return _foodRepository.GetById(id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
+        {
+            return GetAll().Where(food => food.Category.Id == categoryId);
+        }
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+        }
+
+        public void NewFood(Food food)
+        {
+            _foodRepository.Add(food);
+            _foodRepository.SaveChanges();
+        }
+    }
+}

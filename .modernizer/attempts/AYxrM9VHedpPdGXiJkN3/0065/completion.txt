@@ -1,0 +1,44 @@
+ 
+1. The issue is that the method `GetFilteredOrders` has too many parameters. This violates the Single Responsibility Principle, making the method do too many things.
+
+2. One way to resolve this issue is to create a separate class that will handle the filtering logic. This class can take an instance of the `Order` class as a parameter and apply the filtering logic to it.
+
+3. Here is the modified code:
+
+```cs
+// TOP-MARKER
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+
+namespace Shop.Data
+{
+    public interface IOrder
+    {
+        void CreateOrder(Order order);
+        Order GetById(int orderId);
+        IEnumerable<Order> GetByUserId(string userId);
+        IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+        IEnumerable<Food> GetUserMostPopularFoods(string id);
+        IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+    }
+
+    public class OrderFilter
+    {
+        public string UserId { get; set; }
+        public OrderBy OrderBy { get; set; }
+        public int Offset { get; set; }
+        public int Limit { get; set; }
+        public decimal? MinimalPrice { get; set; }
+        public decimal? MaximalPrice { get; set; }
+        public DateTime? MinDate { get; set; }
+        public DateTime? MaxDate { get; set; }
+        public string ZipCode { get; set; }
+    }
+}
+```
+
+APPROVE_CHANGES

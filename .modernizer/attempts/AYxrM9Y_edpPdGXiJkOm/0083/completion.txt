@@ -1,0 +1,35 @@
+ 
+
+1. The issue is with method parameter naming in the `GetFilteredFoods` method. The method has two overloads with the same name but different parameters. This can lead to confusion and ambiguity.
+
+2. Here is the modified code:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+```
+
+I have renamed the second method parameter from `q` to `searchQuery` to make it more clear what the parameter represents.
+
+APPROVE_CHANGES

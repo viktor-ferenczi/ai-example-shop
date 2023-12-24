@@ -1,0 +1,41 @@
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+    var isValidAmount = true;
+    if (shoppingCartItem == null)
+    {
+        if (amount > food.InStock)
+        {
+            isValidAmount = false;
+        }
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = Math.Min(food.InStock, amount)
+        };
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        var remainingStock = food.InStock - shoppingCartItem.Amount;
+        if (remainingStock >= amount)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            shoppingCartItem.Amount += remainingStock;
+            isValidAmount = false;
+        }
+    }
+
+    _context.SaveChanges();
+    return isValidAmount;
+}

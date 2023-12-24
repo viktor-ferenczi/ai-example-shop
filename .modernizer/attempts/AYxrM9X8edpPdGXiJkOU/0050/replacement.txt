@@ -1,0 +1,55 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+This code uses the null-conditional operator (?.) to check if the result of `FirstOrDefault` is null before trying to access its Id property. If the result is null, the Id property will not be accessed and `roleId` will be set to null.
+
+3. Here is the modified source code:
+```cs
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Data;
+using Shop.Data.Extensions;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        // ...
+
+        [Authorize]
+        public async Task<IActionResult> Settings(string userId)
+        {
+            ApplicationUser user;
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+                GetRoles();
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+
+            if (user != null)
+            {
+                string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+                var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // ...
+    }
+}

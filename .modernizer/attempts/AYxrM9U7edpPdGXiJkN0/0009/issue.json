@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Data/Seeds/DbInitializer.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "e626b20b19ee0181c4c60dfc0000df6d",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9U7edpPdGXiJkN0",
+  "line": 26,
+  "message": "Remove this commented out code.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S125",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 26,
+    "endOffset": 61,
+    "startLine": 26,
+    "startOffset": 16
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

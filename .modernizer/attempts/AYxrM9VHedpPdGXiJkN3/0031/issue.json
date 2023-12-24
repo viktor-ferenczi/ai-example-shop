@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "FOCUSED",
+  "cleanCodeAttributeCategory": "ADAPTABLE",
+  "codeVariants": [],
+  "component": "Shop:Shop.Data/IOrder.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "20min",
+  "effort": "20min",
+  "flows": [],
+  "hash": "acd6f3dc089615a05e38bffe36d5bbbb",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9VHedpPdGXiJkN3",
+  "line": 17,
+  "message": "Method has 9 parameters, which is greater than the 7 authorized.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S107",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "brain-overload"
+  ],
+  "textRange": {
+    "endLine": 27,
+    "endOffset": 13,
+    "startLine": 17,
+    "startOffset": 44
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

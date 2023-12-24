@@ -1,0 +1,54 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "EFFICIENT",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Service/FoodService.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Service/FoodService.cs",
+          "textRange": {
+            "endLine": 82,
+            "endOffset": 45,
+            "startLine": 82,
+            "startOffset": 28
+          },
+          "msgFormattings": []
+        }
+      ]
+    }
+  ],
+  "hash": "723b62b20416ae61d7927e2a737d6b16",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9Y_edpPdGXiJkOp",
+  "line": 82,
+  "message": "\"Where\" should be used before \"OrderByDescending\"",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S6607",
+  "scope": "MAIN",
+  "severity": "MINOR",
+  "status": "OPEN",
+  "tags": [
+    "performance"
+  ],
+  "textRange": {
+    "endLine": 82,
+    "endOffset": 68,
+    "startLine": 82,
+    "startOffset": 63
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

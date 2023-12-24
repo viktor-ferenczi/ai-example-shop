@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/DataMapper/Mapper.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "2min",
+  "effort": "2min",
+  "flows": [],
+  "hash": "0fd27fcc57b03bb238871e2ac8631b9c",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9YledpPdGXiJkOc",
+  "line": 150,
+  "message": "Remove the unused private method 'OrderDetailsListingModelToOrderDetails'.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S1144",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 150,
+    "endOffset": 79,
+    "startLine": 150,
+    "startOffset": 41
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

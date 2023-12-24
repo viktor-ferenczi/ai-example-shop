@@ -1,0 +1,49 @@
+ 
+
+1. Plan:
+   To resolve the "magic number" issue, I will replace the magic number (10) with a constant. This will make the code more readable and maintainable. I will declare a constant at the top of the class with a descriptive name, like `PreferredFoodsCount`, and assign it the value 10. Then, I will replace the magic number in the `GetPreferred` method with `PreferredFoodsCount`.
+
+2. Code:
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private const int PreferredFoodsCount = 10;
+        private readonly ApplicationDbContext _context;
+
+        public FoodService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // ... other methods ...
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(PreferredFoodsCount);
+        }
+
+        // ... other methods ...
+    }
+}
+```
+
+3. Failure Conditions:
+   - The `GetPreferred` method still uses the magic number 10.
+   - The `PreferredFoodsCount` constant is not declared or used correctly.
+   - The `GetPreferred` method still uses the magic number 10 instead of `PreferredFoodsCount`.
+
+If all these conditions are not met, then I have successfully resolved the issue.
+
+APPROVE_CHANGES

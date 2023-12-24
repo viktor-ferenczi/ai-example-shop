@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 using System;
@@ -24,7 +24,7 @@ namespace Shop.Service
             var food = GetById(id);
             if (food == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"No food found with id: {id}");
             }
             _context.Remove(food);
             _context.SaveChanges();
@@ -60,13 +60,13 @@ namespace Shop.Service
         }
 
         //TODO ambiguous method parameter naming
-        public IEnumerable<Food> GetFilteredFoods(string q)
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
         {
-            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
             if (queries == null)
             {
-                //TODO magic number
-                return GetPreferred(10);
+                return GetPreferred(defaultCount);
             }
 
             return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));

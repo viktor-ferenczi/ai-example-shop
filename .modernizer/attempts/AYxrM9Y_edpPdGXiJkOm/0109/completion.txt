@@ -1,0 +1,32 @@
+ 
+The issue at hand is related to the method parameter naming in the `GetFilteredFoods` method. The method has two overloads, one with a single parameter and another with two parameters. The parameter in the second overload is ambiguous and could cause confusion.
+
+Here's a possible solution:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}
+
+public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+{
+    if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+    {
+        return GetFoodsByCategoryId(id);
+    }
+
+    return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+}
+```
+
+In this solution, I've renamed the ambiguous parameter in the second overload to `searchQuery` to make it clearer that it's the search query string.
+
+APPROVE_CHANGES

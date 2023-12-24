@@ -1,0 +1,11 @@
+ 
+The issue you're referring to is a common misunderstanding when using LINQ. The "Where" clause should come before the "OrderByDescending" clause in this case. Here's the corrected code:
+
+```cs
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().Where(food => food.IsPreferedFood && food.InStock != 0).OrderByDescending(food => food.Id).Take(count);
+        }
+```
+
+APPROVE_CHANGES

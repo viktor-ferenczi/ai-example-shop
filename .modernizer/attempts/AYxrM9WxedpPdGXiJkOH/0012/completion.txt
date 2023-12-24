@@ -1,0 +1,20 @@
+
+To resolve the issue, we can add a `<caption>` tag to the table. The `<caption>` tag provides a description for the table, which is particularly useful for visually impaired users. Here is the modified code:
+
+```cshtml
+<table class="table table-hover" id="latestFoodsTable">
+    <caption>List of search results</caption>
+    <tbody>
+        @foreach (var food in Model.FoodsList)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary", food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+APPROVE_CHANGES

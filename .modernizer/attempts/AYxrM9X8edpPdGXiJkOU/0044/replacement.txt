@@ -1,0 +1,8 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+In this modified version, if `role` is null, `?.Id` will return null instead of throwing an exception. This will prevent the NullReferenceException from occurring.
+
+APPROVE_CHANGES
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;

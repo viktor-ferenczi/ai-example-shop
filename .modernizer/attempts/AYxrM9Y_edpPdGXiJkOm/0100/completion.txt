@@ -1,0 +1,22 @@
+ 
+The issue with the method parameter naming is a bit ambiguous and could potentially cause confusion. It's not immediately clear what the `searchQuery` parameter in the `GetFilteredFoods` method is supposed to represent. 
+
+Here's a proposed solution:
+
+```cs
+        //TODO ambiguous method parameter naming
+        // We could rename the parameter to something more descriptive, like 'filterQuery' or 'searchTerms'.
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+APPROVE_CHANGES

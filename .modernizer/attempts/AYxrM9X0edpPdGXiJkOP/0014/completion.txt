@@ -1,0 +1,30 @@
+ 
+I'm sorry for any confusion, but the static code analysis tool you're referring to is not a part of the .NET Core framework. It's a tool provided by a third-party, and it's not clear from the context which one you're referring to. 
+
+However, based on the code you've provided, the issue with the static field `_userManager` is that it's being assigned a value in the constructor of the `OrderController`. This is not a good practice because static fields are shared across all instances of the class, which means that if multiple instances of the `OrderController` are created, they will all share the same `_userManager` value.
+
+To resolve this issue, you should make `_userManager` an instance field instead of a static field. This way, each instance of the `OrderController` will have its own `_userManager` value. Here's how you can modify the code:
+
+```cs
+public class OrderController : Controller
+{
+    private readonly IOrder _orderService;
+    private readonly IFood _foodService;
+    private readonly ShoppingCart _shoppingCart;
+    private readonly Mapper _mapper;
+    private UserManager<ApplicationUser> _userManager;
+
+    public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+    {
+        _orderService = orderService;
+        _shoppingCart = shoppingCart;
+        _userManager = userManager;
+        _foodService = foodService;
+        _mapper = new Mapper();
+    }
+
+    // Rest of the code...
+}
+```
+
+This change will ensure that each instance of `OrderController` has its own `_userManager` value, which is what you want in this case.

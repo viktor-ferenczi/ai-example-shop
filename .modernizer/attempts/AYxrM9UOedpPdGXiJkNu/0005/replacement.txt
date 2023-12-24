@@ -1,0 +1,49 @@
+public class ShoppingCart
+{
+    // ...
+
+    public (bool isValid, string message) AddToCart(Food food, int amount)
+    {
+        if (food.InStock == 0 || amount == 0)
+        {
+            return (false, "Invalid amount");
+        }
+
+        var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+            s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+        if (shoppingCartItem == null)
+        {
+            if (amount > food.InStock)
+            {
+                return (false, "Not enough stock");
+            }
+
+            shoppingCartItem = new ShoppingCartItem
+            {
+                ShoppingCartId = Id,
+                Food = food,
+                Amount = Math.Min(food.InStock, amount)
+            };
+
+            _context.ShoppingCartItems.Add(shoppingCartItem);
+        }
+        else
+        {
+            if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+            {
+                shoppingCartItem.Amount += amount;
+            }
+            else
+            {
+                shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
+                return (false, "Not enough stock");
+            }
+        }
+
+        _context.SaveChanges();
+        return (true, "Item added successfully");
+    }
+
+    // ...
+}

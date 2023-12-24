@@ -1,0 +1,35 @@
+ 
+The static code analysis is suggesting that using the `Any` method can be more efficient than using the `Contains` method in the `GetFilteredFoods` method. The `Contains` method is more suitable for collections, while the `Any` method is more suitable for queries.
+
+Here is the modified version of the `GetFilteredFoods` method:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => item.Name.ToLower().Contains(query)));
+}
+```
+
+In this version, the `Any` method is used instead of the `Contains` method in the lambda expression. This change should improve the performance of the method.
+
+APPROVE_CHANGES
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => item.Name.ToLower().Contains(query)));
+}
+```

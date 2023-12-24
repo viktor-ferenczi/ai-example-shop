@@ -1,0 +1,13 @@
+<table class="table table-hover" id="latestFoodsTable">
+    <caption>List of search results</caption>
+    <tbody>
+        @foreach (var food in Model.FoodsList)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary", food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

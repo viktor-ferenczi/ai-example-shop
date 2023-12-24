@@ -1,0 +1,33 @@
+IEnumerable<Order> GetFilteredOrders(
+            string userId = null,
+            OrderBy orderBy = OrderBy.None,
+            int offset = 0,
+            int limit = 10,
+            decimal? minimalPrice = null,
+            decimal? maximalPrice = null,
+            DateTime? minDate = null,
+            DateTime? maxDate = null,
+            string zipCode = null
+            );
+```
+
+This method is part of the `IOrder` interface, which is a good practice in .NET to keep interfaces small and focused. It allows for more flexibility and easier testing.
+
+If you want to reduce the number of parameters, you could consider using an object to encapsulate the parameters. This would also make the method signature more readable and easier to understand.
+
+Here is an example of how you could refactor the method:
+```cs
+public class OrderFilter
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; }
+    public int Offset { get; set; }
+    public int Limit { get; set; }
+    public decimal? MinimalPrice { get; set; }
+    public decimal? MaximalPrice { get; set; }
+    public DateTime? MinDate { get; set; }
+    public DateTime? MaxDate { get; set; }
+    public string ZipCode { get; set; }
+}
+
+IEnumerable<Order> GetFilteredOrders(OrderFilter filter);

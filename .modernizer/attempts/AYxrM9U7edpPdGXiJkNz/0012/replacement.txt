@@ -1,0 +1,8 @@
+public class DbInitializer
+{
+    protected DbInitializer()
+    {
+    }
+
+    // Rest of the code...
+}

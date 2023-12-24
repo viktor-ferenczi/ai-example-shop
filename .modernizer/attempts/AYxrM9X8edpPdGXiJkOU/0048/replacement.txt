@@ -1,0 +1,113 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+3. Here's the corrected source code:
+
+```cs
+// TOP-MARKER
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Data;
+using Shop.Data.Extensions;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly Mapper _mapper;
+        private readonly ShoppingCart _shoppingCart;
+        private readonly IOrder _orderService;
+
+        public AccountController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ShoppingCart shoppingCart, IOrder orderService)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
+            _mapper = new Mapper();
+            _shoppingCart = shoppingCart;
+            _orderService = orderService;
+        }
+
+        // ... other methods ...
+
+        private void GetRoles()
+        {
+            var roles = _roleManager.Roles.Select(role => new RoleDropdownModel
+            {
+                Id = role.Id,
+                Name = role.Name
+            });
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+        {
+            GetRoles();
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    if (string.IsNullOrEmpty(model.OldPassword))
+                    {
+                        ModelState.AddModelError("OldPassword", "Enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                    if (string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        ModelState.AddModelError("NewPassword", "Enter your new password to change it");
+                        return View("Settings", model);
+                    }
+
+                    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword ?? "", model.NewPassword ?? "");
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                }
+
+                string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == model.RoleName)?.Id;
+                var role = _roleManager.Roles.FirstOrDefault(r => r.Id == roleId);
+                var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                if (role != null && role.Name != userRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, userRole);
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+
+                await _userManager.UpdateAsync(user);
+
+                await HttpContext.RefreshLoginAsync();
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
+            }
+            return View("Settings", model);
+        }
+
+        // ... other methods ...
+    }
+}

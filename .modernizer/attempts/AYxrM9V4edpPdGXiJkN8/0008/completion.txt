@@ -1,0 +1,57 @@
+ 
+
+1. The issue is about adding a description to the table. The description should be added to the table tag.
+
+2. Here is the modified source code:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Category.CategoryIndexModel
+@using Microsoft.AspNetCore.Identity
+@using Shop.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<h1>Food categories</h1>
+
+@if(User.IsInRole("Admin"))
+{
+    <div>
+        <a class="btn btn-block btn-default" asp-controller="Category" asp-action="New">New category</a>
+    </div>
+}
+@if(!Model.CategoryList.Any())
+{
+<h3>It looks like there are no categories right now...</h3>
+}
+else
+{
+    <table class="table table-hover" id="categoryIndexTable" title="Table containing list of food categories">
+        <tbody>
+            @foreach (var category in Model.CategoryList)
+            {
+                <tr>
+                    <td>
+                        
+                        <div class="categoryLogo" style="background-image: url(@category.ImageUrl); background-size:100%;"></div>
+                        <a class="btn btn-info" asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">
+                            @category.Name
+                        </a>
+                    </td>
+                    <td>
+                        @category.Description
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+```
+
+3. Checking the failure conditions:
+   - The changes I made do fully resolve the issue as the title attribute has been added to the table tag.
+   - No related changes are missing from the code.
+   - No changes, additions or removals are made to code, data or comments not related to the issue.
+   - No part of the source code is replaced by a placeholder.
+
+APPROVE_CHANGES

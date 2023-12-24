@@ -1,0 +1,61 @@
+ 
+
+1. The problem with the current implementation is that the entire DbContext is exposed to the FoodService, which is not best practice. This can lead to potential security risks and also makes the code harder to maintain.
+
+2. A better approach would be to use a repository pattern, where each use-case has its own repository. This way, we can control what data each service can access, and also make our code more modular and easier to test.
+
+3. Here's the updated code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        //... other methods remain the same
+    }
+
+    public interface IFoodRepository
+    {
+        void DeleteFood(int id);
+        void EditFood(Food food);
+        IEnumerable<Food> GetAll();
+        Food GetById(int id);
+        IEnumerable<Food> GetFilteredFoods(int id, string searchQuery);
+        IEnumerable<Food> GetFilteredFoods(string q);
+        IEnumerable<Food> GetFoodsByCategoryId(int categoryId);
+        IEnumerable<Food> GetPreferred(int count);
+        void NewFood(Food food);
+    }
+
+    public class FoodRepository : IFoodRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FoodRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        //... implement the methods here
+    }
+}
+```
+
+APPROVE_CHANGES

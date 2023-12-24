@@ -1,0 +1,10 @@
+ 
+Apologies for any confusion, but the issue reported is not related to the provided code. The issue is about the '_userManager' field being declared as a non-readonly field, which is not a good practice. The code provided does not have any such issue.
+
+However, if you want to make the '_userManager' field readonly, you can modify the code as follows:
+
+```cs
+        private readonly UserManager<ApplicationUser> _userManager;
+```
+
+This change will ensure that the '_userManager' field cannot be modified after it has been initialized.

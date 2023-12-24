@@ -1,0 +1,23 @@
+ 
+
+1. The issue at hand is related to the method parameter naming in the `GetFilteredFoods` method. The method has two overloads, one with two parameters and another with one parameter. The two parameter method is ambiguous because it could be confused with the one parameter method.
+
+2. Here's the modified code:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery, int id = 0)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+```
+
+3. The changes I made are:
+   - I added a default value for the `id` parameter in the `GetFilteredFoods` method. This makes the method parameter naming unambiguous.
+
+```APPROVE_CHANGES```

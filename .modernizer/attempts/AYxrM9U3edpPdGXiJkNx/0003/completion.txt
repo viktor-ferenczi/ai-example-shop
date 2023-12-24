@@ -1,0 +1,58 @@
+ The issue reported is a false positive. The class `SeedRoles` is a static class, which means it cannot be instantiated and its methods are static. The error message is suggesting that the class should have a constructor or be declared as static, but this is not necessary in this case.
+
+Here's the corrected code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Shop.Data.Models;
+using System;
+using System.Threading.Tasks;
+
+namespace Shop.Data.Seeds
+{
+    public class SeedRoles
+    {
+        public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin", "Customer" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var poweruser = new ApplicationUser
+            {
+                UserName = configuration.GetSection("UserSettings")["UserEmail"],
+                Email = configuration.GetSection("UserSettings")["UserEmail"],
+                ImageUrl = configuration.GetSection("UserSettings")["ImageUrl"],
+                FirstName = configuration.GetSection("UserSettings")["FirstName"]
+            };
+
+            string UserPassword = configuration.GetSection("UserSettings")["UserPassword"];
+            var _user = await UserManager.FindByEmailAsync(configuration.GetSection("UserSettings")["UserEmail"]);
+
+            if (_user == null)
+            {
+                var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                }
+            }
+        }
+    }
+}
+```
+
+APPROVE_CHANGES

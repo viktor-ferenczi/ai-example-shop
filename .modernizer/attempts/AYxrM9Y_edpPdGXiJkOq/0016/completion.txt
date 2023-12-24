@@ -1,0 +1,22 @@
+ 
+The issue is that the `Any` method is used in the `GetFilteredFoods` method. The `Any` method checks if there is at least one element in the collection that satisfies the condition. However, in this case, we want to check if any of the queries match the food name. 
+
+The `Exists` method is more appropriate here because it stops iterating as soon as it finds a match, making it more efficient. 
+
+Here's the corrected code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+APPROVE_CHANGES

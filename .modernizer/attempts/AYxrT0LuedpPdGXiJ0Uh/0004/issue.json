@@ -1,0 +1,40 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/OrderController.cs",
+  "creationDate": "2023-12-15T03:29:24+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "0f0f5b808d47eb616fcd60457d356b05",
+  "impacts": [
+    {
+      "severity": "HIGH",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrT0LuedpPdGXiJ0Uh",
+  "line": 18,
+  "message": "Remove this unread private field '_orderService' or refactor the code to use its value.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S4487",
+  "scope": "MAIN",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "tags": [
+    "cwe",
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 18,
+    "endOffset": 45,
+    "startLine": 18,
+    "startOffset": 32
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T03:29:24+01:00"
+}

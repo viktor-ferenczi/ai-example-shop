@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "COMPLETE",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Data/Models/ShoppingCart.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "0min",
+  "effort": "0min",
+  "flows": [],
+  "hash": "15d05593090b53a266c6aee4afd6f2d7",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9UOedpPdGXiJkNv",
+  "line": 63,
+  "message": "Complete the task associated to this 'TODO' comment.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S1135",
+  "scope": "MAIN",
+  "severity": "INFO",
+  "status": "OPEN",
+  "tags": [
+    "cwe"
+  ],
+  "textRange": {
+    "endLine": 63,
+    "endOffset": 22,
+    "startLine": 63,
+    "startOffset": 18
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

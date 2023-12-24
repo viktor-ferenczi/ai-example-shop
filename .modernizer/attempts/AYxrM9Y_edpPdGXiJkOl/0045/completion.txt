@@ -1,0 +1,61 @@
+ 
+
+1. The plan to resolve this issue is as follows:
+   - Create a new interface `IFoodRepository` that will define the methods for accessing the Food data.
+   - Implement this interface in a new class `FoodRepository`. This class will use the `ApplicationDbContext` to access the Food data.
+   - Modify the `FoodService` to depend on the `IFoodRepository` interface instead of directly using the `ApplicationDbContext`.
+   - Update the constructor of `FoodService` to accept an instance of `IFoodRepository` instead of `ApplicationDbContext`.
+
+2. The code changes to resolve this issue are as follows:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public interface IFoodRepository
+    {
+        void DeleteFood(int id);
+        void EditFood(Food food);
+        IEnumerable<Food> GetAll();
+        Food GetById(int id);
+        void NewFood(Food food);
+    }
+
+    public class FoodRepository : IFoodRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FoodRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // Implement the methods from IFoodRepository
+        // ...
+    }
+
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        // Use the methods from IFoodRepository instead of directly using the ApplicationDbContext
+        // ...
+    }
+}
+```
+
+APPROVE_CHANGES

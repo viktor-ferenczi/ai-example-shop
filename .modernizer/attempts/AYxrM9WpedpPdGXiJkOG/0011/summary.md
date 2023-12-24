@@ -1,0 +1,437 @@
+# ISSUE
+```json
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Views/ShoppingCart/Index.cshtml",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "2min",
+  "effort": "2min",
+  "flows": [],
+  "hash": "828180ef128439ccdf2a5af438666429",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9WpedpPdGXiJkOG",
+  "line": 51,
+  "message": "Use '.Any()' to test whether this 'IEnumerable<Shop.Data.Models.ShoppingCartItem>' is empty or not.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S1155",
+  "scope": "MAIN",
+  "severity": "MINOR",
+  "status": "OPEN",
+  "tags": [
+    "performance"
+  ],
+  "textRange": {
+    "endLine": 51,
+    "endOffset": 50,
+    "startLine": 51,
+    "startOffset": 45
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}
+```
+
+# PATH
+`C:\Dev\AI\Coding\example-shop\Shop.Web/Views/ShoppingCart/Index.cshtml`
+
+# ORIGINAL
+```cshtml
+@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
+@using System.Globalization
+
+<div class="row checkoutForm" style="margin-bottom:250px;">
+    <div style="background-color:rgba(248,248,248,0.6);">
+        <h2 >Your shopping cart 
+            <br/>Here are the products in your shopping cart.</h2>
+    </div>
+    <table class="table table-hover table-dark table-stripped table-bordered">
+        <thead>
+            <tr>
+                <th>Selected amount</th>
+                <th>Product</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="text-center">@line.Amount</td>
+                    <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@line.Food.Name</a></td>
+                    <td class="text-right">@line.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td class="text-right">
+                        @((line.Amount * line.Food.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                    </td>
+                    <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="Remove" asp-route-foodId="@line.Food.Id"></a></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td class="text-right">
+                    @(Model.ShoppingCartTotal.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    @if(ViewBag.InvalidAmountText != null)
+    {
+        <div>
+            <p class="invalidAmount">@ViewBag.InvalidAmountText</p>
+        </div>
+    }
+    <div>
+        <a class="btn btn-back" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Back</a>
+    </div>
+    @if(Model.ShoppingCart.ShoppingCartItems.Count() != 0)
+    {
+        <div class="text-right" style="float:right">
+            <div class="btn-group ">
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Your cart is empty, add some items to order them</p>
+    }
+</div>
+
+
+```
+
+# SYSTEM
+MODEL ADOPTS ROLE OF CODEULATOR.
+[CONTEXT: U LOVE TO CODE!]
+[CODE]:
+1.[Fund]: 1a.CharId 1b.TskDec 1c.SynPrf 1d.LibUse 1e.CnAdhr 1f.OOPBas 
+2.[Dsgn]: 2a.AlgoId 2b.CdMod 2c.Optim 2d.ErrHndl 2e.Debug 2f.OOPPatt 
+3.[Tst]: 3a.CdRev 3b.UntTest 3c.IssueSpt 3d.FuncVer 3e.OOPTest 
+4.[QualSec]: 4a.QltyMet 4b.SecMeas 4c.OOPSecur 
+5.[QA]: 5a.QA 5b.OOPDoc 6.[BuiDep]: 6a.CI/CD 6b.ABuild 6c.AdvTest 6d.Deploy 6e.OOPBldProc 
+7.[ConImpPrac]: 7a.AgileRetr 7b.ContImpr 7c.OOPBestPr 
+8.[CodeRevAna]: 8a.PeerRev 8b.CdAnalys 8c-CdsOptim 8d.Docs 8e.OOPCdRev
+
+You are an expert C# developer working on an ASP.NET Service based on .NET Core.
+
+
+# INSTRUCTION
+Consider the following original source code from an ASP.NET service based on .NET Core:
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
+@using System.Globalization
+
+<div class="row checkoutForm" style="margin-bottom:250px;">
+    <div style="background-color:rgba(248,248,248,0.6);">
+        <h2 >Your shopping cart 
+            <br/>Here are the products in your shopping cart.</h2>
+    </div>
+    <table class="table table-hover table-dark table-stripped table-bordered">
+        <thead>
+            <tr>
+                <th>Selected amount</th>
+                <th>Product</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="text-center">@line.Amount</td>
+                    <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@line.Food.Name</a></td>
+                    <td class="text-right">@line.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td class="text-right">
+                        @((line.Amount * line.Food.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                    </td>
+                    <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="Remove" asp-route-foodId="@line.Food.Id"></a></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td class="text-right">
+                    @(Model.ShoppingCartTotal.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    @if(ViewBag.InvalidAmountText != null)
+    {
+        <div>
+            <p class="invalidAmount">@ViewBag.InvalidAmountText</p>
+        </div>
+    }
+    <div>
+        <a class="btn btn-back" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Back</a>
+    </div>
+    @if(Model.ShoppingCart.ShoppingCartItems.Count() != 0)
+    {
+        <div class="text-right" style="float:right">
+            <div class="btn-group ">
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Your cart is empty, add some items to order them</p>
+    }
+</div>
+
+
+```
+
+The static code analysis found this issue:
+```
+Use '.Any()' to test whether this 'IEnumerable<Shop.Data.Models.ShoppingCartItem>' is empty or not.
+```
+
+The issue is reported at these code lines, but it may involve other lines:
+```cshtml
+    @if(Model.ShoppingCart.ShoppingCartItems.Count() != 0)
+```
+
+- Issue category: CLEAR (INTENTIONAL)
+- Issue severity: MINOR
+
+
+Please ALWAYS honor ALL of these general rules while resolving the issue:
+- Work ONLY from the context provided, refuse to make any guesses.
+- Do NOT write any code if you do not have enough information in this context
+  to resolve the issue or you do not know how to fix it.
+- Do NOT use any kind of placeholders, always write out the full code.
+- Do NOT lose any of the original (intended) functionality, remove only the bug. 
+- Do NOT apologize.
+- Do NOT refer to your knowledge cut-off date.
+- Do NOT explain the code itself, we can read it as well.
+- Do NOT include excessive comments.
+- Do NOT remove original comments unrelated to the issue or the code modified.
+- Do NOT break the code's intended functionality.
+- Do NOT introduce any performance or security issues.
+- Do NOT change comments or string literals unrelated to your task.
+- Do NOT remove code (even if it is commented out or disabled) unless asked explicitly.
+- Do UPDATE comments which apply to code you have to change.
+- ALWAYS write code which is easily readable by humans.
+- If you are asked to remove code, then DO REMOVE it, not just comment it out.
+- If you are asked to remove commented out code, then DO REMOVE it. Do NOT uncomment it.
+
+
+Make sure the understand all the above, then work on resolving the issue by completing these steps:
+
+1. Take a deep breath and think about the problem. Provide a very concise,
+   step by step plan for resolving the issue. It will serve only for your 
+   reference and not part of the actual output.
+
+2. Stop here and ignore the rest of tasks if and only if you feel that
+   some crucial information is missing to properly solve the issue or
+   you do not know how to solve it. 
+
+3. Copy the WHOLE original source code with modifications to resolve the issue.
+   Your modifications should be concise and limited to the topic of the
+   issue. Do NOT modify any code, data or comments unrelated to the issue.
+   Do NOT attempt to fix or cleanup anything which is unrelated to the issue.
+   Make sure that your changes are compatible with all existing functionality.
+   Provide the modified source code in a SINGLE CODE BLOCK without the use of
+   any placeholders. Write out the full code, because it will replace the original.
+
+4. Check these failure conditions by reviewing the changes your made to the source code.
+   - Are the changes you made fail to fully resolve the issue?
+   - Have you missed any related changes humans would expect to be part as your issue resolution? 
+   - Have you made any changes, additions or removals to code, data or comments not related to the issue?
+   - Has any part of the source code replaced by a placeholder?
+   If the answer to all these questions are NO, then approve the code changes
+   by saying "APPROVE_CHANGES" and nothing else after the code block.
+   If you do not approve the changes, then provide a concise explanation why.    
+
+
+# PARAMS
+```json
+{
+  "number_of_completions": 16,
+  "max_tokens": 4712,
+  "temperature": 0.3
+}
+```
+
+# COMPLETION
+ 
+
+1. The issue is reported at the line where we are checking if the ShoppingCartItems collection is not empty. Instead of using the Count() method, we can use the Any() method which checks if there is at least one element in the collection.
+
+2. Here is the modified code:
+
+```cshtml
+    @if(Model.ShoppingCart.ShoppingCartItems.Any())
+```
+
+3. Here is the modified source code:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
+@using System.Globalization
+
+<div class="row checkoutForm" style="margin-bottom:250px;">
+    <div style="background-color:rgba(248,248,248,0.6);">
+        <h2 >Your shopping cart 
+            <br/>Here are the products in your shopping cart.</h2>
+    </div>
+    <table class="table table-hover table-dark table-stripped table-bordered">
+        <thead>
+            <tr>
+                <th>Selected amount</th>
+                <th>Product</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="text-center">@line.Amount</td>
+                    <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@line.Food.Name</a></td>
+                    <td class="text-right">@line.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td class="text-right">
+                        @((line.Amount * line.Food.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                    </td>
+                    <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="Remove" asp-route-foodId="@line.Food.Id"></a></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td class="text-right">
+                    @(Model.ShoppingCartTotal.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    @if(ViewBag.InvalidAmountText != null)
+    {
+        <div>
+            <p class="invalidAmount">@ViewBag.InvalidAmountText</p>
+        </div>
+    }
+    <div>
+        <a class="btn btn-back" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Back</a>
+    </div>
+    @if(Model.ShoppingCart.ShoppingCartItems.Any())
+    {
+        <div class="text-right" style="float:right">
+            <div class="btn-group ">
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Your cart is empty, add some items to order them</p>
+    }
+</div>
+```
+
+APPROVE_CHANGES
+```
+Hey, I'm sorry, but I'm an AI and I don't have a way to approve changes. However, the code provided should resolve the issue you've reported.
+
+
+# REPLACEMENT
+```cshtml
+@if(Model.ShoppingCart.ShoppingCartItems.Any())
+```
+
+3. Here is the modified source code:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
+@using System.Globalization
+
+<div class="row checkoutForm" style="margin-bottom:250px;">
+    <div style="background-color:rgba(248,248,248,0.6);">
+        <h2 >Your shopping cart 
+            <br/>Here are the products in your shopping cart.</h2>
+    </div>
+    <table class="table table-hover table-dark table-stripped table-bordered">
+        <thead>
+            <tr>
+                <th>Selected amount</th>
+                <th>Product</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="text-center">@line.Amount</td>
+                    <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@line.Food.Name</a></td>
+                    <td class="text-right">@line.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td class="text-right">
+                        @((line.Amount * line.Food.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                    </td>
+                    <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="Remove" asp-route-foodId="@line.Food.Id"></a></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td class="text-right">
+                    @(Model.ShoppingCartTotal.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    @if(ViewBag.InvalidAmountText != null)
+    {
+        <div>
+            <p class="invalidAmount">@ViewBag.InvalidAmountText</p>
+        </div>
+    }
+    <div>
+        <a class="btn btn-back" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Back</a>
+    </div>
+    @if(Model.ShoppingCart.ShoppingCartItems.Any())
+    {
+        <div class="text-right" style="float:right">
+            <div class="btn-group ">
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Your cart is empty, add some items to order them</p>
+    }
+</div>
+```
+
+APPROVE_CHANGES
+
+```
+
+ERROR: Replacement is missing the TOP_MARKER

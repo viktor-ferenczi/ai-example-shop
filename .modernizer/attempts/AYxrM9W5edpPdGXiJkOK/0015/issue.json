@@ -1,0 +1,40 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "COMPLETE",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Views/Home/Index.cshtml",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "2min",
+  "effort": "2min",
+  "flows": [],
+  "hash": "d32387d2cc6446f8bee5537de0aaaf87",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "RELIABILITY"
+    }
+  ],
+  "key": "AYxrM9W5edpPdGXiJkOK",
+  "line": 18,
+  "message": "Add \"<th>\" headers to this \"<table>\".",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "Web:S5256",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "accessibility",
+    "wcag2-a"
+  ],
+  "textRange": {
+    "endLine": 18,
+    "endOffset": 144,
+    "startLine": 18,
+    "startOffset": 8
+  },
+  "type": "BUG",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

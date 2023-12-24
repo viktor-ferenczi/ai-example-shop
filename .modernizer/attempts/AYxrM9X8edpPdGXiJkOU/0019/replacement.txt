@@ -1,0 +1,76 @@
+string roleId = "";
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+if (role != null)
+{
+    roleId = role.Id;
+}
+```
+
+3. After the modification, the code block would look like this:
+
+```cs
+// TOP-MARKER
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Data;
+using Shop.Data.Extensions;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        // ...
+
+        private void GetRoles()
+        {
+            var roles = _roleManager.Roles.Select(role => new RoleDropdownModel
+            {
+                Id = role.Id,
+                Name = role.Name
+            });
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Settings(string userId)
+        {
+            ApplicationUser user;
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+                GetRoles();
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+
+            if (user != null)
+            {
+                string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                string roleId = "";
+                var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+                if (role != null)
+                {
+                    roleId = role.Id;
+                }
+                var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // ...
+    }
+}

@@ -1,0 +1,44 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+
+if (roleId == null)
+{
+    // Handle the error or return a default value
+    // For example, we can return an empty string
+    roleId = "";
+}
+```
+
+4. Here is the modified source code:
+
+```cs
+public async Task<IActionResult> Settings(string userId)
+{
+    ApplicationUser user;
+    if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+    {
+        user = await _userManager.FindByIdAsync(userId);
+        GetRoles();
+    }
+    else
+    {
+        user = await _userManager.GetUserAsync(User);
+    }
+
+    if (user != null)
+    {
+        string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+        string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+
+        if (roleId == null)
+        {
+            // Handle the error or return a default value
+            // For example, we can return an empty string
+            roleId = "";
+        }
+
+        var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
+        return View(model);
+    }
+
+    return RedirectToAction("Index", "Home");
+}

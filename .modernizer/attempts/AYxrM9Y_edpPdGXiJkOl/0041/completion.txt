@@ -1,0 +1,36 @@
+ 
+
+1. The issue at hand is suggesting to consider using use-case specific repositories instead of exposing the entire DbContext. This would help in better organization and maintainability of the code.
+
+2. Here is the modified code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        // Other methods remain the same
+    }
+}
+```
+
+In the above code, we have replaced the ApplicationDbContext with an IFoodRepository. This is a good practice as it allows for better organization and maintainability of the code. The IFoodRepository would be responsible for interacting with the Food entity in the database. This way, we can isolate the Food-specific data access logic in the FoodRepository, and keep the FoodService focused on its core responsibilities.
+
+APPROVE_CHANGES

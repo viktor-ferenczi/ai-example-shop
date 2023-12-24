@@ -1,0 +1,34 @@
+ 
+
+1. To resolve the issue, we need to consider using use-case specific repositories instead of exposing the entire DbContext. This will help in maintaining a clean and organized code structure. We can create separate repositories for each use-case and inject them into the respective services. This will also make the code more modular and easier to maintain.
+
+2. Here is the modified code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        // Rest of the code remains the same
+    }
+}
+```
+
+APPROVE_CHANGES

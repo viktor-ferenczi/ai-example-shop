@@ -1,0 +1,22 @@
+ 
+Based on the provided context, the issue is related to the usage of the `Any` method in LINQ query. The `Any` method checks whether there is at least one element in a sequence that satisfies a condition. In this case, it is used to check if any query exists in the `queries` array that is contained in the `item.Name`.
+
+The static code analysis tool suggests using the `Exists` method, which is more efficient and readable. The `Exists` method stops iterating as soon as it finds the first element that satisfies the condition, while the `Any` method continues to iterate over the entire sequence.
+
+Here is the modified code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+APPROVE_CHANGES

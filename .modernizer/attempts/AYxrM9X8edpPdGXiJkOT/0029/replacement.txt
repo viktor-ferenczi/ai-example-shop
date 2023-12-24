@@ -1,0 +1,56 @@
+public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+{
+    GetRoles();
+    if (ModelState.IsValid)
+    {
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+        if (ShouldChangePassword(model))
+        {
+            var result = await ChangePassword(user, model);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                return View("Settings", model);
+            }
+        }
+
+        if (ShouldChangeRole(model, user))
+        {
+            await ChangeRole(model, user);
+        }
+
+        await _userManager.UpdateAsync(user);
+
+        await HttpContext.RefreshLoginAsync();
+
+        return RedirectToAction(user.IsInRole("Admin") ? "Profile" : "Profile", new { userId = user.Id });
+    }
+    return View("Settings", model);
+}
+
+private bool ShouldChangePassword(AccountSettingsModel model)
+{
+    return !string.IsNullOrEmpty(model.OldPassword)
+        || !string.IsNullOrEmpty(model.NewPassword)
+        || !string.IsNullOrEmpty(model.NewPasswordConfirmation);
+}
+
+private async Task<IdentityResult> ChangePassword(ApplicationUser user, AccountSettingsModel model)
+{
+    return await _userManager.ChangePasswordAsync(user, model.OldPassword ?? "", model.NewPassword ?? "");
+}
+
+private bool ShouldChangeRole(AccountSettingsModel model, ApplicationUser user)
+{
+    var role = _roleManager.Roles.First(r => r.Id == model.RoleId).Name;
+    var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+    return role != userRole;
+}
+
+private async Task ChangeRole(AccountSettingsModel model, ApplicationUser user)
+{
+    await _userManager.RemoveFromRoleAsync(user, userRole);
+    await _userManager.AddToRoleAsync(user, role);
+}

@@ -1,0 +1,22 @@
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll()
+        .Where(food => food.IsPreferedFood && food.InStock != 0)
+        .OrderByDescending(food => food.Id)
+        .Take(count);
+}
+```
+
+This code will first filter the foods based on whether they are preferred and in stock, then sort them in descending order by their ID, and finally take the first `count` number of foods.
+
+If you want to sort the foods in ascending order, you can replace `OrderByDescending` with `OrderBy`.
+
+APPROVE_CHANGES
+```cs
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll()
+        .Where(food => food.IsPreferedFood && food.InStock != 0)
+        .OrderBy(food => food.Id)
+        .Take(count);
+}

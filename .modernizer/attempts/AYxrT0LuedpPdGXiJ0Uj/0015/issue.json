@@ -1,0 +1,40 @@
+{
+  "author": "viktor@ferenczi.eu",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/OrderController.cs",
+  "creationDate": "2023-12-15T03:29:24+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "cb83398bb3a0e5fa4baa8538e7228f29",
+  "impacts": [
+    {
+      "severity": "HIGH",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrT0LuedpPdGXiJ0Uj",
+  "line": 21,
+  "message": "Remove this unread private field '_userManager' or refactor the code to use its value.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S4487",
+  "scope": "MAIN",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "tags": [
+    "cwe",
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 21,
+    "endOffset": 66,
+    "startLine": 21,
+    "startOffset": 54
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T03:29:24+01:00"
+}

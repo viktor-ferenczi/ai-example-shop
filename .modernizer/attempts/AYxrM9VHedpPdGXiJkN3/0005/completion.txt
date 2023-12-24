@@ -1,0 +1,48 @@
+ 
+Sure, here's a plan to resolve the issue:
+
+1. The method has too many parameters, which is a code smell. This can make the method difficult to read and understand.
+2. One approach to resolve this issue is to encapsulate the parameters into a separate class. This class can be used as a parameter to the method, reducing the number of parameters.
+3. The `GetFilteredOrders` method could be refactored to accept an instance of a `FilterOptions` class, which would contain all the filtering parameters.
+
+Here's the updated code:
+
+```cs
+// TOP-MARKER
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+
+namespace Shop.Data
+{
+    public interface IOrder
+    {
+        void CreateOrder(Order order);
+        Order GetById(int orderId);
+        IEnumerable<Order> GetByUserId(string userId);
+        IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+        IEnumerable<Food> GetUserMostPopularFoods(string id);
+        IEnumerable<Order> GetFilteredOrders(FilterOptions options);
+    }
+
+    public class FilterOptions
+    {
+        public string UserId { get; set; }
+        public OrderBy OrderBy { get; set; } = OrderBy.None;
+        public int Offset { get; set; } = 0;
+        public int Limit { get; set; } = 10;
+        public decimal? MinimalPrice { get; set; }
+        public decimal? MaximalPrice { get; set; }
+        public DateTime? MinDate { get; set; }
+        public DateTime? MaxDate { get; set; }
+        public string ZipCode { get; set; }
+    }
+}
+```
+
+I've created a new class `FilterOptions` to encapsulate the parameters. This change reduces the number of parameters in the `GetFilteredOrders` method and makes the method easier to read and understand.
+
+APPROVE_CHANGES

@@ -1,0 +1,24 @@
+public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(categoryId);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+        }
+```
+
+In the above modification, I have renamed the `id` parameter to `categoryId` to make it more clear that it is used to filter the food items by category.
+
+APPROVE_CHANGES
+```cs
+        public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(categoryId);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+        }

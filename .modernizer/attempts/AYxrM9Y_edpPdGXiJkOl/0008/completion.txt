@@ -1,0 +1,101 @@
+ 
+The original code is using the entire `ApplicationDbContext` in the `FoodService` class. This could lead to potential issues in the future if the service grows and becomes more complex. It would be better to use more specific repositories for each use case, which would make the code more modular and easier to maintain.
+
+Here's how you can refactor the code to use specific repositories for each use case:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+        private readonly ICategoryRepository _categoryRepository;
+
+        public FoodService(IFoodRepository foodRepository, ICategoryRepository categoryRepository)
+        {
+            _foodRepository = foodRepository;
+            _categoryRepository = categoryRepository;
+        }
+
+        //...
+
+        public void DeleteFood(int id)
+        {
+            var food = _foodRepository.GetById(id);
+            if (food == null)
+            {
+                throw new ArgumentException($"No food found with id: {id}");
+            }
+            _foodRepository.Delete(food);
+            _foodRepository.SaveChanges();
+        }
+
+        public void EditFood(Food food)
+        {
+            _foodRepository.Update(food);
+            _foodRepository.SaveChanges();
+        }
+        public IEnumerable<Food> GetAll()
+        {
+            return _foodRepository.GetAll()
+                .Include(food => food.Category);
+        }
+
+        public Food GetById(int id)
+        {
+            return _foodRepository.GetById(id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return _foodRepository.GetByCategoryId(id);
+            }
+
+            return _foodRepository.GetFiltered(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return _foodRepository.GetPreferred(defaultCount);
+            }
+
+            return _foodRepository.GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
+        {
+            return _foodRepository.GetByCategoryId(categoryId);
+        }
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return _foodRepository.GetPreferred(count);
+        }
+
+        public void NewFood(Food food)
+        {
+            _foodRepository.Add(food);
+            _foodRepository.SaveChanges();
+        }
+    }
+}
+```
+
+In this code, we are injecting specific repositories for `Food` and `Category` into the `FoodService`. This allows us to encapsulate the data access logic for each use case, making the code more modular and easier to maintain.

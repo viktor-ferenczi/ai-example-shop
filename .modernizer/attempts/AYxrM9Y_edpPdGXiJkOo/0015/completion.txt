@@ -1,0 +1,33 @@
+ 
+The issue reported is related to the exception message in the `DeleteFood` method. The current exception message is not meaningful and does not provide any information about the error that occurred. 
+
+Here is the modified code:
+
+```cs
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new ArgumentException($"Food with id {id} does not exist.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
+```
+
+In this modified code, we are providing a meaningful exception message when the food item does not exist. This message will help the caller of the `DeleteFood` method to understand what went wrong and how to fix it.
+
+APPROVE_CHANGES
+```cs
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new ArgumentException($"Food with id {id} does not exist.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
+```

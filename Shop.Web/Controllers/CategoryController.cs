@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
@@ -14,7 +14,6 @@ namespace Shop.Web.Controllers
     {
         private readonly ICategory _categoryService;
         private readonly IFood _foodService;
-        private readonly ApplicationDbContext _context;
         private readonly Mapper _mapper;
 
         public CategoryController(ICategory categoryService, IFood foodService,
@@ -22,29 +21,9 @@ namespace Shop.Web.Controllers
         {
             _categoryService = categoryService;
             _foodService = foodService;
-            _context = context; //this is wrong to pull infra into web
             _mapper = new Mapper();
         }
 
-        //TODO data layer access directly from the web, this is wrong from design perspective
-        public IActionResult LameIndex()
-        {
-            var result = _context.Categories.Include(c => c.Foods)
-                .Select(category => new CategoryListingModel
-                {
-                    Name = category.Name,
-                    Description = category.Description,
-                    Id = category.Id,
-                    ImageUrl = category.ImageUrl
-                });
-
-            var model = new CategoryIndexModel
-            {
-                CategoryList = result
-            };
-
-            return View("Index", model);
-        }
         public IActionResult Index()
         {
             var categories = _categoryService.GetAll().

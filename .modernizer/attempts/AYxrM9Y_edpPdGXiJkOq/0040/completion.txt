@@ -1,0 +1,24 @@
+ 
+The issue you're facing is related to the use of the `Any` method in LINQ. The `Any` method checks whether there is at least one element in a sequence that satisfies a condition. However, the `Exists` method is more efficient when it comes to checking whether a condition is true for any element in a collection.
+
+To resolve this issue, you can replace the `Any` method with the `Exists` method. The `Exists` method will stop iterating as soon as it finds an element that satisfies the condition, making it more efficient than the `Any` method.
+
+Here's the modified code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+In the above code, the `Any` method is replaced with the `Exists` method.
+
+APPROVE_CHANGES

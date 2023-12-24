@@ -1,0 +1,103 @@
+ 
+
+1. The plan is to replace the direct use of `ApplicationDbContext` with a more specific repository for food items. This will make the code more modular and easier to maintain.
+
+2. Here's the modified code:
+
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        //TODO consider using use-case specific repositories instead of exposing the entire dbcontext
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        public void DeleteFood(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new ArgumentException($"No food found with id: {id}");
+            }
+            _foodRepository.Delete(food);
+            _foodRepository.SaveChanges();
+        }
+
+        public void EditFood(Food food)
+        {
+            var model = _foodRepository.GetById(food.Id);
+            _foodRepository.Update(food);
+            _foodRepository.SaveChanges();
+        }
+        public IEnumerable<Food> GetAll()
+        {
+            return _foodRepository.GetAll()
+                .Include(food => food.Category);
+        }
+
+        public Food GetById(int id)
+        {
+            return _foodRepository.GetById(id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
+        {
+            return _foodRepository.GetFoodsByCategoryId(categoryId);
+        }
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return _foodRepository.GetPreferred(count);
+        }
+
+        public void NewFood(Food food)
+        {
+            _foodRepository.Add(food);
+            _foodRepository.SaveChanges();
+        }
+    }
+}
+```
+
+APPROVE_CHANGES
+
+Please note that I've replaced `ApplicationDbContext` with `IFoodRepository` and used the repository's methods instead of directly calling the context's methods. This is a common practice in ASP.NET Core to decouple the service layer from the data access layer.

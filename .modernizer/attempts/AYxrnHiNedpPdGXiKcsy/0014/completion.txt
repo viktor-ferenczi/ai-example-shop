@@ -1,0 +1,20 @@
+ 
+I'm sorry, but it seems there's a misunderstanding. The original source code does not contain any method parameter named 'q'. The method parameter named 'q' is in the method 'GetFilteredFoods(string q)'. 
+
+However, in the context of the issue, it seems the issue is with the parameter name in the method 'GetFilteredFoods(int id, string q)'. The issue is reported as 'Rename parameter 'q' to 'searchQuery' to match the interface declaration.'
+
+Here is the corrected code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+```
+
+Please note that this change only affects the parameter name in this specific method. All other methods and code remain unchanged.

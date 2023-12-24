@@ -1,0 +1,6 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+In this code, the null-conditional operator (`?.`) is used to check if the `FirstOrDefault` method returned null before trying to access the `Id` property. If the `FirstOrDefault` method returned null, the `Id` property access is skipped and `roleId` is set to null.
+
+APPROVE_CHANGES

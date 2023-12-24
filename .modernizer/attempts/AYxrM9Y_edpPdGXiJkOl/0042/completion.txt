@@ -1,0 +1,40 @@
+ 
+
+1. Plan:
+   To resolve this issue, we could use use-case specific repositories instead of exposing the entire dbcontext. This would make our service more modular and easier to maintain. We could create separate repositories for each use-case, each with its own set of methods for interacting with the database.
+
+2. Code:
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly IFoodRepository _foodRepository;
+
+        public FoodService(IFoodRepository foodRepository)
+        {
+            _foodRepository = foodRepository;
+        }
+
+        // ... other methods remain the same ...
+    }
+}
+```
+
+3. Check:
+   - The changes ensure that we are not exposing the entire dbcontext to the service.
+   - We have created a separate repository for food-related operations, which is more modular and easier to maintain.
+   - The service now depends on the IFoodRepository interface, which allows us to easily switch out the implementation of the repository without affecting the service.
+   - The service's methods remain the same, as they are not affected by this change.
+
+APPROVE_CHANGES

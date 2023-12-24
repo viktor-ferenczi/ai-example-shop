@@ -1,0 +1,7 @@
+<table class="table table-hover table-dark table-stripped table-bordered">
+    <caption>Description of the table</caption>
+    <thead>
+        <!-- Rest of the code -->
+    </thead>
+    <!-- Rest of the code -->
+</table>

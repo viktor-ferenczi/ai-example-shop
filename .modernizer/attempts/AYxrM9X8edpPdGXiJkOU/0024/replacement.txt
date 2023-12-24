@@ -1,0 +1,8 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+                if (roleId == null)
+                {
+                    // Handle the scenario when there is no role with the given name
+                    // This could be done by throwing an exception, logging the error, or returning a default value
+                    // For now, we'll just return an empty string
+                    roleId = "";
+                }

@@ -1,0 +1,19 @@
+ 
+I'm sorry, but the issue you've mentioned doesn't seem to be related to the provided code. The code provided is a class named `CategoryService` which is responsible for managing categories in a database context. The issue you've mentioned seems to be related to exception handling, which is not directly related to the code provided.
+
+However, if you want to improve the exception handling in this code, you could consider using a more meaningful exception. For instance, you could throw an `InvalidOperationException` with a custom message indicating that the category was not found. Here's how you could modify the `DeleteCategory` method:
+
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new InvalidOperationException($"Category with ID {id} was not found.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```
+
+This exception would provide a more informative message to the caller, helping them understand why the operation failed.

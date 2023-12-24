@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Account.AccountProfileModel
+@model Shop.Web.Models.Account.AccountProfileModel
 @using System.Globalization
 
 
@@ -73,6 +73,7 @@
                                 <div id="collapse-@item.GetHashCode()" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <table class="table table-bordered table-striped table-hover table-dark">
+                                            <caption>Order Details</caption>
                                             <thead>
                                                 <tr>
                                                     <th>Selected amount</th>
@@ -151,7 +152,7 @@
                     <p class="page-subtitle small">Most popular ordered products</p>
                 </div>
                 <div class="col-md-12">
-                    @if(Model.MostPopularFoods.Count() == 0)
+                    @if(!Model.MostPopularFoods.Any())
                     {
                         <p>It looks like you havn't ordered anything yet...</p>
                     }
@@ -165,4 +166,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

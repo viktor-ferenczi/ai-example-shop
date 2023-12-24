@@ -1,0 +1,63 @@
+ 
+Sure, I understand the issue and the rules. Here's a step-by-step plan to resolve the issue:
+
+1. Identify the table headers: The table currently lacks headers, which is a requirement for accessibility.
+2. Add the table headers: Add the appropriate headers to the table. In this case, we'll add headers for "Category" and "Description".
+
+Now, let's implement these changes:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Category.CategoryIndexModel
+@using Microsoft.AspNetCore.Identity
+@using Shop.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<h1>Food categories</h1>
+
+@if(User.IsInRole("Admin"))
+{
+    <div>
+        <a class="btn btn-block btn-default" asp-controller="Category" asp-action="New">New category</a>
+    </div>
+}
+@if(!Model.CategoryList.Any())
+{
+<h3>It looks like there are no categories right now...</h3>
+}
+else
+{
+    <table class="table table-hover" id="categoryIndexTable">
+        <caption>Table of food categories</caption>
+        <thead>
+            <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.CategoryList)
+            {
+                <tr>
+                    <td>
+                        
+                        <div class="categoryLogo" style="background-image: url(@category.ImageUrl); background-size:100%;"></div>
+                        <a class="btn btn-info" asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">
+                            @category.Name
+                        </a>
+                    </td>
+                    <td>
+                        @category.Description
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+```
+
+I've added the `<thead>` section with `<th>` elements for the headers, and wrapped the category and description in `<td>` elements within the `<tr>` elements of the `<tbody>` section. This ensures that the table is accessible and easy to understand.
+
+APPROVE_CHANGES

@@ -1,0 +1,5 @@
+public IEnumerable<Food> GetPreferred(int count)
+{
+    int preferredFoodCount = count;
+    return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(preferredFoodCount);
+}

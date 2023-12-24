@@ -1,0 +1,16 @@
+string roleId = string.Empty;
+if (!string.IsNullOrEmpty(roleName))
+{
+    roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+}
+```
+
+3. The modified code block:
+
+```cs
+string roleId = string.Empty;
+if (!string.IsNullOrEmpty(roleName))
+{
+    roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+}
+var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);

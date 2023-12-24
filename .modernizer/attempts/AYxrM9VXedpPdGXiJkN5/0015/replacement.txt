@@ -1,0 +1,8 @@
+@if(!Model.MostPopularFoods.Any())
+```
+
+This revised code will check if the `MostPopularFoods` collection is empty, and if it is, the condition will be true. The `Any()` method will return `true` if there is at least one element in the collection, and `false` if the collection is empty. This will provide the same functionality as the original code but in a more efficient manner.
+
+APPROVE_CHANGES
+```cshtml
+                    @if(!Model.MostPopularFoods.Any())

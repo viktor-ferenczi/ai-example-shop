@@ -1,0 +1,26 @@
+public void CreateOrder(Order order = null)
+{
+    order.OrderPlaced = DateTime.Now;
+
+    _context.Add(order);
+
+    var orderDetails = new List<OrderDetail>(_shoppingCart.ShoppingCartItems.Count());
+
+    foreach (var item in _shoppingCart.ShoppingCartItems)
+    {
+        orderDetails.Add(
+            new OrderDetail
+            {
+                OrderId = order.Id,
+                FoodId = item.Food.Id,
+                Amount = Math.Min(item.Amount, item.Food.InStock),
+                Price = item.Food.Price,
+                Food = item.Food
+            });
+        _context.Update(item.Food);
+        item.Food.InStock = Math.Max(item.Food.InStock - item.Amount, 0);
+    }
+
+    _context.OrderDetails.AddRange(orderDetails);
+    _context.SaveChanges();
+}

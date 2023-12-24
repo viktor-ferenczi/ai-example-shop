@@ -1,0 +1,1 @@
+ I'm sorry, but the issue you've provided does not seem to be related to the original source code you've provided. The static code analysis tool is reporting an issue with the '_userManager' field, but it's not clear how this relates to the original source code provided. Could you please provide more context or clarify the issue?

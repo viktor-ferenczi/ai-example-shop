@@ -1,0 +1,44 @@
+ 
+Based on the issue reported, the method `GetFilteredOrders` has more than 7 parameters which is against the recommended limit. 
+
+Here's a possible solution:
+
+```cs
+// TOP-MARKER
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+
+namespace Shop.Data
+{
+    public interface IOrder
+    {
+        void CreateOrder(Order order);
+        Order GetById(int orderId);
+        IEnumerable<Order> GetByUserId(string userId);
+        IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+        IEnumerable<Food> GetUserMostPopularFoods(string id);
+        IEnumerable<Order> GetFilteredOrders(FilterOptions filterOptions);
+    }
+
+    public class FilterOptions
+    {
+        public string UserId { get; set; }
+        public OrderBy OrderBy { get; set; }
+        public int Offset { get; set; }
+        public int Limit { get; set; }
+        public decimal? MinimalPrice { get; set; }
+        public decimal? MaximalPrice { get; set; }
+        public DateTime? MinDate { get; set; }
+        public DateTime? MaxDate { get; set; }
+        public string ZipCode { get; set; }
+    }
+}
+```
+
+In this solution, I have replaced the multiple parameters in `GetFilteredOrders` with a single `FilterOptions` object. This object encapsulates all the filter options and makes the method signature more manageable.
+
+APPROVE_CHANGES

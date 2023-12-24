@@ -1,0 +1,12 @@
+string roleId;
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+if (role != null)
+{
+    roleId = role.Id;
+}
+else
+{
+    // Handle the case when the role is not found
+    // For example, throw an exception or return a default value
+    throw new Exception($"Role with name {roleName} not found");
+}

@@ -1,0 +1,40 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/OrderController.cs",
+  "creationDate": "2023-12-15T03:29:24+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "492f3325f97f9e6120763ccf373f950c",
+  "impacts": [
+    {
+      "severity": "HIGH",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrT0LuedpPdGXiJ0Ui",
+  "line": 21,
+  "message": "Remove this unread private field '_mapper' or refactor the code to use its value.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S4487",
+  "scope": "MAIN",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "tags": [
+    "cwe",
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 21,
+    "endOffset": 39,
+    "startLine": 21,
+    "startOffset": 32
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T03:29:24+01:00"
+}

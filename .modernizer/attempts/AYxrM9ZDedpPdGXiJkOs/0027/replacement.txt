@@ -1,0 +1,15 @@
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"The category with id {id} does not exist.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```
+
+In this code, I have added a descriptive message to the `ArgumentException`. This message will provide a clear indication of what went wrong when the exception is thrown.
+
+APPROVE_CHANGES

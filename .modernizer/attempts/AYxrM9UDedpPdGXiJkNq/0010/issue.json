@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "IDENTIFIABLE",
+  "cleanCodeAttributeCategory": "CONSISTENT",
+  "codeVariants": [],
+  "component": "Shop:Shop.Data/ApplicationDbContext.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "10min",
+  "effort": "10min",
+  "flows": [],
+  "hash": "d56fcd69528864512e57cdddc08db255",
+  "impacts": [
+    {
+      "severity": "HIGH",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9UDedpPdGXiJkNq",
+  "line": 13,
+  "message": "Rename parameter 'modelBuilder' to 'builder' to match the base class declaration.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S927",
+  "scope": "MAIN",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "tags": [
+    "suspicious"
+  ],
+  "textRange": {
+    "endLine": 13,
+    "endOffset": 73,
+    "startLine": 13,
+    "startOffset": 61
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

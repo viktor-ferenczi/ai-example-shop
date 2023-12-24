@@ -1,0 +1,13 @@
+ 
+The issue is raised because the `Count()` method is used to check if the `MostPopularFoods` collection is empty. This can be replaced with the `Any()` method, which is more efficient and readable. Here is the revised code:
+
+```cshtml
+                    @if(!Model.MostPopularFoods.Any())
+```
+
+This revised code will check if the `MostPopularFoods` collection is empty, and if it is, the condition will be true. The `Any()` method will return `true` if there is at least one element in the collection, and `false` if the collection is empty. This will provide the same functionality as the original code but in a more efficient manner.
+
+APPROVE_CHANGES
+```cshtml
+                    @if(!Model.MostPopularFoods.Any())
+```

@@ -1,0 +1,83 @@
+ 
+
+1. The issue at hand is related to the branching logic in the `AddToCart` method. The method has too many branches and could be simplified.
+
+2. Here's a revised version of the `AddToCart` method:
+
+```cs
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = Math.Min(food.InStock, amount)
+        };
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        shoppingCartItem.Amount += Math.Min(food.InStock - shoppingCartItem.Amount, amount);
+    }
+
+    _context.SaveChanges();
+    return shoppingCartItem.Amount <= food.InStock;
+}
+```
+
+This version of the method reduces the branching by using `Math.Min` to determine the amount to add to the cart item. This simplifies the logic and makes it easier to understand. The method also now returns a boolean indicating whether the addition was successful, which was not the case before.
+
+3. Here's the modified source code:
+
+```cs
+namespace Shop.Data.Models
+{
+    public class ShoppingCart
+    {
+        // ... other code ...
+
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+            if (shoppingCartItem == null)
+            {
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                shoppingCartItem.Amount += Math.Min(food.InStock - shoppingCartItem.Amount, amount);
+            }
+
+            _context.SaveChanges();
+            return shoppingCartItem.Amount <= food.InStock;
+        }
+
+        // ... other code ...
+    }
+}
+```
+
+APPROVE_CHANGES

@@ -1,0 +1,29 @@
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+In this code, I replaced `Any` with `Exists` in the LINQ query. This will ensure that the query checks if at least one query exists in the item's name.
+
+APPROVE_CHANGES
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+}

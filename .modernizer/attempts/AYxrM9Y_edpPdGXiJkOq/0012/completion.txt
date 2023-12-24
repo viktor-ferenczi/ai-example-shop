@@ -1,0 +1,36 @@
+
+Based on the issue reported, the code can be optimized by using the `Contains` method instead of the `Any` extension. This is because the `Contains` method is more efficient and specifically designed for checking if a string contains a substring.
+
+Here is the optimized code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+The optimized code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+APPROVE_CHANGES

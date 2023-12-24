@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -22,7 +22,6 @@ namespace Shop.Data.Models
 
         public static ShoppingCart GetCart(IServiceProvider services)
         {
-            //TODO design issue: Data layer referencing web specific details 
             ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
             var context = services.GetService<ApplicationDbContext>();
             string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
@@ -31,9 +30,6 @@ namespace Shop.Data.Models
             return new ShoppingCart(context) { Id = cartId };
         }
 
-        //TODO design issue: returning bool, but no additional info if amount is invalid. View decides what error message to show
-        //TODO this is supposed to be application- or domain-level logic
-        //TODO too much branching
         public bool AddToCart(Food food, int amount)
         {
             if (food.InStock == 0 || amount == 0)
@@ -60,22 +56,25 @@ namespace Shop.Data.Models
             }
             else
             {
-                //TODO clean code: complex evaluation as an if predicate. Wrap it in a function
-                if (food.InStock - shoppingCartItem.Amount - amount >= 0)
-                {
-                    shoppingCartItem.Amount += amount;
-                }
-                else
-                {
-                    //TODO redundant parenthesis
-                    shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
-                    isValidAmount = false;
-                }
+                isValidAmount = UpdateShoppingCartItem(food, shoppingCartItem, amount);
             }
-
 
             _context.SaveChanges();
             return isValidAmount;
+        }
+
+        private bool UpdateShoppingCartItem(Food food, ShoppingCartItem shoppingCartItem, int amount)
+        {
+            if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+            {
+                shoppingCartItem.Amount += amount;
+                return true;
+            }
+            else
+            {
+                shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
+                return false;
+            }
         }
 
         public int RemoveFromCart(Food food)

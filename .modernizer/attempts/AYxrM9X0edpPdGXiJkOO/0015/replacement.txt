@@ -1,0 +1,11 @@
+public IActionResult Checkout()
+{
+    var items = _shoppingCart.GetShoppingCartItems();
+    _shoppingCart.ShoppingCartItems = items;
+    if (!items.Any())
+    {
+        ModelState.AddModelError("", "Your cart is empty, add some items first");
+        return RedirectToAction("Index", "Home");
+    }
+    return View();
+}

@@ -1,0 +1,10 @@
+ 
+I'm sorry, but the issue you've described is not related to the provided code. The code you've provided does not contain any issue related to the 'readonly' keyword for '_userManager'. The '_userManager' field is declared as a private field, which is not a violation of the 'readonly' keyword. The 'readonly' keyword is used to ensure that a field can only be assigned a value during its declaration or in the constructor of the class. 
+
+However, if you want to make the '_userManager' field 'readonly', you can do so by adding the 'readonly' keyword before its declaration. Here's how you can do it:
+
+```cs
+private readonly UserManager<ApplicationUser> _userManager;
+```
+
+Please note that this change will make the '_userManager' field immutable, meaning its value cannot be changed after it has been assigned.

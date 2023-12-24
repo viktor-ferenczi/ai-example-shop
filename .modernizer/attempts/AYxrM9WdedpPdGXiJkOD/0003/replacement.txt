@@ -1,0 +1,15 @@
+@using Microsoft.AspNetCore.Identity
+@using Shop.Data.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewBag.BodyClass = "bg1";
+}
+
+<!-- Rest of the source code... -->
+
+<img src="/images/logo.png" width="140px" alt="BuyNow - Online food store">
+
+<!-- Rest of the source code... -->

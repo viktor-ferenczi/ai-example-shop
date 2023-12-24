@@ -1,0 +1,22 @@
+
+The issue you're facing is about adding a description to the table. This can be done by adding a `<caption>` tag within the `<table>` tag. Here's how you can resolve it:
+
+```cshtml
+<table class="table table-hover" id="latestFoodsTable">
+    <caption>Search Results</caption>
+    <tbody>
+        @foreach (var food in Model.FoodsList)
+        {
+            <tr>
+                <td>
+                   @Html.Partial("FoodSummary", food) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+```
+
+In this code, I've added a `<caption>` tag with the text "Search Results". This will provide a description for the table, which is a more accessible way for screen readers and other assistive technologies to understand the table's purpose.
+
+Please let me know if you need further assistance.

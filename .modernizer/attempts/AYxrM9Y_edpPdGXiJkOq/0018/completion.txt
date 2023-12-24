@@ -1,0 +1,22 @@
+ 
+Based on the issue, it seems that the `Any` method is being used in a way that could potentially lead to inefficiency. The `Any` method checks if any element in the collection satisfies the condition and stops as soon as it finds a match. This can be inefficient if the collection is large and the condition is satisfied early. 
+
+Here's a potential solution:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Contains(item.Name.ToLower()));
+        }
+```
+
+In this solution, the `Any` method is replaced with the `Contains` method. The `Contains` method checks if the collection contains a specific value. This method will iterate through the entire collection until it finds a match or reaches the end of the collection, which can be more efficient than `Any` for large collections.
+
+APPROVE_CHANGES

@@ -1,0 +1,53 @@
+public class OrderFilter
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; } = OrderBy.None;
+    public int Offset { get; set; } = 0;
+    public int Limit { get; set; } = 10;
+    public decimal? MinimalPrice { get; set; } = null;
+    public decimal? MaximalPrice { get; set; } = null;
+    public DateTime? MinDate { get; set; } = null;
+    public DateTime? MaxDate { get; set; } = null;
+    public string ZipCode { get; set; } = null;
+}
+
+IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+```
+
+In this solution, the `GetFilteredOrders` method takes a single `OrderFilter` object as a parameter. This object encapsulates all the filter parameters, making the method easier to use and understand.
+
+APPROVE_CHANGES
+```cs
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+
+namespace Shop.Data
+{
+    public interface IOrder
+    {
+        void CreateOrder(Order order);
+        Order GetById(int orderId);
+        IEnumerable<Order> GetByUserId(string userId);
+        IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+        IEnumerable<Food> GetUserMostPopularFoods(string id);
+
+        public class OrderFilter
+        {
+            public string UserId { get; set; }
+            public OrderBy OrderBy { get; set; } = OrderBy.None;
+            public int Offset { get; set; } = 0;
+            public int Limit { get; set; } = 10;
+            public decimal? MinimalPrice { get; set; } = null;
+            public decimal? MaximalPrice { get; set; } = null;
+            public DateTime? MinDate { get; set; } = null;
+            public DateTime? MaxDate { get; set; } = null;
+            public string ZipCode { get; set; } = null;
+        }
+
+        IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+    }
+}

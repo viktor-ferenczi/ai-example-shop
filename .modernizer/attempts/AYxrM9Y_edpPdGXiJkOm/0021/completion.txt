@@ -1,0 +1,37 @@
+ 
+The issue at hand is related to the naming of the method parameter in the `GetFilteredFoods` method. The method has two overloads, one with a single integer parameter and the other with a string parameter. The issue is that the string parameter is not clear what it represents.
+
+Here's a proposed solution:
+
+```cs
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+To resolve this issue, we can rename the `searchQuery` parameter to something more descriptive, like `queryString`. Here's the updated code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string queryString)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(queryString) ? null : Regex.Replace(queryString, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+This change makes it clear that the `queryString` parameter is a string of queries that will be used to filter the foods.

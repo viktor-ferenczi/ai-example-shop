@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "COMPLETE",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/CategoryController.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "0min",
+  "effort": "0min",
+  "flows": [],
+  "hash": "0b74c5cd4ad6fcf3452decc01f9ffd71",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9XsedpPdGXiJkOM",
+  "line": 29,
+  "message": "Complete the task associated to this 'TODO' comment.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S1135",
+  "scope": "MAIN",
+  "severity": "INFO",
+  "status": "OPEN",
+  "tags": [
+    "cwe"
+  ],
+  "textRange": {
+    "endLine": 29,
+    "endOffset": 14,
+    "startLine": 29,
+    "startOffset": 10
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

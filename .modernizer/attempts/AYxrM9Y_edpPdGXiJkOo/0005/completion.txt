@@ -1,0 +1,133 @@
+ 
+The issue reported is about the use of a generic `ArgumentException` in the `DeleteFood` method. This is not a good practice because it does not provide any meaningful information about the error that occurred. It's better to create a custom exception that provides more context about the error.
+
+Here is the modified code:
+
+```cs
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new FoodNotFoundException($"Food with id {id} not found.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
+```
+
+And the new custom exception class:
+
+```cs
+public class FoodNotFoundException : Exception
+{
+    public FoodNotFoundException(string message) : base(message)
+    {
+    }
+}
+```
+
+This way, the exception thrown will be more meaningful and provide a clear indication of what went wrong.
+
+APPROVE_CHANGES
+```cs
+// TOP-MARKER
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private readonly ApplicationDbContext _context;
+
+        //TODO consider using use-case specific repositories instead of exposing the entire dbcontext
+        public FoodService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public void DeleteFood(int id)
+        {
+            var food = GetById(id);
+            if (food == null)
+            {
+                throw new FoodNotFoundException($"Food with id {id} not found.");
+            }
+            _context.Remove(food);
+            _context.SaveChanges();
+        }
+
+        public void EditFood(Food food)
+        {
+            var model = _context.Foods.First(f => f.Id == food.Id);
+            _context.Entry<Food>(model).State = EntityState.Detached;
+            _context.Update(food);
+            _context.SaveChanges();
+        }
+        public IEnumerable<Food> GetAll()
+        {
+            return _context.Foods
+                .Include(food => food.Category);
+        }
+
+        public Food GetById(int id)
+        {
+            return GetAll().FirstOrDefault(food => food.Id == id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                //TODO magic number
+                return GetPreferred(10);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+
+        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
+        {
+            return GetAll().Where(food => food.Category.Id == categoryId);
+        }
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+        }
+
+        public void NewFood(Food food)
+        {
+            _context.Add(food);
+            _context.SaveChanges();
+        }
+    }
+
+    public class FoodNotFoundException : Exception
+    {
+        public FoodNotFoundException(string message) : base(message)
+        {
+        }
+    }
+}
+```

@@ -1,0 +1,21 @@
+private IEnumerable<Order> SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
+{
+    switch (orderBy)
+    {
+        case OrderBy.DateDesc:
+            return orders.OrderByDescending(order => order.OrderPlaced);
+        case OrderBy.DateAsc:
+            return orders.OrderBy(order => order.OrderPlaced);
+        case OrderBy.PriceAsc:
+            return orders.OrderBy(order => order.OrderTotal);
+        case OrderBy.PriceDesc:
+            return orders.OrderByDescending(order => order.OrderTotal);
+        default: throw new NotImplementedException();
+    }
+}
+```
+
+And the usage of this method should be updated to:
+
+```cs
+orders = SetOrderBy(orders, orderBy);

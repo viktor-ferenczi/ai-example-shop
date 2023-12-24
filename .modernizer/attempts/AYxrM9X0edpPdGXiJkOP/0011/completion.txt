@@ -1,0 +1,53 @@
+ 
+
+1. Step-by-step plan:
+   - The issue is related to the static field `_userManager`. It's being assigned a value in the constructor of the class `OrderController`. This is causing the static code analysis to flag it.
+   - To resolve this issue, we can make `_userManager` a static field. This will ensure that the `UserManager` instance is shared across all instances of the `OrderController` class.
+   - We can also remove the assignment of `_userManager` in the constructor of the `OrderController` class. This is because `UserManager` is already being passed as a parameter to the constructor.
+
+2. Modified source code:
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly IOrder _orderService;
+        private readonly IFood _foodService;
+        private readonly ShoppingCart _shoppingCart;
+        private readonly Mapper _mapper;
+        private static UserManager<ApplicationUser> _userManager;
+
+
+        public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _orderService = orderService;
+            _shoppingCart = shoppingCart;
+            _foodService = foodService;
+            _mapper = new Mapper();
+            _userManager = userManager;
+        }
+
+        // Rest of the code...
+    }
+}
+```
+
+3. Failure conditions:
+   - The `_userManager` field is not static.
+   - The `_userManager` field is assigned a value in the constructor of the `OrderController` class.
+   - The `_userManager` field is not removed from the constructor of the `OrderController` class.
+
+APPROVE_CHANGES

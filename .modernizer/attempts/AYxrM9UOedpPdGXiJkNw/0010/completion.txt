@@ -1,0 +1,20 @@
+ 
+
+1. The issue at the marked line is a redundant parenthesis. The parenthesis are not necessary and can be removed.
+
+2. Here is the modified source code:
+
+```cs
+        //TODO redundant parenthesis
+        if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
+            isValidAmount = false;
+        }
+```
+
+APPROVE_CHANGES

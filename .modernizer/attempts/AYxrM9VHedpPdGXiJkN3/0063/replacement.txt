@@ -1,0 +1,38 @@
+public interface IOrder
+{
+    void CreateOrder(Order order);
+    Order GetById(int orderId);
+    IEnumerable<Order> GetByUserId(string userId);
+    IEnumerable<Order> GetAll();
+    IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+    IEnumerable<Food> GetUserMostPopularFoods(string id);
+    IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+}
+```
+
+In this solution, we create a new class `OrderFilter` to encapsulate all the parameters of the `GetFilteredOrders` method. This class can be used as a parameter in the `GetFilteredOrders` method. This approach reduces the number of parameters in the method and makes the code more readable and maintainable.
+
+```cs
+public class OrderFilter
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; }
+    public int Offset { get; set; }
+    public int Limit { get; set; }
+    public decimal? MinimalPrice { get; set; }
+    public decimal? MaximalPrice { get; set; }
+    public DateTime? MinDate { get; set; }
+    public DateTime? MaxDate { get; set; }
+    public string ZipCode { get; set; }
+}
+```
+
+This class can be used as follows:
+
+```cs
+IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+```
+
+This approach also adheres to the Open/Closed Principle (OCP) as it allows for easy extension of the filtering options without modifying the `GetFilteredOrders` method.
+
+```APPROVE_CHANGES

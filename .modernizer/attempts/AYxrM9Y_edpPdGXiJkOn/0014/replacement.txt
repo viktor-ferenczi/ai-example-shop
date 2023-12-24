@@ -1,0 +1,27 @@
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(10);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+To resolve this issue, we should replace the magic number 10 with a named constant. Let's say we define a constant named `PREFERRED_FOOD_COUNT` and set it to 10.
+
+```cs
+private const int PREFERRED_FOOD_COUNT = 10;
+
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(PREFERRED_FOOD_COUNT);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}

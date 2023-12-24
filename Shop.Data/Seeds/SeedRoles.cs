@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Data.Models;
@@ -9,6 +9,8 @@ namespace Shop.Data.Seeds
 {
     public class SeedRoles
     {
+        private SeedRoles() { }
+
         public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();

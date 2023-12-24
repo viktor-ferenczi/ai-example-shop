@@ -1,0 +1,45 @@
+
+Sure, here's the modified source code:
+
+```cshtml
+<!-- TOP-MARKER -->
+@model Shop.Web.Models.Home.HomeIndexModel
+
+<div class="container body-content">
+    <div class="row frontPageSplash">
+        <div class="col-md-6 frontPageLearn">
+            <div class="frontPageHeading">Healthy, Cheap, Easy...</div>
+            <p class="frontPageSubHeading">This is online shopping site for food</p>
+            <div>
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestFoods">Prefered products</h3>
+        <table class="table table-hover" id="latestFoodsTable" summary="This table contains a list of the latest foods">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in Model.FoodsList)
+                {
+                    <tr>
+                        <td>
+                           @Html.Partial("FoodSummary", food) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+```
+
+I've added a `summary` attribute to the `<table>` tag to provide a description for the table.
+APPROVE_CHANGES

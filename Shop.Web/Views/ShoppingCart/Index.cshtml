@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
+@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
 @using System.Globalization
 
 <div class="row checkoutForm" style="margin-bottom:250px;">
@@ -7,6 +7,7 @@
             <br/>Here are the products in your shopping cart.</h2>
     </div>
     <table class="table table-hover table-dark table-stripped table-bordered">
+        <caption>Shopping cart details</caption>
         <thead>
             <tr>
                 <th>Selected amount</th>
@@ -48,7 +49,7 @@
     <div>
         <a class="btn btn-back" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Back</a>
     </div>
-    @if(Model.ShoppingCart.ShoppingCartItems.Count() != 0)
+    @if(Model.ShoppingCart.ShoppingCartItems.Any())
     {
         <div class="text-right" style="float:right">
             <div class="btn-group ">
@@ -61,4 +62,3 @@
         <p>Your cart is empty, add some items to order them</p>
     }
 </div>
-

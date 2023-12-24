@@ -1,0 +1,8 @@
+
+The issue reported is about checking if the `MostPopularFoods` list is empty or not. The current code checks if the count of elements in the list is equal to zero, which is not the best practice. It's better to use the `Any()` method, which checks if there are any elements in the list. Here's the corrected code:
+
+```cshtml
+                    @if(!Model.MostPopularFoods.Any())
+```
+
+APPROVE_CHANGES

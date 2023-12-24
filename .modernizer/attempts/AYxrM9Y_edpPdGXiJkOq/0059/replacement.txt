@@ -1,0 +1,28 @@
+public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+In this modified code, `Exists` method is used instead of `Any`. This change will improve the performance of the code by stopping as soon as it finds a match, which is more efficient.
+
+APPROVE_CHANGES
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+        }

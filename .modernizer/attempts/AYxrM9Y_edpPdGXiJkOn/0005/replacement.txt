@@ -1,0 +1,31 @@
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Shop.Service
+{
+    public class FoodService : IFood
+    {
+        private const int PreferredFoodsCount = 10;
+        private readonly ApplicationDbContext _context;
+
+        public FoodService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // ... other methods ...
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(PreferredFoodsCount);
+        }
+
+        // ... other methods ...
+    }
+}

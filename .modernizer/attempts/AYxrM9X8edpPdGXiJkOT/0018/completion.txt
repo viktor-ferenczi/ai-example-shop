@@ -1,0 +1,84 @@
+ 
+
+1. Plan:
+   To reduce the cognitive complexity of the `SaveProfile` method, we can break down the method into smaller, more manageable methods. This will allow us to reduce the complexity of the `SaveProfile` method and make it easier to understand and maintain.
+
+2. Ignore the rest of tasks:
+   All the necessary information is provided in the context.
+
+3. Modified Source Code:
+```cs
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+        {
+            GetRoles();
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                UpdateUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    if (string.IsNullOrEmpty(model.OldPassword))
+                    {
+                        ModelState.AddModelError("OldPassword", "Enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                    if (string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        ModelState.AddModelError("NewPassword", "Enter your new password to change it");
+                        return View("Settings", model");
+                    }
+
+                    var result = await ChangePassword(user, model.OldPassword ?? "", model.NewPassword ?? "");
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                }
+
+                var role = _roleManager.Roles.First(r => r.Id == model.RoleId).Name;
+                var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                if (role != userRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, userRole);
+                    await _userManager.AddToRoleAsync(user, role);
+                }
+
+                await _userManager.UpdateAsync(user);
+
+                await HttpContext.RefreshLoginAsync();
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
+            }
+            return View("Settings", model);
+        }
+
+        private void UpdateUser(AccountSettingsModel model, ApplicationUser user)
+        {
+            _mapper.AccountSettingsModelToApplicationUser(model, user);
+        }
+
+        private async Task<IdentityResult> ChangePassword(ApplicationUser user, string oldPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
+```
+
+4. Check:
+   - The changes have been made to break down the `SaveProfile` method into smaller methods.
+   - The `GetRoles` method is called to populate the roles in the ViewBag.
+   - The `UpdateUser` method is called to update the user's information based on the model.
+   - The `ChangePassword` method is called to change the user's password if necessary.
+   - The `UpdateAsync` method is called to save the changes to the user.
+   - The `HttpContext.RefreshLoginAsync` method is called to refresh the user's login.
+   - The `RedirectToAction` method is called to redirect the user to the appropriate page.
+   - The `APPROVE_CHANGES`

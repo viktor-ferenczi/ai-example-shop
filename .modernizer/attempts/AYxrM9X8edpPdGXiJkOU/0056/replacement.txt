@@ -1,0 +1,8 @@
+var role = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName);
+                if (role == null)
+                {
+                    // Handle the situation gracefully
+                    // For example, log the error or display a message to the user
+                    return RedirectToAction("Index", "Home");
+                }
+                string roleId = role.Id;

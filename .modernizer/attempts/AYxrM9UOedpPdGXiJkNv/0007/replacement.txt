@@ -1,0 +1,76 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Data.Models
+{
+    public class ShoppingCart
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ShoppingCart(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public string Id { get; set; }
+        public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public static ShoppingCart GetCart(IServiceProvider services)
+        {
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            var context = services.GetService<ApplicationDbContext>();
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+
+            session.SetString("CartId", cartId);
+            return new ShoppingCart(context) { Id = cartId };
+        }
+
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            if (shoppingCartItem == null)
+            {
+                if (!CanAddToCart(food, amount))
+                {
+                    return false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                if (!CanAddToCart(food, shoppingCartItem.Amount + amount))
+                {
+                    return false;
+                }
+                shoppingCartItem.Amount += amount;
+            }
+
+            _context.SaveChanges();
+            return true;
+        }
+
+        private bool CanAddToCart(Food food, int amount)
+        {
+            return food.InStock - amount >= 0;
+        }
+
+        // Rest of the code remains the same...
+    }
+}

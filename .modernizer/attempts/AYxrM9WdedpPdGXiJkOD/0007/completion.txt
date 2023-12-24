@@ -1,0 +1,12 @@
+ 
+1. To resolve the issue, we need to add an "alt" attribute to the image tag. This attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).
+
+2. Here is the modified source code:
+
+```cshtml
+<img src="/images/logo.png" width="140px" alt="BuyNow - Online food store">
+```
+
+3. After reviewing the changes, we can see that the changes are fully compatible with all existing functionality. The image now has an "alt" attribute providing alternative information.
+
+APPROVE_CHANGES

@@ -1,0 +1,13 @@
+string roleId = string.IsNullOrEmpty(roleName) ? null : _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+```
+
+3. The original code:
+
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+```
+
+4. The revised code:
+
+```cs
+string roleId = string.IsNullOrEmpty(roleName) ? null : _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;

@@ -1,0 +1,19 @@
+ The issue reported is suggesting to use the `Any` method instead of the `Exists` method. The `Exists` method is more efficient as it will stop iterating as soon as it finds a match, while the `Any` method will continue to iterate through the entire collection.
+
+Here is the modified code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(string q)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+APPROVE_CHANGES

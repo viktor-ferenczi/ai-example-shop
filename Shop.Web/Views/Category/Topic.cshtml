@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Category.CategoryTopicModel
+@model Shop.Web.Models.Category.CategoryTopicModel
 
 @using Microsoft.AspNetCore.Identity
 @using Shop.Data.Models
@@ -56,6 +56,12 @@
         @if (Model.Foods.Any())
         {
             <table class="table table-hover table-bordered" id="categoryIndexTable">
+                <caption>Table of @Model.Category.Name products</caption>
+                <thead>
+                    <tr>
+                        <th>Food</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach (var food in Model.Foods)
                     {
@@ -73,7 +79,7 @@
             <div class="noFoods">
                 <i class="material-icons md-72">question_answer</i>
                 <h3>
-                    No search results found for @Model.SearchQuery! <br />
+                    No search results found for @Model.SearchQuery!-->
                 </h3>
             </div>
 

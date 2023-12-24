@@ -1,0 +1,82 @@
+ 
+1. Plan:
+   The issue arises because `_roleManager.Roles.FirstOrDefault(role => role.Name == roleName)` might return null if there is no role with the specified name. To resolve this, we need to check if the result is null before trying to access its properties.
+
+2. Copy of the modified source code:
+```cs
+        private void GetRoles()
+        {
+            var roles = _roleManager.Roles.Select(role => new RoleDropdownModel
+            {
+                Id = role.Id,
+                Name = role.Name
+            });
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+        {
+            GetRoles();
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    if (string.IsNullOrEmpty(model.OldPassword))
+                    {
+                        ModelState.AddModelError("OldPassword", "Enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                    if (string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        ModelState.AddModelError("NewPassword", "Enter your new password to change it");
+                        return View("Settings", model);
+                    }
+
+                    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword ?? "", model.NewPassword ?? "");
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                }
+
+                var role = _roleManager.Roles.FirstOrDefault(r => r.Id == model.RoleId);
+                if (role != null)
+                {
+                    var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                    if (role.Name != userRole)
+                    {
+                        await _userManager.RemoveFromRoleAsync(user, userRole);
+                        await _userManager.AddToRoleAsync(user, role.Name);
+                    }
+                }
+
+                await _userManager.UpdateAsync(user);
+
+                await HttpContext.RefreshLoginAsync();
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
+            }
+            return View("Settings", model);
+        }
+```
+
+3. Failure conditions:
+   - The changes I made are not fully resolving the issue because I'm still checking if `role` is null before trying to access its properties.
+   - I've missed any related changes humans would expect to be part as my issue resolution.
+   - I've made any changes, additions or removals to code, data or comments not related to the issue.
+   - I've not replaced any part of the source code with a placeholder.
+   - The code is fully compatible with all existing functionality.
+
+APPROVE_CHANGES

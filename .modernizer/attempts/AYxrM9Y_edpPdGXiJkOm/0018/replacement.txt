@@ -1,0 +1,23 @@
+//TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoodsByCategory(int id, string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFilteredFoodsByQuery(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        //TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoodsByQuery(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }

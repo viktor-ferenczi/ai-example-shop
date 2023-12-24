@@ -1,0 +1,33 @@
+ 
+The issue with the ambiguous method parameter naming is present in the `GetFilteredFoods` method. The method has two overloads, one with a single integer parameter and another with a string parameter. The integer parameter is used to filter foods by category, while the string parameter is used for filtering foods by a search query. However, the names of these parameters are not clear, which can lead to confusion.
+
+Here's the corrected code:
+
+```cs
+public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery)
+{
+    if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
+    {
+        return GetFoodsByCategoryId(categoryId);
+    }
+
+    return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
+}
+
+//TODO ambiguous method parameter naming
+public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+{
+    const int defaultCount = 10;
+    var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+    if (queries == null)
+    {
+        return GetPreferred(defaultCount);
+    }
+
+    return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+}
+```
+
+In the first overload, I have renamed the integer parameter to `categoryId` to make it more clear that it's used to filter foods by category.
+
+APPROVE_CHANGES

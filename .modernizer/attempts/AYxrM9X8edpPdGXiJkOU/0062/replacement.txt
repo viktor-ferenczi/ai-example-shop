@@ -1,0 +1,18 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+3. Failure conditions:
+   - The code changes are not fully resolving the issue.
+   - There are changes made to the code, data or comments not related to the issue.
+   - The code is replaced by a placeholder.
+
+4. Here is the modified source code:
+
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+var roles = _roleManager.Roles.Select(role => new RoleDropdownModel
+{
+    Id = role.Id,
+    Name = role.Name
+});
+ViewBag.Roles = new SelectList(roles, "Id", "Name");

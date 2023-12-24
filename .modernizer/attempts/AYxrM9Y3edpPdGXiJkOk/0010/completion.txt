@@ -1,0 +1,30 @@
+ 
+The issue is related to the `SetOrderBy` method, which is supposed to sort orders based on the provided `OrderBy` enum value. However, the method is not correctly modifying the `orders` variable. The `orders` variable is a local reference and it is not returned from the method.
+
+Here's the corrected code:
+
+```cs
+private IEnumerable<Order> SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
+{
+    switch (orderBy)
+    {
+        case OrderBy.DateDesc:
+            orders = orders.OrderByDescending(order => order.OrderPlaced);
+            break;
+        case OrderBy.DateAsc:
+            orders = orders.OrderBy(order => order.OrderPlaced);
+            break;
+        case OrderBy.PriceAsc:
+            orders = orders.OrderBy(order => order.OrderTotal);
+            break;
+        case OrderBy.PriceDesc:
+            orders = orders.OrderByDescending(order => order.OrderTotal);
+            break;
+        default: throw new NotImplementedException();
+    }
+
+    return orders;
+}
+```
+
+In this corrected version, the `SetOrderBy` method returns the sorted `orders` variable. This change ensures that the sorted orders are returned and can be used in subsequent operations.

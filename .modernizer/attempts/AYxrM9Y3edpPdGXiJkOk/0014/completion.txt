@@ -1,0 +1,40 @@
+ 
+The issue is with the `SetOrderBy` method. The `orders` parameter is passed by value, which means that any changes made to it inside the method will not affect the original collection. This is a common mistake in C#, especially when dealing with collections.
+
+Here is the corrected code:
+
+```cs
+private void SetOrderBy(ref IEnumerable<Order> orders, OrderBy orderBy)
+{
+    switch (orderBy)
+    {
+        case OrderBy.DateDesc:
+            orders = orders.OrderByDescending(order => order.OrderPlaced);
+            break;
+        case OrderBy.DateAsc:
+            orders = orders.OrderBy(order => order.OrderPlaced);
+            break;
+        case OrderBy.PriceAsc:
+            orders = orders.OrderBy(order => order.OrderTotal);
+            break;
+        case OrderBy.PriceDesc:
+            orders = orders.OrderByDescending(order => order.OrderTotal);
+            break;
+        default: throw new NotImplementedException();
+    }
+}
+```
+
+In the original code, the `SetOrderBy` method is called like this:
+
+```cs
+SetOrderBy(orders, orderBy);
+```
+
+In the corrected code, the `SetOrderBy` method is called like this:
+
+```cs
+SetOrderBy(ref orders, orderBy);
+```
+
+This change will ensure that the `orders` collection is sorted correctly in the `GetFilteredOrders` method.

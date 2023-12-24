@@ -1,0 +1,22 @@
+
+Sure, I understand the issue. The code is checking if the shopping cart is empty by using the `Count()` method, which is not the most efficient way. It would be better to use the `Any()` method, which checks if there are any elements in the collection.
+
+Here's the revised code:
+
+```cs
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+```
+
+I've replaced `Count() == 0` with `Any()`. This change will improve performance and readability.
+
+APPROVE_CHANGES

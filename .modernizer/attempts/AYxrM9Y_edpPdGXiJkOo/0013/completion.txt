@@ -1,0 +1,21 @@
+ 
+I'm sorry, but the issue you've mentioned seems to be a misunderstanding. The static code analysis tool you're using is suggesting that you use a constructor overloads that allows a more meaningful exception message to be provided. However, the code you've provided does not contain any constructor overloads.
+
+To address this issue, you can modify the `DeleteFood` method to include a more meaningful exception message. Here's how you can do it:
+
+```cs
+public void DeleteFood(int id)
+{
+    var food = GetById(id);
+    if (food == null)
+    {
+        throw new ArgumentException("No food found with the given ID.");
+    }
+    _context.Remove(food);
+    _context.SaveChanges();
+}
+```
+
+In this modified version, an `ArgumentException` is thrown with a custom message "No food found with the given ID." if the food with the given ID does not exist.
+
+Please let me know if you need help with anything else.

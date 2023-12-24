@@ -1,0 +1,10 @@
+ Here's the revised code:
+
+```cs
+public IEnumerable<Food> GetPreferred(int count)
+{
+    return GetAll().Where(food => food.IsPreferedFood && food.InStock != 0).OrderByDescending(food => food.Id).Take(count);
+}
+```
+
+APPROVE_CHANGES

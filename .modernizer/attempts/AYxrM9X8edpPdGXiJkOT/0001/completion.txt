@@ -1,0 +1,88 @@
+ 
+
+1. Here's a plan to refactor the `SaveProfile` method:
+
+   - Break down the method into smaller, more manageable methods. This will help reduce the complexity of the `SaveProfile` method.
+   - Extract the logic for changing the user's password into a separate method.
+   - Extract the logic for changing the user's role into a separate method.
+   - Extract the logic for updating the user into a separate method.
+   - Extract the logic for refreshing the login into a separate method.
+
+2. Here's the modified `SaveProfile` method:
+
+```cs
+        public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
+        {
+            GetRoles();
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    if (string.IsNullOrEmpty(model.OldPassword))
+                    {
+                        ModelState.AddModelError("OldPassword", "Enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                    if (string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        ModelState.AddModelError("NewPassword", "Enter your new password to change it");
+                        return View("Settings", model);
+                    }
+
+                    var result = await ChangePassword(user, model.OldPassword ?? "", model.NewPassword ?? "");
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                }
+
+                var role = _roleManager.Roles.First(r => r.Id == model.RoleId).Name;
+                var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                if (role != userRole)
+                {
+                    await ChangeRole(user, role);
+                }
+
+                await UpdateUser(user);
+
+                await RefreshLogin(user);
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
+            }
+            return View("Settings", model);
+        }
+
+        private async Task<IdentityResult> ChangePassword(ApplicationUser user, string oldPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
+
+        private async Task ChangeRole(ApplicationUser user, string role)
+        {
+            var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            await _userManager.RemoveFromRoleAsync(user, userRole);
+            await _userManager.AddToRoleAsync(user, role);
+        }
+
+        private async Task UpdateUser(ApplicationUser user)
+        {
+            await _userManager.UpdateAsync(user);
+        }
+
+        private async Task RefreshLogin(ApplicationUser user)
+        {
+            await HttpContext.RefreshLoginAsync();
+        }
+```
+
+APPROVE_CHANGES

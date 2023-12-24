@@ -1,0 +1,60 @@
+public interface IOrder
+{
+    void CreateOrder(Order order);
+    Order GetById(int orderId);
+    IEnumerable<Order> GetByUserId(string userId);
+    IEnumerable<Order> GetAll();
+    IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+    IEnumerable<Food> GetUserMostPopularFoods(string id);
+    IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+}
+
+public class OrderFilter
+{
+    public string UserId { get; set; }
+    public OrderBy OrderBy { get; set; } = OrderBy.None;
+    public int Offset { get; set; } = 0;
+    public int Limit { get; set; } = 10;
+    public decimal? MinimalPrice { get; set; }
+    public decimal? MaximalPrice { get; set; }
+    public DateTime? MinDate { get; set; }
+    public DateTime? MaxDate { get; set; }
+    public string ZipCode { get; set; }
+}
+```
+In this solution, we create a new class `OrderFilter` that encapsulates all the parameters of the `GetFilteredOrders` method. This reduces the number of parameters in the method and makes the method more readable and easier to use.
+
+3. Here is the modified source code:
+```cs
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+
+namespace Shop.Data
+{
+    public interface IOrder
+    {
+        void CreateOrder(Order order);
+        Order GetById(int orderId);
+        IEnumerable<Order> GetByUserId(string userId);
+        IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+        IEnumerable<Food> GetUserMostPopularFoods(string id);
+        IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+    }
+
+    public class OrderFilter
+    {
+        public string UserId { get; set; }
+        public OrderBy OrderBy { get; set; } = OrderBy.None;
+        public int Offset { get; set; } = 0;
+        public int Limit { get; set; } = 10;
+        public decimal? MinimalPrice { get; set; }
+        public decimal? MaximalPrice { get; set; }
+        public DateTime? MinDate { get; set; }
+        public DateTime? MaxDate { get; set; }
+        public string ZipCode { get; set; }
+    }
+}

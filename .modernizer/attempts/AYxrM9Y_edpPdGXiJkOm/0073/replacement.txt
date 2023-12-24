@@ -1,0 +1,4 @@
+public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+{
+    // ...
+}

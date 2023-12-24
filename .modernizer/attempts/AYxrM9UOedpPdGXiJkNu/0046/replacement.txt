@@ -1,0 +1,77 @@
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        if (amount > food.InStock)
+        {
+            return false;
+        }
+
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = amount
+        };
+
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+        {
+            shoppingCartItem.Amount += amount;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    _context.SaveChanges();
+    return true;
+}
+```
+
+In this revised code, the method `AddToCart` has been simplified. The method now returns `false` when the amount is invalid, which makes it easier for the caller to handle the error. The method also reduces the complexity of the condition check by using the `SingleOrDefault` method to check if the shopping cart item already exists. The method also reduces the complexity of the condition check by using the `SingleOrDefault` method to check if the shopping cart item already exists.
+
+APPROVE_CHANGES
+
+```cs
+public bool AddToCart(Food food, int amount)
+{
+    if (food.InStock == 0 || amount == 0 || amount > food.InStock)
+    {
+        return false;
+    }
+
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+
+    if (shoppingCartItem == null)
+    {
+        shoppingCartItem = new ShoppingCartItem
+        {
+            ShoppingCartId = Id,
+            Food = food,
+            Amount = amount
+        };
+
+        _context.ShoppingCartItems.Add(shoppingCartItem);
+    }
+    else
+    {
+        shoppingCartItem.Amount += amount;
+    }
+
+    _context.SaveChanges();
+    return true;
+}

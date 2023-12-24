@@ -1,0 +1,48 @@
+ 
+Based on the provided information, the issue is related to the lack of table headers in the "latestFoodsTable" table. This issue is categorized as a "MAJOR" issue.
+
+Here's a step-by-step plan for resolving the issue:
+
+1. Identify the table headers that should be included. Since the table is displaying food items, we could include headers such as "Food Name", "Description", "Price", etc.
+
+2. Add the table headers to the table. We can do this by adding a `<thead>` section to the table, and inside this section, we can add a `<tr>` element with `<th>` elements for each header.
+
+Here's the modified source code:
+
+```cshtml
+<div class="row frontPageContent">
+    <h3 id="latestFoods">Search result</h3>
+    @if (Model.FoodsList.Any())
+    {
+        <table class="table table-hover" id="latestFoodsTable">
+            <caption>Table of Foods</caption>
+            <thead>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <!-- Add more headers as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in Model.FoodsList)
+                {
+                    <tr>
+                        <td>
+                           @Html.Partial("FoodSummary", food) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h4>It looks like there are no search results...</h4>
+    }
+</div>
+```
+
+In this modified code, I've added a `<thead>` section with a `<tr>` element containing `<th>` elements for each header. You can add more headers as needed based on the data you're displaying in the table.
+
+APPROVE_CHANGES

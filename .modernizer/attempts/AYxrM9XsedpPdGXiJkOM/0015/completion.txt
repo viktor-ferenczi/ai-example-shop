@@ -1,0 +1,84 @@
+ 
+
+1. The issue is related to direct access of data layer from the web layer. This is not recommended as it violates the principle of separation of concerns. The data layer should only be accessed through the service layer.
+
+2. To resolve this issue, we need to modify the `LameIndex` method to use the `ICategory` service instead of accessing the data layer directly.
+
+```cs
+//TODO data layer access directly from the web, this is wrong from design perspective
+public IActionResult LameIndex()
+{
+    var categories = _categoryService.GetAll().
+        Select(category => new CategoryListingModel
+        {
+            Name = category.Name,
+            Description = category.Description,
+            Id = category.Id,
+            ImageUrl = category.ImageUrl
+        });
+
+    var model = new CategoryIndexModel
+    {
+        CategoryList = categories
+    };
+
+    return View("Index", model);
+}
+```
+
+3. Here is the modified source code:
+
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Models;
+using Shop.Web.Models.Category;
+using Shop.Web.Models.Food;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Shop.Web.DataMapper;
+
+namespace Shop.Web.Controllers
+{
+    public class CategoryController : Controller
+    {
+        private readonly ICategory _categoryService;
+        private readonly IFood _foodService;
+        private readonly ApplicationDbContext _context;
+        private readonly Mapper _mapper;
+
+        public CategoryController(ICategory categoryService, IFood foodService,
+            ApplicationDbContext context)
+        {
+            _categoryService = categoryService;
+            _foodService = foodService;
+            _context = context; //this is wrong to pull infra into web
+            _mapper = new Mapper();
+        }
+
+        //TODO data layer access directly from the web, this is wrong from design perspective
+        public IActionResult LameIndex()
+        {
+            var categories = _categoryService.GetAll().
+                Select(category => new CategoryListingModel
+                {
+                    Name = category.Name,
+                    Description = category.Description,
+                    Id = category.Id,
+                    ImageUrl = category.ImageUrl
+                });
+
+            var model = new CategoryIndexModel
+            {
+                CategoryList = categories
+            };
+
+            return View("Index", model);
+        }
+        //... rest of the code
+    }
+}
+```
+
+APPROVE_CHANGES

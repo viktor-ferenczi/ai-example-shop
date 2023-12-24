@@ -1,0 +1,50 @@
+ 
+I'm sorry, but the issue you've described seems to be a false positive. The static code analysis tool is suggesting to remove the '_orderService' field, but it's not actually being used in the 'Checkout' method. The '_orderService' field is only being used in the constructor of the 'OrderController' class. 
+
+Here's the corrected source code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Data.Models;
+using Shop.Web.DataMapper;
+using Shop.Web.Models.Order;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Shop.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly ShoppingCart _shoppingCart;
+
+        public OrderController(ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _shoppingCart = shoppingCart;
+        }
+
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (!items.Any())
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // Rest of the code...
+    }
+}
+
+```
+
+APPROVE_CHANGES

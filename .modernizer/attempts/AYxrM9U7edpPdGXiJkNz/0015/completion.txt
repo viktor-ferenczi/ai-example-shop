@@ -1,0 +1,20 @@
+ 
+I understand the issue you're facing with the class `DbInitializer`. The issue is that the class lacks a constructor or the `static` keyword, which is necessary for it to be instantiated and used. 
+
+Here's a revised version of the class:
+
+```cs
+public static class DbInitializer
+{
+    public static void Seed(IApplicationBuilder applicationBuilder)
+    {
+        // Rest of the code remains the same
+    }
+
+    // Rest of the class remains the same
+}
+```
+
+In this revised version, I've added the `static` keyword to the class declaration. This makes the class static, which means it cannot be instantiated and used like a regular class. Instead, its methods and properties can be accessed directly using the class name.
+
+APPROVE_CHANGES

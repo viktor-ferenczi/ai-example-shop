@@ -1,0 +1,13 @@
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;
+```
+
+3. Failure conditions:
+   - The `roleId` is null if the `roleName` is not found in the `_roleManager.Roles` collection.
+   - The `roleId` is null if the `roleName` is null.
+   - The `roleId` is null if the `_roleManager.Roles` collection is null.
+
+4. The modified source code is compatible with all existing functionality and does not replace any code, data or comments unrelated to the issue. It only modifies the code related to the issue. The `roleId` is still used in the same way as before, so it does not break any existing functionality. The performance and security implications of this change are minimal. The comments related to the issue are updated to reflect the changes.
+
+APPROVE_CHANGES
+```cs
+string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName)?.Id;

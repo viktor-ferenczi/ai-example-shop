@@ -1,0 +1,87 @@
+ 
+
+1. The issue is about data layer access directly from the web, which is against the design perspective. The correct approach is to use a service layer to access the data layer. Here's a step-by-step plan to resolve the issue:
+
+   a. Extract the data access logic from the controller and move it to the service layer.
+   
+   b. Create a new service class for each data access operation.
+   
+   c. Inject the service classes into the controller via the constructor.
+   
+   d. Replace direct data access in the controller with calls to the service methods.
+
+2. The code block with the corrected code should look like this:
+
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Web.Models.Category;
+using Shop.Web.Models.Food;
+using System.Linq;
+using Shop.Web.DataMapper;
+
+namespace Shop.Web.Controllers
+{
+    public class CategoryController : Controller
+    {
+        private readonly ICategory _categoryService;
+        private readonly IFood _foodService;
+        private readonly Mapper _mapper;
+
+        public CategoryController(ICategory categoryService, IFood foodService)
+        {
+            _categoryService = categoryService;
+            _foodService = foodService;
+            _mapper = new Mapper();
+        }
+
+        public IActionResult Index()
+        {
+            var categories = _categoryService.GetAll().
+                Select(category => new CategoryListingModel
+                {
+                    Name = category.Name,
+                    Description = category.Description,
+                    Id = category.Id,
+                    ImageUrl = category.ImageUrl
+                });
+
+            var model = new CategoryIndexModel
+            {
+                CategoryList = categories
+            };
+
+            return View(model);
+        }
+
+        public IActionResult Topic(int id, string searchQuery)
+        {
+            var category = _categoryService.GetById(id);
+            var foods = _foodService.GetFilteredFoods(id, searchQuery);
+
+            var foodListings = foods.Select(food => new FoodListingModel
+            {
+                Id = food.Id,
+                Name = food.Name,
+                InStock = food.InStock,
+                Price = food.Price,
+                ShortDescription = food.ShortDescription,
+                Category = _mapper.FoodToCategoryListing(food),
+                ImageUrl = food.ImageUrl
+            });
+
+            var model = new CategoryTopicModel
+            {
+                Category = _mapper.CategoryToCategoryListing(category),
+                Foods = foodListings
+            };
+
+            return View(model);
+        }
+
+        // other actions...
+    }
+}
+```
+
+APPROVE_CHANGES

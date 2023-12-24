@@ -1,0 +1,60 @@
+ The issue you're facing is related to the fact that the class `SeedRoles` is public and static. In .NET, a static class cannot have an instance constructor, which is why the code analysis tool is complaining.
+
+To resolve this issue, you can either make the constructor private or protected. Here's how you can modify the code:
+
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Shop.Data.Models;
+using System;
+using System.Threading.Tasks;
+
+namespace Shop.Data.Seeds
+{
+    public class SeedRoles
+    {
+        private SeedRoles() { } // Add this line
+
+        public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin", "Customer" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var poweruser = new ApplicationUser
+            {
+                UserName = configuration.GetSection("UserSettings")["UserEmail"],
+                Email = configuration.GetSection("UserSettings")["UserEmail"],
+                ImageUrl = configuration.GetSection("UserSettings")["ImageUrl"],
+                FirstName = configuration.GetSection("UserSettings")["FirstName"]
+            };
+
+            string UserPassword = configuration.GetSection("UserSettings")["UserPassword"];
+            var _user = await UserManager.FindByEmailAsync(configuration.GetSection("UserSettings")["UserEmail"]);
+
+            if (_user == null)
+            {
+                var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                }
+            }
+        }
+    }
+}
+```
+
+This change will make the constructor private, which prevents the creation of instances of the class. However, since the class is static, it can still be used without creating an instance.

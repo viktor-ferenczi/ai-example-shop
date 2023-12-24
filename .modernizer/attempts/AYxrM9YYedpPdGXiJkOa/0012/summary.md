@@ -1,0 +1,761 @@
+# ISSUE
+```json
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Pages/Order/Archive.cshtml",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "670f7a21724135d5674b47e3d9c20ded",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9YYedpPdGXiJkOa",
+  "line": 133,
+  "message": "Remove this commented out code.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "Web:AvoidCommentedOutCodeCheck",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "unused"
+  ],
+  "textRange": {
+    "endLine": 133,
+    "endOffset": 52,
+    "startLine": 133,
+    "startOffset": 0
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T03:26:27+01:00"
+}
+```
+
+# PATH
+`C:\Dev\AI\Coding\example-shop\Shop.Web/Pages/Order/Archive.cshtml`
+
+# ORIGINAL
+```cshtml
+@page "page-{pageNumber:int}/{userId?}"
+@model Shop.Web.Pages.ArchiveModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .tblack {
+        color: #000;
+    }
+    /* Breadcum bar */
+    .bg-grey {
+        background: #efefef
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-weight: 300;
+        padding-left: 0;
+        font-size: 13px;
+    }
+
+    .breadcrumb a {
+        color: #999;
+    }
+
+    .breadcrumb > .active {
+        color: #696969;
+    }
+
+    .breadcrumb > li + li::before {
+        content: "\203A";
+        color: #999;
+        padding: 0 8px;
+    }
+    legend {
+        width:inherit; 
+        padding:0 5px; 
+        border-bottom:none;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        text-align: left !important;
+    }
+
+    fieldset {
+        border: 1px groove #ddd !important;
+        padding: 0 5px 5px 5px !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow:  0px 0px 0px 0px #000;
+        box-shadow:  0px 0px 0px 0px #000;
+    }
+
+    .card {
+        border:solid 1px black;
+        padding:8px;
+        margin-bottom:16px;
+        border-radius:4px;
+    }
+
+    h3 {
+        font-size:20px !important;
+    }
+</style>
+
+<form></form>
+
+
+<div class="bread-bar bg-grey my-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-8">
+                <ol class="breadcrumb">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    @if (!string.IsNullOrEmpty(Model.Order.UserId))
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account" asp-route-userId="@Model.Order.UserId">Profile</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account">Profile</a></li>
+                    }
+                    <li class="active">Archive</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row" style="padding-top:13px;">
+                @foreach(var order in Model.Order.Orders)
+                {
+                 <div style="width:650px;">
+                     <div class="card" style="background:white">
+                        <div class="card-body" >
+                            <h5 class="card-title">Order placed: @order.OrderPlaced.ToString("dd/MM/yyyy")</h5>
+                            <ul class="nav nav-pills  countlist" role="tablist">
+                                <li role="presentation">
+                                    <h3>
+                                        @order.Country<br>
+                                        <small>Country</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.City<br>
+                                        <small>City</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.OrderTotalFormat<br>
+                                        <small>Order total</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        <a asp-action="Profile" asp-controller="Account" asp-route-userId="@order.UserId">@order.UserFullName</a><br>
+                                        <small>User</small>
+                                    </h3>
+                                </li>
+                            </ul>
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@order.Id">Details</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <!-- <div class="btn btn-group row"> -->
+                <div class="col-md-offset-5 col-md-4" style="margin-bottom:16px">
+                    @for(int i=1;i<=Model.Order.PageCount;i++)
+                    {
+                        if(i == Model.Order.Page)
+                        {
+                            <a class="btn btn-primary">@i</a>
+                        }
+                        else
+                        {
+                            <a href="/Order/Archive/page-@i" class="btn btn-secondary" style="background:#f9f9f9; color:#3c3d41">@i</a>
+                        }
+                    }
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+
+```
+
+# SYSTEM
+MODEL ADOPTS ROLE OF CODEULATOR.
+[CONTEXT: U LOVE TO CODE!]
+[CODE]:
+1.[Fund]: 1a.CharId 1b.TskDec 1c.SynPrf 1d.LibUse 1e.CnAdhr 1f.OOPBas 
+2.[Dsgn]: 2a.AlgoId 2b.CdMod 2c.Optim 2d.ErrHndl 2e.Debug 2f.OOPPatt 
+3.[Tst]: 3a.CdRev 3b.UntTest 3c.IssueSpt 3d.FuncVer 3e.OOPTest 
+4.[QualSec]: 4a.QltyMet 4b.SecMeas 4c.OOPSecur 
+5.[QA]: 5a.QA 5b.OOPDoc 6.[BuiDep]: 6a.CI/CD 6b.ABuild 6c.AdvTest 6d.Deploy 6e.OOPBldProc 
+7.[ConImpPrac]: 7a.AgileRetr 7b.ContImpr 7c.OOPBestPr 
+8.[CodeRevAna]: 8a.PeerRev 8b.CdAnalys 8c-CdsOptim 8d.Docs 8e.OOPCdRev
+
+You are an expert C# developer working on an ASP.NET Service based on .NET Core.
+
+
+# INSTRUCTION
+Consider the following original source code from an ASP.NET service based on .NET Core:
+```cshtml
+<!-- TOP-MARKER -->
+@page "page-{pageNumber:int}/{userId?}"
+@model Shop.Web.Pages.ArchiveModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .tblack {
+        color: #000;
+    }
+    /* Breadcum bar */
+    .bg-grey {
+        background: #efefef
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-weight: 300;
+        padding-left: 0;
+        font-size: 13px;
+    }
+
+    .breadcrumb a {
+        color: #999;
+    }
+
+    .breadcrumb > .active {
+        color: #696969;
+    }
+
+    .breadcrumb > li + li::before {
+        content: "\203A";
+        color: #999;
+        padding: 0 8px;
+    }
+    legend {
+        width:inherit; 
+        padding:0 5px; 
+        border-bottom:none;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        text-align: left !important;
+    }
+
+    fieldset {
+        border: 1px groove #ddd !important;
+        padding: 0 5px 5px 5px !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow:  0px 0px 0px 0px #000;
+        box-shadow:  0px 0px 0px 0px #000;
+    }
+
+    .card {
+        border:solid 1px black;
+        padding:8px;
+        margin-bottom:16px;
+        border-radius:4px;
+    }
+
+    h3 {
+        font-size:20px !important;
+    }
+</style>
+
+<form></form>
+
+
+<div class="bread-bar bg-grey my-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-8">
+                <ol class="breadcrumb">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    @if (!string.IsNullOrEmpty(Model.Order.UserId))
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account" asp-route-userId="@Model.Order.UserId">Profile</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account">Profile</a></li>
+                    }
+                    <li class="active">Archive</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row" style="padding-top:13px;">
+                @foreach(var order in Model.Order.Orders)
+                {
+                 <div style="width:650px;">
+                     <div class="card" style="background:white">
+                        <div class="card-body" >
+                            <h5 class="card-title">Order placed: @order.OrderPlaced.ToString("dd/MM/yyyy")</h5>
+                            <ul class="nav nav-pills  countlist" role="tablist">
+                                <li role="presentation">
+                                    <h3>
+                                        @order.Country<br>
+                                        <small>Country</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.City<br>
+                                        <small>City</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.OrderTotalFormat<br>
+                                        <small>Order total</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        <a asp-action="Profile" asp-controller="Account" asp-route-userId="@order.UserId">@order.UserFullName</a><br>
+                                        <small>User</small>
+                                    </h3>
+                                </li>
+                            </ul>
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@order.Id">Details</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <!-- <div class="btn btn-group row"> -->
+                <div class="col-md-offset-5 col-md-4" style="margin-bottom:16px">
+                    @for(int i=1;i<=Model.Order.PageCount;i++)
+                    {
+                        if(i == Model.Order.Page)
+                        {
+                            <a class="btn btn-primary">@i</a>
+                        }
+                        else
+                        {
+                            <a href="/Order/Archive/page-@i" class="btn btn-secondary" style="background:#f9f9f9; color:#3c3d41">@i</a>
+                        }
+                    }
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+
+```
+
+The static code analysis found this issue:
+```
+Remove this commented out code.
+```
+
+The issue is reported at these code lines, but it may involve other lines:
+```cshtml
+            <!-- <div class="btn btn-group row"> -->
+```
+
+- Issue category: CLEAR (INTENTIONAL)
+- Issue severity: MAJOR
+
+
+Please ALWAYS honor ALL of these general rules while resolving the issue:
+- Work ONLY from the context provided, refuse to make any guesses.
+- Do NOT write any code if you do not have enough information in this context
+  to resolve the issue or you do not know how to fix it.
+- Do NOT use any kind of placeholders, always write out the full code.
+- Do NOT lose any of the original (intended) functionality, remove only the bug. 
+- Do NOT apologize.
+- Do NOT refer to your knowledge cut-off date.
+- Do NOT explain the code itself, we can read it as well.
+- Do NOT include excessive comments.
+- Do NOT remove original comments unrelated to the issue or the code modified.
+- Do NOT break the code's intended functionality.
+- Do NOT introduce any performance or security issues.
+- Do NOT change comments or string literals unrelated to your task.
+- Do NOT remove code (even if it is commented out or disabled) unless asked explicitly.
+- Do UPDATE comments which apply to code you have to change.
+- ALWAYS write code which is easily readable by humans.
+- If you are asked to remove code, then DO REMOVE it, not just comment it out.
+- If you are asked to remove commented out code, then DO REMOVE it. Do NOT uncomment it.
+
+
+Make sure the understand all the above, then work on resolving the issue by completing these steps:
+
+1. Take a deep breath and think about the problem. Provide a very concise,
+   step by step plan for resolving the issue. It will serve only for your 
+   reference and not part of the actual output.
+
+2. Stop here and ignore the rest of tasks if and only if you feel that
+   some crucial information is missing to properly solve the issue or
+   you do not know how to solve it. 
+
+3. Copy the WHOLE original source code with modifications to resolve the issue.
+   Your modifications should be concise and limited to the topic of the
+   issue. Do NOT modify any code, data or comments unrelated to the issue.
+   Do NOT attempt to fix or cleanup anything which is unrelated to the issue.
+   Make sure that your changes are compatible with all existing functionality.
+   Provide the modified source code in a SINGLE CODE BLOCK without the use of
+   any placeholders. Write out the full code, because it will replace the original.
+
+4. Check these failure conditions by reviewing the changes your made to the source code.
+   - Are the changes you made fail to fully resolve the issue?
+   - Have you missed any related changes humans would expect to be part as your issue resolution? 
+   - Have you made any changes, additions or removals to code, data or comments not related to the issue?
+   - Has any part of the source code replaced by a placeholder?
+   If the answer to all these questions are NO, then approve the code changes
+   by saying "APPROVE_CHANGES" and nothing else after the code block.
+   If you do not approve the changes, then provide a concise explanation why.    
+
+
+# PARAMS
+```json
+{
+  "number_of_completions": 16,
+  "max_tokens": 5536,
+  "temperature": 0.3
+}
+```
+
+# COMPLETION
+
+The issue reported is about the commented out code block `<!-- <div class="btn btn-group row"> -->`. This code block is not used in the final rendered HTML, and it is commented out. Therefore, it can be safely removed.
+
+Here is the updated code:
+
+```cshtml
+<!-- TOP-MARKER -->
+@page "page-{pageNumber:int}/{userId?}"
+@model Shop.Web.Pages.ArchiveModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .tblack {
+        color: #000;
+    }
+    /* Breadcum bar */
+    .bg-grey {
+        background: #efefef
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-weight: 300;
+        padding-left: 0;
+        font-size: 13px;
+    }
+
+    .breadcrumb a {
+        color: #999;
+    }
+
+    .breadcrumb > .active {
+        color: #696969;
+    }
+
+    .breadcrumb > li + li::before {
+        content: "\203A";
+        color: #999;
+        padding: 0 8px;
+    }
+    legend {
+        width:inherit; 
+        padding:0 5px; 
+        border-bottom:none;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        text-align: left !important;
+    }
+
+    fieldset {
+        border: 1px groove #ddd !important;
+        padding: 0 5px 5px 5px !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow:  0px 0px 0px 0px #000;
+        box-shadow:  0px 0px 0px 0px #000;
+    }
+
+    .card {
+        border:solid 1px black;
+        padding:8px;
+        margin-bottom:16px;
+        border-radius:4px;
+    }
+
+    h3 {
+        font-size:20px !important;
+    }
+</style>
+
+<form></form>
+
+
+<div class="bread-bar bg-grey my-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-8">
+                <ol class="breadcrumb">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    @if (!string.IsNullOrEmpty(Model.Order.UserId))
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account" asp-route-userId="@Model.Order.UserId">Profile</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account">Profile</a></li>
+                    }
+                    <li class="active">Archive</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row" style="padding-top:13px;">
+                @foreach(var order in Model.Order.Orders)
+                {
+                 <div style="width:650px;">
+                     <div class="card" style="background:white">
+                        <div class="card-body" >
+                            <h5 class="card-title">Order placed: @order.OrderPlaced.ToString("dd/MM/yyyy")</h5>
+                            <ul class="nav nav-pills  countlist" role="tablist">
+                                <li role="presentation">
+                                    <h3>
+                                        @order.Country<br>
+                                        <small>Country</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.City<br>
+                                        <small>City</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.OrderTotalFormat<br>
+                                        <small>Order total</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        <a asp-action="Profile" asp-controller="Account" asp-route-userId="@order.UserId">@order.UserFullName</a><br>
+                                        <small>User</small>
+                                    </h3>
+                                </li>
+                            </ul>
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@order.Id">Details</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="col-md-offset-5 col-md-4" style="margin-bottom:16px">
+                @for(int i=1;i<=Model.Order.PageCount;i++)
+                {
+                    if(i == Model.Order.Page)
+                    {
+                        <a class="btn btn-primary">@i</a>
+                    }
+                    else
+                    {
+                        <a href="/Order/Archive/page-@i" class="btn btn-secondary" style="background:#f9f9f9; color:#3c3d41">@i</a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+```
+
+APPROVE_CHANGES
+
+
+# REPLACEMENT
+```cshtml
+@page "page-{pageNumber:int}/{userId?}"
+@model Shop.Web.Pages.ArchiveModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .tblack {
+        color: #000;
+    }
+    /* Breadcum bar */
+    .bg-grey {
+        background: #efefef
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-weight: 300;
+        padding-left: 0;
+        font-size: 13px;
+    }
+
+    .breadcrumb a {
+        color: #999;
+    }
+
+    .breadcrumb > .active {
+        color: #696969;
+    }
+
+    .breadcrumb > li + li::before {
+        content: "\203A";
+        color: #999;
+        padding: 0 8px;
+    }
+    legend {
+        width:inherit; 
+        padding:0 5px; 
+        border-bottom:none;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        text-align: left !important;
+    }
+
+    fieldset {
+        border: 1px groove #ddd !important;
+        padding: 0 5px 5px 5px !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow:  0px 0px 0px 0px #000;
+        box-shadow:  0px 0px 0px 0px #000;
+    }
+
+    .card {
+        border:solid 1px black;
+        padding:8px;
+        margin-bottom:16px;
+        border-radius:4px;
+    }
+
+    h3 {
+        font-size:20px !important;
+    }
+</style>
+
+<form></form>
+
+
+<div class="bread-bar bg-grey my-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-8">
+                <ol class="breadcrumb">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    @if (!string.IsNullOrEmpty(Model.Order.UserId))
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account" asp-route-userId="@Model.Order.UserId">Profile</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account">Profile</a></li>
+                    }
+                    <li class="active">Archive</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row" style="padding-top:13px;">
+                @foreach(var order in Model.Order.Orders)
+                {
+                 <div style="width:650px;">
+                     <div class="card" style="background:white">
+                        <div class="card-body" >
+                            <h5 class="card-title">Order placed: @order.OrderPlaced.ToString("dd/MM/yyyy")</h5>
+                            <ul class="nav nav-pills  countlist" role="tablist">
+                                <li role="presentation">
+                                    <h3>
+                                        @order.Country<br>
+                                        <small>Country</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.City<br>
+                                        <small>City</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.OrderTotalFormat<br>
+                                        <small>Order total</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        <a asp-action="Profile" asp-controller="Account" asp-route-userId="@order.UserId">@order.UserFullName</a><br>
+                                        <small>User</small>
+                                    </h3>
+                                </li>
+                            </ul>
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@order.Id">Details</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="col-md-offset-5 col-md-4" style="margin-bottom:16px">
+                @for(int i=1;i<=Model.Order.PageCount;i++)
+                {
+                    if(i == Model.Order.Page)
+                    {
+                        <a class="btn btn-primary">@i</a>
+                    }
+                    else
+                    {
+                        <a href="/Order/Archive/page-@i" class="btn btn-secondary" style="background:#f9f9f9; color:#3c3d41">@i</a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+```
+
+ERROR: 

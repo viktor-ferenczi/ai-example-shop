@@ -1,0 +1,84 @@
+ 
+
+1. The issue is reported at the line where an `ArgumentException` is thrown when a category with the given id does not exist in the database. This exception is thrown without any specific message, which may not be clear to the end-user.
+
+2. To resolve this issue, we can modify the `DeleteCategory` method to include a more meaningful exception message. Here is the modified code:
+
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} does not exist.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```
+
+3. Here is the modified source code:
+
+```cs
+using Microsoft.EntityFrameworkCore;
+using Shop.Data;
+using Shop.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Service
+{
+    public class CategoryService : ICategory
+    {
+        private readonly ApplicationDbContext _context;
+
+        public CategoryService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public void DeleteCategory(int id)
+        {
+            var category = GetById(id);
+            if (category == null)
+            {
+                throw new ArgumentException($"Category with id {id} does not exist.");
+            }
+            _context.Remove(category);
+            _context.SaveChanges();
+        }
+
+        public void EditCategory(Category category)
+        {
+            _context.Update(category);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Category> GetAll()
+        {
+            return _context.Categories.Include(c => c.Foods);
+        }
+
+        public Category GetById(int id)
+        {
+            return GetAll().FirstOrDefault(category => category.Id == id);
+        }
+
+        public void NewCategory(Category category)
+        {
+            _context.Add(category);
+            _context.SaveChanges();
+        }
+    }
+}
+```
+
+4. The failure conditions to check are:
+   - The exception message is now more meaningful.
+   - The code still functions as intended, i.e., the category is only deleted if it exists in the database.
+   - No other changes have been made to the code, data, or comments unrelated to the issue.
+   - The code block is complete and does not contain any placeholders.
+
+If all these conditions are satisfied, then I APPROVE_CHANGES.

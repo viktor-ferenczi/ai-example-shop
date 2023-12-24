@@ -1,0 +1,40 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "COMPLETE",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Views/Category/Topic.cshtml",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "2min",
+  "effort": "2min",
+  "flows": [],
+  "hash": "34733b8975b4d3703aba0d9790ee455f",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "RELIABILITY"
+    }
+  ],
+  "key": "AYxrM9WAedpPdGXiJkN_",
+  "line": 58,
+  "message": "Add \"<th>\" headers to this \"<table>\".",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "Web:S5256",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "accessibility",
+    "wcag2-a"
+  ],
+  "textRange": {
+    "endLine": 58,
+    "endOffset": 84,
+    "startLine": 58,
+    "startOffset": 12
+  },
+  "type": "BUG",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

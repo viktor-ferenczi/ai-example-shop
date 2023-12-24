@@ -1,0 +1,59 @@
+ 
+
+1. The issue with direct data layer access from the web layer is a violation of the principle of separation of concerns. It is not good practice to access the data layer directly from the web layer. This can lead to tight coupling between the web layer and the data layer, making it difficult to change either layer independently.
+
+2. To resolve this issue, we need to refactor the code to use the services provided by the data layer. This will allow us to keep the data layer isolated from the web layer, and will make it easier to change either layer independently.
+
+3. Here is the modified code:
+
+```cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Models;
+using Shop.Web.Models.Category;
+using Shop.Web.Models.Food;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Shop.Web.DataMapper;
+
+namespace Shop.Web.Controllers
+{
+    public class CategoryController : Controller
+    {
+        private readonly ICategory _categoryService;
+        private readonly IFood _foodService;
+        private readonly Mapper _mapper;
+
+        public CategoryController(ICategory categoryService, IFood foodService)
+        {
+            _categoryService = categoryService;
+            _foodService = foodService;
+            _mapper = new Mapper();
+        }
+
+        public IActionResult Index()
+        {
+            var categories = _categoryService.GetAll().
+                Select(category => new CategoryListingModel
+                {
+                    Name = category.Name,
+                    Description = category.Description,
+                    Id = category.Id,
+                    ImageUrl = category.ImageUrl
+                });
+
+            var model = new CategoryIndexModel
+            {
+                CategoryList = categories
+            };
+
+            return View(model);
+        }
+
+        // rest of the code remains the same
+    }
+}
+```
+
+APPROVE_CHANGES

@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "LOGICAL",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/AccountController.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "10min",
+  "effort": "10min",
+  "flows": [],
+  "hash": "2b4cb467bb8e324d84718abab1454b49",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "RELIABILITY"
+    }
+  ],
+  "key": "AYxrM9X8edpPdGXiJkOU",
+  "line": 223,
+  "message": "'_roleManager.Roles.FirstOrDefault(role => role.Name == roleName)' is null on at least one execution path.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S2259",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "cwe"
+  ],
+  "textRange": {
+    "endLine": 223,
+    "endOffset": 96,
+    "startLine": 223,
+    "startOffset": 32
+  },
+  "type": "BUG",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

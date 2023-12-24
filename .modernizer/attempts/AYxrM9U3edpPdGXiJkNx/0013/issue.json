@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Data/Seeds/SeedRoles.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "10min",
+  "effort": "10min",
+  "flows": [],
+  "hash": "1d65ef8d91881244ffd8a59b83ceb036",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9U3edpPdGXiJkNx",
+  "line": 10,
+  "message": "Add a 'protected' constructor or the 'static' keyword to the class declaration.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S1118",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "design"
+  ],
+  "textRange": {
+    "endLine": 10,
+    "endOffset": 26,
+    "startLine": 10,
+    "startOffset": 17
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

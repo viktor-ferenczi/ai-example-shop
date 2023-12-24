@@ -1,0 +1,40 @@
+{
+  "author": "viktor@ferenczi.eu",
+  "cleanCodeAttribute": "CONVENTIONAL",
+  "cleanCodeAttributeCategory": "CONSISTENT",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Views/Home/Index.cshtml",
+  "creationDate": "2023-12-15T03:00:39+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "d32387d2cc6446f8bee5537de0aaaf87",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrNN2_edpPdGXiJlI9",
+  "line": 18,
+  "message": "Remove this deprecated \"summary\" attribute.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "Web:S1827",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "html5",
+    "obsolete"
+  ],
+  "textRange": {
+    "endLine": 18,
+    "endOffset": 144,
+    "startLine": 18,
+    "startOffset": 8
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T03:00:39+01:00"
+}

@@ -1,0 +1,52 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "LOGICAL",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Controllers/OrderController.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "20min",
+  "effort": "20min",
+  "flows": [
+    {
+      "locations": [
+        {
+          "component": "Shop:Shop.Web/Controllers/OrderController.cs",
+          "textRange": {
+            "endLine": 22,
+            "endOffset": 64,
+            "startLine": 22,
+            "startOffset": 52
+          },
+          "msgFormattings": []
+        }
+      ]
+    }
+  ],
+  "hash": "aba9ca5d84ff6bb5ac7c9465c5aa0b8f",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9X0edpPdGXiJkOP",
+  "line": 29,
+  "message": "Remove this assignment of '_userManager' or initialize it statically.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S3010",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [],
+  "textRange": {
+    "endLine": 29,
+    "endOffset": 26,
+    "startLine": 29,
+    "startOffset": 12
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

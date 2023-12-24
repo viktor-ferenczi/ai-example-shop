@@ -1,0 +1,36 @@
+ 
+
+1. Plan:
+   To resolve the issue, we need to add a description to the table. This can be done by adding a `<caption>` tag within the `<table>` tag. The description can be added as a string that explains the purpose of the table.
+
+2. Code:
+   ```cshtml
+   <table class="table table-hover table-bordered" id="categoryIndexTable">
+       <caption>This table displays the list of foods in the category.</caption>
+       <thead>
+           <tr>
+               <th>Food</th>
+           </tr>
+       </thead>
+       <tbody>
+           @foreach (var food in Model.Foods)
+           {
+               <tr>
+                   <td>
+                       @Html.Partial("FoodSummary",food) 
+                   </td>
+               </tr>
+           }
+       </tbody>
+   </table>
+   ```
+   In the above code, I added a `<caption>` tag within the `<table>` tag. The description is "This table displays the list of foods in the category.".
+
+3. Failure Conditions:
+   - The code should add a `<caption>` tag within the `<table>` tag.
+   - The `<caption>` tag should contain a description of the table.
+   - The description should be clear and concise.
+   - The description should be related to the purpose of the table.
+
+4. Approval:
+   APPROVE_CHANGES

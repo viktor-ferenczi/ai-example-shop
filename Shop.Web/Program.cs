@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +13,8 @@ namespace Shop.Web
 {
     public class Program
     {
+        protected Program() { } // Added a protected constructor
+
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();

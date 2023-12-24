@@ -1,0 +1,143 @@
+ 
+1. Plan:
+   To resolve the issue, we need to extract the complex evaluation into a separate function. This will improve code readability and maintainability. 
+
+2. Ignore the rest of the tasks because all required information is provided in the context.
+
+3. Here is the modified source code:
+```cs
+// TOP-MARKER
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Shop.Data.Models
+{
+    public class ShoppingCart
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ShoppingCart(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public string Id { get; set; }
+        public IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public static ShoppingCart GetCart(IServiceProvider services)
+        {
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            var context = services.GetService<ApplicationDbContext>();
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+
+            session.SetString("CartId", cartId);
+            return new ShoppingCart(context) { Id = cartId };
+        }
+
+        public bool AddToCart(Food food, int amount)
+        {
+            if (food.InStock == 0 || amount == 0)
+            {
+                return false;
+            }
+
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            var isValidAmount = true;
+            if (shoppingCartItem == null)
+            {
+                if (amount > food.InStock)
+                {
+                    isValidAmount = false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
+                };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
+            }
+            else
+            {
+                isValidAmount = UpdateShoppingCartItem(food, shoppingCartItem, amount);
+            }
+
+            _context.SaveChanges();
+            return isValidAmount;
+        }
+
+        private bool UpdateShoppingCartItem(Food food, ShoppingCartItem shoppingCartItem, int amount)
+        {
+            if (food.InStock - shoppingCartItem.Amount - amount >= 0)
+            {
+                shoppingCartItem.Amount += amount;
+                return true;
+            }
+            else
+            {
+                shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
+                return false;
+            }
+        }
+
+        public int RemoveFromCart(Food food)
+        {
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+                s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+            int localAmount = 0;
+            if (shoppingCartItem != null)
+            {
+                if (shoppingCartItem.Amount > 1)
+                {
+                    shoppingCartItem.Amount--;
+                    localAmount = shoppingCartItem.Amount;
+                }
+                else
+                {
+                    _context.ShoppingCartItems.Remove(shoppingCartItem);
+                }
+            }
+
+            _context.SaveChanges();
+            return localAmount;
+        }
+
+        public IEnumerable<ShoppingCartItem> GetShoppingCartItems()
+        {
+            return ShoppingCartItems ??
+                   (ShoppingCartItems = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                       .Include(s => s.Food));
+        }
+
+        public void ClearCart()
+        {
+            var cartItems = _context
+                .ShoppingCartItems
+                .Where(cart => cart.ShoppingCartId == Id);
+
+            _context.ShoppingCartItems.RemoveRange(cartItems);
+            _context.SaveChanges();
+        }
+
+        public decimal GetShoppingCartTotal()
+        {
+            return _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
+                .Select(c => c.Food.Price * c.Amount).Sum();
+        }
+
+    }
+}
+```
+4. Check the changes:
+   - The complex evaluation has been extracted into the `UpdateShoppingCartItem` function.
+   - The `AddToCart` function now calls this function to update the shopping cart item.
+   - The `AddToCart` function now only returns a boolean indicating whether the amount is valid or not.
+   - No other changes were made unrelated to the issue.
+
+APPROVE_CHANGES

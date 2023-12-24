@@ -1,0 +1,1 @@
+@if(Model.ShoppingCart.ShoppingCartItems.Any())

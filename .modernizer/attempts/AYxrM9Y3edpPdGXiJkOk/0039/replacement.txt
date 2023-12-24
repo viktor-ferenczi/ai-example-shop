@@ -1,0 +1,10 @@
+public IEnumerable<Order> GetByUserId(string userId = null)
+{
+    if (userId == null)
+    {
+        throw new ArgumentNullException(nameof(userId));
+    }
+
+    return GetAll()
+        .Where(order => order.User.Id == userId);
+}

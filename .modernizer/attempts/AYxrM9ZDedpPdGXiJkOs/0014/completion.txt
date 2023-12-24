@@ -1,0 +1,31 @@
+ 
+The issue you're referring to is a warning about throwing an `ArgumentException` without providing a meaningful message. This can be confusing for other developers who are reading the code. Here's a revised version of the `DeleteCategory` method with a more meaningful exception message:
+
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} does not exist.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```
+
+In this revised version, I've added a custom message to the `ArgumentException`. This message provides more context about the error, making it easier for other developers to understand what went wrong.
+
+APPROVE_CHANGES
+```cs
+public void DeleteCategory(int id)
+{
+    var category = GetById(id);
+    if (category == null)
+    {
+        throw new ArgumentException($"Category with id {id} does not exist.");
+    }
+    _context.Remove(category);
+    _context.SaveChanges();
+}
+```

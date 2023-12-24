@@ -1,0 +1,53 @@
+ 
+1. The issue is related to the `SetOrderBy` method, which is a private method that is used to sort the orders based on certain criteria. The issue is that the `SetOrderBy` method is not returning the sorted orders. The issue is not with the `SetOrderBy` method itself, but with the way it's called in the `GetFilteredOrders` method.
+
+2. The `SetOrderBy` method is called with a local variable `orders`, which is a reference to the `IEnumerable<Order>` returned by the `GetAll()` method. The `SetOrderBy` method then sorts the `orders` variable, but it does not return the sorted orders. Instead, it sorts the local variable `orders`, which is then discarded when the method ends.
+
+3. To resolve this issue, the `SetOrderBy` method should return the sorted orders instead of sorting the local variable `orders`. This can be done by changing the `SetOrderBy` method to return the sorted orders, and then assigning the returned value to the `orders` variable in the `GetFilteredOrders` method.
+
+4. Here is the corrected code:
+
+```cs
+private IEnumerable<Order> SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
+{
+    switch (orderBy)
+    {
+        case OrderBy.DateDesc:
+            orders = orders.OrderByDescending(order => order.OrderPlaced);
+            break;
+        case OrderBy.DateAsc:
+            orders = orders.OrderBy(order => order.OrderPlaced);
+            break;
+        case OrderBy.PriceAsc:
+            orders = orders.OrderBy(order => order.OrderTotal);
+            break;
+        case OrderBy.PriceDesc:
+            orders = orders.OrderByDescending(order => order.OrderTotal);
+            break;
+        default: throw new NotImplementedException();
+    }
+    return orders;
+}
+
+public IEnumerable<Order> GetFilteredOrders(
+    string userId,
+    OrderBy orderBy = OrderBy.None,
+    int offset = 0, int limit = 10,
+    decimal? minimalPrice = null,
+    decimal? maximalPrice = null,
+    DateTime? minDate = null,
+    DateTime? maxDate = null,
+    string zipCode = null)
+{
+    var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+
+    if (orderBy != OrderBy.None)
+    {
+        orders = SetOrderBy(orders, orderBy);
+    }
+
+    // Rest of the method...
+}
+```
+
+APPROVE_CHANGES

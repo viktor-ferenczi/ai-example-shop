@@ -1,0 +1,6 @@
+<table class="table table-hover" id="latestFoodsTable" aria-describedby="latestFoodsTableDescription">
+```
+
+And add a description right after the table:
+```cshtml
+<div id="latestFoodsTableDescription" style="display: none;">This table displays the list of prefered products.</div>

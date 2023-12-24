@@ -1,0 +1,32 @@
+ 
+The issue is related to the `SetOrderBy` method, where the `orders` variable is being reassigned inside the switch statement. This is a common mistake in C#, but it's not a bug per se. It's a violation of the Open/Closed Principle, which states that software entities should be open for extension, but closed for modification.
+
+The corrected code should not reassign the `orders` variable inside the switch statement. Instead, it should create a new variable and assign the sorted orders to it.
+
+Here is the corrected code:
+
+```cs
+private IEnumerable<Order> SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
+{
+    switch (orderBy)
+    {
+        case OrderBy.DateDesc:
+            return orders.OrderByDescending(order => order.OrderPlaced);
+        case OrderBy.DateAsc:
+            return orders.OrderBy(order => order.OrderPlaced);
+        case OrderBy.PriceAsc:
+            return orders.OrderBy(order => order.OrderTotal);
+        case OrderBy.PriceDesc:
+            return orders.OrderByDescending(order => order.OrderTotal);
+        default: throw new NotImplementedException();
+    }
+}
+```
+
+In the `GetFilteredOrders` method, replace the `SetOrderBy` call with this new method:
+
+```cs
+orders = SetOrderBy(orders, orderBy);
+```
+
+APPROVE_CHANGES

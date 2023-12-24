@@ -1,0 +1,21 @@
+public int RemoveFromCart(Food food)
+{
+    var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+        s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
+    int localAmount = 0;
+    if (shoppingCartItem != null)
+    {
+        if (shoppingCartItem.Amount > 1)
+        {
+            shoppingCartItem.Amount--;
+            localAmount = shoppingCartItem.Amount;
+        }
+        else
+        {
+            _context.ShoppingCartItems.Remove(shoppingCartItem);
+        }
+    }
+
+    _context.SaveChanges();
+    return localAmount;
+}

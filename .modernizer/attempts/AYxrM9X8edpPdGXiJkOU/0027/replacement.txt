@@ -1,0 +1,12 @@
+string roleId = string.IsNullOrEmpty(roleName) ? null : _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+```
+
+3. Failure conditions:
+   - If `roleName` is null, the `roleId` will be null, which is the expected behavior.
+   - If `roleName` is not null and `roleId` is null, the code will throw a `NullReferenceException`.
+   - If `roleId` is not null and `roleName` is null, the code will not throw an exception, but the `roleId` will be null, which is the expected behavior.
+
+4. The modified source code is:
+
+```cs
+string roleId = string.IsNullOrEmpty(roleName) ? null : _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;

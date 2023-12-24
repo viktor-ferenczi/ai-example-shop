@@ -1,0 +1,39 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CLEAR",
+  "cleanCodeAttributeCategory": "INTENTIONAL",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Program.cs",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "10min",
+  "effort": "10min",
+  "flows": [],
+  "hash": "06877600eb24ccbb35aec82750235a07",
+  "impacts": [
+    {
+      "severity": "MEDIUM",
+      "softwareQuality": "MAINTAINABILITY"
+    }
+  ],
+  "key": "AYxrM9YtedpPdGXiJkOd",
+  "line": 13,
+  "message": "Add a 'protected' constructor or the 'static' keyword to the class declaration.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "csharpsquid:S1118",
+  "scope": "MAIN",
+  "severity": "MAJOR",
+  "status": "OPEN",
+  "tags": [
+    "design"
+  ],
+  "textRange": {
+    "endLine": 13,
+    "endOffset": 24,
+    "startLine": 13,
+    "startOffset": 17
+  },
+  "type": "CODE_SMELL",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

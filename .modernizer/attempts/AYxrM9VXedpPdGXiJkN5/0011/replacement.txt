@@ -1,0 +1,7 @@
+@if(!Model.MostPopularFoods.Any())
+```
+
+This change will replace the line:
+
+```cshtml
+@if(Model.MostPopularFoods.Count() == 0)

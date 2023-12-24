@@ -1,0 +1,40 @@
+{
+  "author": "adlan.elm@gmail.com",
+  "cleanCodeAttribute": "CONVENTIONAL",
+  "cleanCodeAttributeCategory": "CONSISTENT",
+  "codeVariants": [],
+  "component": "Shop:Shop.Web/Views/Account/Profile.cshtml",
+  "creationDate": "2023-12-02T12:56:54+01:00",
+  "debt": "5min",
+  "effort": "5min",
+  "flows": [],
+  "hash": "39a8bcbe2fef97df05840fbd60518a81",
+  "impacts": [
+    {
+      "severity": "LOW",
+      "softwareQuality": "RELIABILITY"
+    }
+  ],
+  "key": "AYxrM9VXedpPdGXiJkN4",
+  "line": 75,
+  "message": "Add a description to this table.",
+  "messageFormattings": [],
+  "project": "Shop",
+  "quickFixAvailable": false,
+  "rule": "Web:TableWithoutCaptionCheck",
+  "scope": "MAIN",
+  "severity": "MINOR",
+  "status": "OPEN",
+  "tags": [
+    "accessibility",
+    "wcag2-a"
+  ],
+  "textRange": {
+    "endLine": 75,
+    "endOffset": 113,
+    "startLine": 75,
+    "startOffset": 40
+  },
+  "type": "BUG",
+  "updateDate": "2023-12-15T02:59:29+01:00"
+}

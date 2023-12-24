@@ -1,0 +1,8 @@
+ 
+To resolve the issue, we can add a `summary` attribute to the `table` tag. This attribute will provide a description of the table's purpose. Here's the modified code:
+
+```cshtml
+<table class="table table-hover" id="categoryIndexTable" summary="This table displays a list of food categories. Each row represents a category and contains the category name, description, and a link to the category page.">
+```
+
+The `summary` attribute provides a description of the table's purpose, which can help with accessibility and SEO. It's a good practice to include this attribute in tables for better accessibility and SEO.

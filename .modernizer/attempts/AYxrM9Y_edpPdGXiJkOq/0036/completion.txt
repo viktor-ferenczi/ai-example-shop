@@ -1,0 +1,20 @@
+ 
+The issue you've reported is about using the `Any` method instead of the `Exists` method. This is a minor issue and can be resolved by replacing `Any` with `Exists`. Here's the corrected code:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string q)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Exists(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+This change ensures that the `Exists` method is used instead of the `Any` method, which is more efficient for large collections.
+
+APPROVE_CHANGES

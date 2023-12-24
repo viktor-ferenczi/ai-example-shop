@@ -1,0 +1,30 @@
+//TODO ambiguous method parameter naming
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
+        }
+```
+
+In the above method, the parameter name `searchQuery` is not very descriptive. It could be renamed to something more meaningful, like `query` or `searchTerm`. This would make it clear what the parameter is used for. 
+
+Here's how the method would look after renaming the parameter:
+
+```cs
+        public IEnumerable<Food> GetFilteredFoods(string query)
+        {
+            const int defaultCount = 10;
+            var queries = string.IsNullOrEmpty(query) ? null : Regex.Replace(query, @"\s+", " ").Trim().ToLower().Split(" ");
+            if (queries == null)
+            {
+                return GetPreferred(defaultCount);
+            }
+
+            return GetAll().Where(item => queries.Any(searchTerm => (item.Name.ToLower().Contains(searchTerm))));
+        }
