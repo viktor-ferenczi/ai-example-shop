@@ -73,7 +73,7 @@ namespace Shop.Service
 
             if (orderBy != OrderBy.None)
             {
-                SetOrderBy(orders, orderBy);
+                orders = SetOrderBy(orders, orderBy);
             }
 
             if (minimalPrice.HasValue)
@@ -105,7 +105,7 @@ namespace Shop.Service
         }
 
         //TODO: bug local reference assigned, but not returned. Open/Closed principle violated
-        private void SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
+        private IEnumerable<Order> SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
         {
             switch (orderBy)
             {
@@ -123,6 +123,7 @@ namespace Shop.Service
                     break;
                 default: throw new NotImplementedException();
             }
+            return orders;
         }
 
         public IEnumerable<Order> GetUserLatestOrders(int count, string userId)
@@ -132,11 +133,11 @@ namespace Shop.Service
                 .Take(count);
         }
 
-        public IEnumerable<Food> GetUserMostPopularFoods(string userId)
+        public IEnumerable<Food> GetUserMostPopularFoods(string id)
         {
             Dictionary<Food, int> foods = new Dictionary<Food, int>();
 
-            var a = GetByUserId(userId);
+            var a = GetByUserId(id);
             foreach (var order in a)
             {
                 foreach (var line in order.OrderLines)

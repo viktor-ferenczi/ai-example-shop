@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -67,8 +67,7 @@ namespace Shop.Data.Models
                 }
                 else
                 {
-                    //TODO redundant parenthesis
-                    shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
+                    shoppingCartItem.Amount += food.InStock - shoppingCartItem.Amount;
                     isValidAmount = false;
                 }
             }
@@ -123,5 +122,6 @@ namespace Shop.Data.Models
                 .Select(c => c.Food.Price * c.Amount).Sum();
         }
 
+        public int InvalidAmount { get; set; }
     }
 }

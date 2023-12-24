@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 using System;
@@ -24,7 +24,7 @@ namespace Shop.Service
             var food = GetById(id);
             if (food == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"Food with ID {id} does not exist.");
             }
             _context.Remove(food);
             _context.SaveChanges();
@@ -48,25 +48,26 @@ namespace Shop.Service
             return GetAll().FirstOrDefault(food => food.Id == id);
         }
 
-        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        public IEnumerable<Food> GetFilteredFoods(int categoryId, string searchQuery)
         {
 
             if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
             {
-                return GetFoodsByCategoryId(id);
+                return GetFoodsByCategoryId(categoryId);
             }
 
-            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == categoryId);
         }
 
         //TODO ambiguous method parameter naming
-        public IEnumerable<Food> GetFilteredFoods(string q)
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
         {
-            var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
+            const int MAX_QUERY_LENGTH = 10;
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
             if (queries == null)
             {
                 //TODO magic number
-                return GetPreferred(10);
+                return GetPreferred(MAX_QUERY_LENGTH);
             }
 
             return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));

@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Category.CategoryIndexModel
+@model Shop.Web.Models.Category.CategoryIndexModel
 @using Microsoft.AspNetCore.Identity
 @using Shop.Data.Models
 @inject SignInManager<ApplicationUser> SignInManager
@@ -19,6 +19,13 @@
 else
 {
     <table class="table table-hover" id="categoryIndexTable">
+        <caption>List of food categories</caption>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+        </thead>
         <tbody>
             @foreach (var category in Model.CategoryList)
             {
@@ -38,3 +45,5 @@ else
         </tbody>
     </table>
 }
+
+<p>This table displays a list of food categories.</p>
