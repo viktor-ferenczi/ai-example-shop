@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Tools.Internal;
 using Shop.Tests.Tools;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,21 +16,42 @@ namespace Shop.Tests.Fixtures
         }
 
         [Fact]
-        public async Task Get_Index_Status()
+        public async Task Get_Status()
         {
+            _webApp.Logout();
+
             var response = await _webApp.Client.GetAsync("/");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(response.IsSuccessStatusCode);
         }
 
         [Fact]
-        public async Task Get_Index_Content()
+        public async Task Get_Content()
         {
+            _webApp.Logout();
+
             var response = await _webApp.Client.GetAsync("/");
             var content = await response.Content.ReadAsStringAsync();
+            Assert.True(response.IsSuccessStatusCode);
 
             var normalizedContent = Normalization.NormalizePageContent(content);
 
             var reference = new Reference("HomeIndex.html");
+            reference.Verify(normalizedContent);
+        }
+
+        [Fact]
+        public async Task Get_Authenticated_Content()
+        {
+            _webApp.Logout();
+            await _webApp.LoginAsAdmin();
+
+            var response = await _webApp.Client.GetAsync("/");
+            var content = await response.Content.ReadAsStringAsync();
+            Assert.True(response.IsSuccessStatusCode);
+
+            var normalizedContent = Normalization.NormalizePageContent(content);
+
+            var reference = new Reference("HomeIndexAuthenticated.html");
             reference.Verify(normalizedContent);
         }
     }

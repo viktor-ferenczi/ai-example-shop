@@ -120,7 +120,7 @@ namespace Shop.Data.Models
         public decimal GetShoppingCartTotal()
         {
             return _context.ShoppingCartItems.Where(c => c.ShoppingCartId == Id)
-                .Select(c => c.Food.Price * c.Amount).Sum();
+                .Select(c => c.Food.Price * c.Amount).ToList().Sum();
         }
 
     }

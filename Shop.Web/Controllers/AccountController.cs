@@ -116,7 +116,7 @@ namespace Shop.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(AccountLoginModel login)
         {
             if (!ModelState.IsValid)
