@@ -22,10 +22,11 @@ public class WebAppFixture : IDisposable
             .UseStartup<Startup>()
             .ConfigureAppConfiguration((context, config) =>
             {
-                config.AddJsonFile("appsettings.Development.json");
+                config.AddJsonFile("appsettings.Test.json");
             })
-            .UseKestrel(options => {
-                options.Listen(IPAddress.Loopback, 5000);// Listen for HTTP connections
+            .UseKestrel(options =>
+            {
+                options.Listen(IPAddress.Loopback, 5001);// Listen for HTTP connections
             });
 
         _server = new TestServer(factory);
