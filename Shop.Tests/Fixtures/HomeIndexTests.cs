@@ -29,7 +29,7 @@ namespace Shop.Tests.Fixtures
 
             var normalizedContent = Normalization.NormalizePageContent(content);
 
-            var reference = new Reference("index.html");
+            var reference = new Reference("HomeIndex.html");
             reference.Verify(normalizedContent);
         }
     }
