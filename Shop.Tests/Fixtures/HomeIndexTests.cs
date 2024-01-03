@@ -1,9 +1,9 @@
+using Shop.Tests.Tools;
 using System.Net;
 using System.Threading.Tasks;
-using Shop.Tests.Tools;
 using Xunit;
 
-namespace Shop.Tests
+namespace Shop.Tests.Fixtures
 {
     public class HomeIndexTests : IClassFixture<WebAppFixture>
     {
