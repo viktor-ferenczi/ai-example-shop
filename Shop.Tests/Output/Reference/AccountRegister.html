@@ -1,0 +1,383 @@
+﻿
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuyNow - Online food store</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> 
+    
+    
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+<meta name="x-stylesheet-fallback-test" content="" class="sr-only" /><script>!function(a,b,c,d){var e,f=document,g=f.getElementsByTagName("SCRIPT"),h=g[g.length-1].previousElementSibling,i=f.defaultView&&f.defaultView.getComputedStyle?f.defaultView.getComputedStyle(h):h.currentStyle;if(i&&i[a]!==b)for(e=0;e<c.length;e++)f.write('<link href="'+c[e]+'" '+d+"/>")}("position","absolute",["/lib/bootstrap/dist/css/bootstrap.min.css"], "rel=\u0022stylesheet\u0022 ");</script>
+        <link rel="stylesheet" href="/css/site.min.css" />
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body class="bg1 d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f8f8f8;">
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo.png" width="140px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/Category">Categories</a>
+            </li>
+        </ul>
+        <form class="form-inline">
+
+
+<ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" href="/Account/Login?returnUrl=%2FAccount%2FRegister">Sign In <i class="fas fa-sign-in-alt"></i></a></li>
+    <li class="active nav-item"><a class="nav-link" href="/Account/Register?returnUrl=%2FAccount%2FRegister">Register <i class="fas fa-user-plus"></i></a></li>
+</ul>        </form>
+        </div>
+    </nav>
+    <div class="container body-content flex-shrink-0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style>
+    :after,:before{box-sizing:border-box}
+    .clearfix:after,.clearfix:before{content:'';display:table}
+    .clearfix:after{clear:both;display:block}
+    a{color:inherit;text-decoration:none}
+
+    .login-wrap{
+        width: 100%;
+        margin:auto;
+        margin-top: 32px;
+        margin-bottom:32px;
+        padding-bottom: 32px;
+        max-width:510px;
+        min-height:510px;
+        position:relative;
+        background:url(https://maxcdn.icons8.com/app/uploads/2016/03/material-1-1000x563.jpg) no-repeat center;
+        background-size: cover;
+        box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+        height: 1400px;
+    }
+    .login-html{
+        width:100%;
+        height:100%;
+        position:absolute;
+        padding:90px 70px 50px 70px;
+        background:rgba(0,0,0,0.5);
+    }
+    .login-html .sign-in-htm,
+    .login-html .for-pwd-htm{
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        position:absolute;
+        -webkit-transform:rotateY(180deg);
+                transform:rotateY(180deg);
+        -webkit-backface-visibility:hidden;
+                backface-visibility:hidden;
+        -webkit-transition:all .4s linear;
+        transition:all .4s linear;
+    }
+    .login-html .sign-in,
+    .login-html .for-pwd,
+    .login-form .group .check{
+        display:none;
+    }
+    .login-html .tab,
+    .login-form .group .label,
+    .login-form .group .button{
+        text-transform:uppercase;
+    }
+    .login-html .tab{
+        font-size:22px;
+        margin-right:15px;
+        padding-bottom:5px;
+        margin:0 15px 10px 0;
+        display:inline-block;
+        border-bottom:2px solid transparent;
+    }
+    .login-html .sign-in:checked + .tab,
+    .login-html .for-pwd:checked + .tab{
+        color:#fff;
+        border-color:#1161ee;
+    }
+    .login-form{
+        min-height:345px;
+        position:relative;
+        -webkit-perspective:1000px;
+                perspective:1000px;
+        -webkit-transform-style:preserve-3d;
+                transform-style:preserve-3d;
+    }
+    .login-form .group{
+        margin-bottom:15px;
+    }
+    .login-form .group .label,
+    .login-form .group .input,
+    .login-form .group .button{
+        width:100%;
+        color:#fff;
+        display:block;
+    }
+    .login-form .group .input,
+    .login-form .group .button{
+        border:none;
+        padding:15px 20px;
+        border-radius:25px;
+        background:rgba(255,255,255,.1);
+        outline: none;
+    }
+    .login-form .group input[data-type="password"]{
+        text-security:circle;
+        -webkit-text-security:circle;
+    }
+    .login-form .group .label{
+        color:#aaa;
+        font-size:12px;
+    }
+    .login-form .group .button{
+        background:#1161ee;
+    }
+    .login-form .group label .icon{
+        width:15px;
+        height:15px;
+        border-radius:2px;
+        position:relative;
+        display:inline-block;
+        background:rgba(255,255,255,.1);
+    }
+    .login-form .group label .icon:before,
+    .login-form .group label .icon:after{
+        content:'';
+        width:10px;
+        height:2px;
+        background:#fff;
+        position:absolute;
+        -webkit-transition:all .2s ease-in-out 0s;
+        transition:all .2s ease-in-out 0s;
+    }
+    .login-form .group label .icon:before{
+        left:3px;
+        width:5px;
+        bottom:6px;
+        -webkit-transform:scale(0) rotate(0);
+                transform:scale(0) rotate(0);
+    }
+    .login-form .group label .icon:after{
+        top:6px;
+        right:0;
+        -webkit-transform:scale(0) rotate(0);
+                transform:scale(0) rotate(0);
+    }
+    .login-form .group .check:checked + label{
+        color:#fff;
+    }
+    .login-form .group .check:checked + label .icon{
+        background:#1161ee;
+    }
+    .login-form .group .check:checked + label .icon:before{
+        -webkit-transform:scale(1) rotate(45deg);
+                transform:scale(1) rotate(45deg);
+    }
+    .login-form .group .check:checked + label .icon:after{
+        -webkit-transform:scale(1) rotate(-45deg);
+                transform:scale(1) rotate(-45deg);
+    }
+    .login-html .sign-in:checked + .tab + .for-pwd + .tab + .login-form .sign-in-htm{
+        -webkit-transform:rotate(0);
+                transform:rotate(0);
+    }
+    .login-html .for-pwd:checked + .tab + .login-form .for-pwd-htm{
+        -webkit-transform:rotate(0);
+                transform:rotate(0);
+    }
+
+    .hr{
+        height:2px;
+        margin:60px 0 50px 0;
+        background:rgba(255,255,255,.2);
+    }
+    .foot-lnk{
+        text-align:center;
+    }
+</style>
+
+ <div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign Up</label>
+		<input id="tab-2" type="hidden" name="tab" class="for-pwd"> <label for="tab-2" class="tab"></label>
+		<div class="login-form">
+            <form method="post" class="form-horizontal" role="form" action="/Account/Register">
+                <div class="sign-in-htm">
+                    <div class="group">
+                        <label for="user" class="label">*First Name</label>
+                        <input id="user" required type="text" class="input" data-val="true" data-val-length="First name must have from 2 to 255 characters" data-val-length-max="255" data-val-length-min="2" data-val-required="First name is required" maxlength="255" name="FirstName" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <div class="group">
+                        <label for="user" class="label">*Last Name</label>
+                        <input id="user" required type="text" class="input" data-val="true" data-val-length="Last name must have from 2 to 255 characters" data-val-length-max="255" data-val-length-min="2" data-val-required="Last name is required" maxlength="255" name="LastName" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*Email</label>
+                        <input id="user" required type="text" class="input" data-val="true" data-val-regex="Enter valid email" data-val-regex-pattern="^\w&#x2B;@[a-zA-Z_]&#x2B;?\.[a-zA-Z]{2,3}$" data-val-required="Email is required" name="Email" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*Country</label>
+                        <input id="user" required type="text" class="input" data-val="true" data-val-length="Country must have from 2 to 255 characters" data-val-length-max="255" data-val-length-min="2" data-val-required="Country is required" maxlength="255" name="Country" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Country" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*City</label>
+                        <input id="user" required type="text" class="input" data-val="true" data-val-length="City must have from 2 to 255 characters" data-val-length-max="255" data-val-length-min="2" data-val-required="City is required" maxlength="255" name="City" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="City" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">Address 1</label>
+                        <input id="user" type="text" class="input" name="AddressLine1" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="AddressLine1" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">Address 2</label>
+                        <input id="user" type="text" class="input" name="AddressLine2" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="AddressLine2" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*Phone Number</label>
+                        <input id="user" required type="text" class="input" name="PhoneNumber" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">ImageUrl</label>
+                        <input id="user" type="text" class="input" name="ImageUrl" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="ImageUrl" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">*Password</label>
+                        <input id="pass" type="password" required class="input" data-type="password" data-val="true" data-val-regex="Password must be at least 4 characters, &#xD;&#xA;no more than 8 characters, and must include at least one upper case letter, &#xD;&#xA;one lower case letter, and one numeric digit" data-val-regex-pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$" data-val-required="Password is required" name="Password">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">*Password Confirmation</label>
+                        <input id="pass" type="password" required class="input" data-type="password" data-val="true" data-val-equalto="Passwords did not match" data-val-equalto-other="*.Password" data-val-required="Confirm password" name="PasswordConfirmation">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="PasswordConfirmation" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Sign Up">
+                    </div>
+                    <div class="hr">
+                        <p style="color:#f8f8f8; padding:8px;">Already have an account?<a href="/Account/Login?returnUrl=%2F"> Sign In Here!</a></p>
+                    </div>
+                </div>
+            <input name="__RequestVerificationToken" type="hidden" value="NORMALIZED-VERIFICATION-TOKEN" /></form>
+			<div class="for-pwd-htm">
+				<div class="group">
+					<label for="user" class="label">Username or Email</label>
+					<input id="user" type="text" class="input">
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Reset Password">
+				</div>
+				<div class="hr"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function GetFavColor() {
+        document.body.className = "bg-login";
+   // document.body.getElementsByTagName("footer")[0].style = "position: absolute;bottom: 0;width: 100%;";
+});
+</script>
+    </div>
+<!-- Footer -->
+    <footer id="myFooter" class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <a style="width: 100%;height: 150px;margin-top: 0px;" class="navbar-brand navLogo footerLogo" href="/"></a>
+                </div>
+                <div class="col-sm-2">
+                    <h5>Get started</h5>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                            <li><a href="/Account/Login">Sign in</a></li>
+                            <li><a href="/Account/Register">Sign up</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <h5>About us</h5>
+                    <ul>
+                        <li><a href="#">Company Information</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Forums</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <div class="social-networks">
+                        <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="google"><i class="fab fa-google-plus"></i></a>
+                    </div>
+                    <button type="button" class="btn btn-default">Contact us</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2019 BuyNow - Online Food Shop </p>
+        </div>
+    </footer>
+<!-- Footer -->
+
+    
+    
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" crossorigin="anonymous" integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+<script>(window.jQuery||document.write("\u003Cscript src=\u0022/lib/jquery/dist/jquery.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-K\u002BctZQ\u002BLL8q6tP7I94W\u002BqzQsfRV2a\u002BAfHIi9k8z8l9ggpc8X\u002BYtst4yBo/hH\u002B8Fk\u0022\u003E\u003C/script\u003E"));</script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" crossorigin="anonymous" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+<script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.modal||document.write("\u003Cscript src=\u0022/lib/bootstrap/dist/js/bootstrap.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\u0022\u003E\u003C/script\u003E"));</script>
+        <script src="/js/site.min.js"></script>
+    
+     <script type="text/javascript">
+         function changeValue(target, output,total,  num) {
+             let val = parseInt(target.value);
+             if (num < 0 && val <= 1) {
+                 return;
+             }
+             val += num;
+             target.value = val;
+
+             let totalInt = val * parseFloat(total.substring(1));
+             output.value = ('$' + totalInt).substring(0,6);
+            }
+
+        function readUrl(input, id) {  
+            if (input && input.value) {
+                $('#'+id).attr('src', input.value);
+            }
+        }    
+     </script>
+
+    
+</body>
+
