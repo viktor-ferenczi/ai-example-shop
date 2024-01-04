@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Tools.Internal;
 using Shop.Tests.Tools;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -21,8 +19,7 @@ namespace Shop.Tests.Fixtures
             _webApp.Logout();
 
             var response = await _webApp.Client.GetAsync("/");
-            var content = await response.Content.ReadAsStringAsync();
-            Assert.True(response.IsSuccessStatusCode, $"[{response.StatusCode}] {content}");
+            Assert.True(response.IsSuccessStatusCode, $"{response.StatusCode}");
         }
 
         [Fact]
@@ -32,7 +29,7 @@ namespace Shop.Tests.Fixtures
 
             var response = await _webApp.Client.GetAsync("/");
             var content = await response.Content.ReadAsStringAsync();
-            Assert.True(response.IsSuccessStatusCode, $"[{response.StatusCode}] {content}");
+            Assert.True(response.IsSuccessStatusCode, $"{response.StatusCode}");
 
             var normalizedContent = Normalization.NormalizePageContent(content);
 
@@ -48,7 +45,7 @@ namespace Shop.Tests.Fixtures
 
             var response = await _webApp.Client.GetAsync("/");
             var content = await response.Content.ReadAsStringAsync();
-            Assert.True(response.IsSuccessStatusCode, $"[{response.StatusCode}] {content}");
+            Assert.True(response.IsSuccessStatusCode, $"{response.StatusCode}");
 
             var normalizedContent = Normalization.NormalizePageContent(content);
 
