@@ -1,0 +1,200 @@
+﻿
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuyNow - Online food store</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> 
+    
+    
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+<meta name="x-stylesheet-fallback-test" content="" class="sr-only" /><script>!function(a,b,c,d){var e,f=document,g=f.getElementsByTagName("SCRIPT"),h=g[g.length-1].previousElementSibling,i=f.defaultView&&f.defaultView.getComputedStyle?f.defaultView.getComputedStyle(h):h.currentStyle;if(i&&i[a]!==b)for(e=0;e<c.length;e++)f.write('<link href="'+c[e]+'" '+d+"/>")}("position","absolute",["/lib/bootstrap/dist/css/bootstrap.min.css"], "rel=\u0022stylesheet\u0022 ");</script>
+        <link rel="stylesheet" href="/css/site.min.css" />
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body class="bg1 d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f8f8f8;">
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo.png" width="140px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/Category">Categories</a>
+            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Account">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Food/New">New Food</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Category/New">New Category</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Account/Register">New User</a>
+                </li>
+        </ul>
+        <form class="form-inline">
+
+<a style="padding:5px;color: rgba(0,0,0,.7);text-decoration: none;" href="/ShoppingCart">
+    <i class="fas fa-shopping-cart fa-3x"></i>
+    <span style="font-size:20px; text-align:center; margin:5px;">
+        0
+    </span>
+</a>
+<div class="btn-group"> 
+    <a style="padding:0; text-decoration: none;font-weight: bold;color:rgba(0,0,0,0.9);font-size: 18px;" href="/Account/Profile">
+        <img src="" class="profile-img-summary">
+        admin 
+    </a>
+    <a class="dropdown-toggle dropdown-toggle-split" style="padding-top:12px; font-size:20px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+    <div class="dropdown-menu account-dropdown" style="padding:8px; text-align:right;font-size:16px;">
+        <a class="dropdown-item" href="/Account/Profile">Profile <i class="fas fa-user-circle"></i></a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/Account/Settings">Settings <i class="fas fa-cogs"></i></a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/Account/Logout">Log out <i class="fas fa-sign-out-alt"></i></a>
+    </div>
+</div>        </form>
+        </div>
+    </nav>
+    <div class="container body-content flex-shrink-0">
+        
+<div class="row">
+    <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to create category</h3>
+    <div class="col-md-offset-3 col-md-8">
+        <div class="row orderForm ">
+            
+            <form method="post" class="form-horizontal col-md-8" role="form" action="/Category/New">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="Name">Category name*</label>
+                    <div class="col-md-6">
+                        <input class="form-control input-validation-error" type="text" data-val="true" data-val-length="The field Category name* must be a string with a maximum length of 20." data-val-length-max="20" data-val-required="Please enter your name of the category" id="Name" maxlength="20" name="Name" value="" />
+                        <span class="text-danger field-validation-error" data-valmsg-for="Name" data-valmsg-replace="true">Please enter your name of the category</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="Description">Description</label>
+                    <div class="col-md-6">
+                        <textarea class="form-control" id="Description" name="Description">
+</textarea>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="ImageUrl">Image url*</label>
+                    <div class="col-md-6">
+                        <input onkeyup="readUrl(this,'CategoryImage');" class="form-control input-validation-error" type="text" data-val="true" data-val-required="Please enter url of the category image" id="ImageUrl" name="ImageUrl" value="" />
+                        <span class="text-danger field-validation-error" data-valmsg-for="ImageUrl" data-valmsg-replace="true">Please enter url of the category image</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="btn-group col-md-4">
+                            <a class="btn btn-default" href="/Category">Cancel</a>
+                    </div>
+                    <div class="btn-group col-md-offset-4 col-md-4">
+                        <input class="btn btn-success" type="submit" value="Create Category" />
+                    </div>
+                </div>
+            <input name="__RequestVerificationToken" type="hidden" value="NORMALIZED-VERIFICATION-TOKEN" /></form>
+            <div class="col-md-4">
+                <div >
+                    <img id="CategoryImage" alt="Invalid Url" width="300" heigth="300"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+<!-- Footer -->
+    <footer id="myFooter" class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <a style="width: 100%;height: 150px;margin-top: 0px;" class="navbar-brand navLogo footerLogo" href="/"></a>
+                </div>
+                <div class="col-sm-2">
+                    <h5>Get started</h5>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                                <li><a class="btn-link" href="/Account/Logout">Log out</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <h5>About us</h5>
+                    <ul>
+                        <li><a href="#">Company Information</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Forums</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <div class="social-networks">
+                        <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="google"><i class="fab fa-google-plus"></i></a>
+                    </div>
+                    <button type="button" class="btn btn-default">Contact us</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2019 BuyNow - Online Food Shop </p>
+        </div>
+    </footer>
+<!-- Footer -->
+
+    
+    
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" crossorigin="anonymous" integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+<script>(window.jQuery||document.write("\u003Cscript src=\u0022/lib/jquery/dist/jquery.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-K\u002BctZQ\u002BLL8q6tP7I94W\u002BqzQsfRV2a\u002BAfHIi9k8z8l9ggpc8X\u002BYtst4yBo/hH\u002B8Fk\u0022\u003E\u003C/script\u003E"));</script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" crossorigin="anonymous" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+<script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.modal||document.write("\u003Cscript src=\u0022/lib/bootstrap/dist/js/bootstrap.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\u0022\u003E\u003C/script\u003E"));</script>
+        <script src="/js/site.min.js"></script>
+    
+     <script type="text/javascript">
+         function changeValue(target, output,total,  num) {
+             let val = parseInt(target.value);
+             if (num < 0 && val <= 1) {
+                 return;
+             }
+             val += num;
+             target.value = val;
+
+             let totalInt = val * parseFloat(total.substring(1));
+             output.value = ('$' + totalInt).substring(0,6);
+            }
+
+        function readUrl(input, id) {  
+            if (input && input.value) {
+                $('#'+id).attr('src', input.value);
+            }
+        }    
+     </script>
+
+    
+</body>
+
