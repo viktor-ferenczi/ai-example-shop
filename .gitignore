@@ -410,3 +410,4 @@ FodyWeavers.xsd
 # Test data
 Shop.Tests/Output/Actual/
 .aidev/tasks/
+.aidev/audit/
