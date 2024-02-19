@@ -21,9 +21,6 @@ namespace Shop.Web.Pages
         [BindProperty(SupportsGet = true)]
         public OrderArchiveModel Order { get; set; }
 
-        // [BindProperty(SupportsGet = true)]
-        // public int PageNumber { get; set; }
-
         public ArchiveModel(IOrder orderService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
@@ -51,7 +48,13 @@ namespace Shop.Web.Pages
             int orderInPage = 5;
             int count = _orderService.GetByUserId(user.Id).Count();
             int pageCount = (int)Math.Ceiling(count / (double)orderInPage);
-            var orders = _orderService.GetFilteredOrders(user.Id, OrderBy.None, (pageNumber.Value - 1) * orderInPage, orderInPage).ToList();
+            var orders = _orderService.GetFilteredOrders(new OrderFilter
+            {
+                UserId = user.Id,
+                OrderBy = OrderBy.None,
+                Offset = (pageNumber.Value - 1) * orderInPage,
+                Limit = orderInPage
+            }).ToList();
             var models = _mapper.OrdersToOrderIndexModels(orders);
 
             if (Order.PageCount <= 0)
