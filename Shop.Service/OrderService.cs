@@ -59,52 +59,43 @@ namespace Shop.Service
                 .Where(order => order.User.Id == userId);
         }
 
-        public IEnumerable<Order> GetFilteredOrders(
-            string userId,
-            OrderBy orderBy = OrderBy.None,
-            int offset = 0, int limit = 10,
-            decimal? minimalPrice = null,
-            decimal? maximalPrice = null,
-            DateTime? minDate = null,
-            DateTime? maxDate = null,
-            string zipCode = null)
+        public IEnumerable<Order> GetFilteredOrders(OrderFilter filter)
         {
-            var orders = string.IsNullOrEmpty(userId) ? GetAll() : GetByUserId(userId);
+            var orders = string.IsNullOrEmpty(filter.UserId) ? GetAll() : GetByUserId(filter.UserId);
 
-            if (orderBy != OrderBy.None)
+            if (filter.OrderBy != OrderBy.None)
             {
-                SetOrderBy(orders, orderBy);
+                SetOrderBy(orders, filter.OrderBy);
             }
 
-            if (minimalPrice.HasValue)
+            if (filter.MinimalPrice.HasValue)
             {
-                orders = orders.Where(order => order.OrderTotal > minimalPrice);
+                orders = orders.Where(order => order.OrderTotal > filter.MinimalPrice);
             }
 
-            if (maximalPrice.HasValue)
+            if (filter.MaximalPrice.HasValue)
             {
-                orders = orders.Where(order => order.OrderTotal > maximalPrice);
+                orders = orders.Where(order => order.OrderTotal < filter.MaximalPrice);
             }
 
-            if (minDate.HasValue)
+            if (filter.MinDate.HasValue)
             {
-                orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+                orders = orders.Where(order => order.OrderPlaced > filter.MinDate);
             }
 
-            if (maxDate.HasValue)
+            if (filter.MaxDate.HasValue)
             {
-                orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+                orders = orders.Where(order => order.OrderPlaced < filter.MaxDate);
             }
 
-            if (!string.IsNullOrEmpty(zipCode))
+            if (!string.IsNullOrEmpty(filter.ZipCode))
             {
-                orders = orders.Where(order => order.ZipCode == zipCode);
+                orders = orders.Where(order => order.ZipCode == filter.ZipCode);
             }
 
-            return orders.Skip(offset).Take(limit);
+            return orders.Skip(filter.Offset).Take(filter.Limit);
         }
 
-        //TODO: bug local reference assigned, but not returned. Open/Closed principle violated
         private void SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
         {
             switch (orderBy)

@@ -14,16 +14,19 @@ namespace Shop.Data
         IEnumerable<Order> GetAll();
         IEnumerable<Order> GetUserLatestOrders(int count, string userId);
         IEnumerable<Food> GetUserMostPopularFoods(string id);
-        IEnumerable<Order> GetFilteredOrders(
-            string userId = null,
-            OrderBy orderBy = OrderBy.None,
-            int offset = 0,
-            int limit = 10,
-            decimal? minimalPrice = null,
-            decimal? maximalPrice = null,
-            DateTime? minDate = null,
-            DateTime? maxDate = null,
-            string zipCode = null
-            );
+        IEnumerable<Order> GetFilteredOrders(OrderFilter filter);
+    }
+
+    public class OrderFilter
+    {
+        public string UserId { get; set; }
+        public OrderBy OrderBy { get; set; }
+        public int Offset { get; set; }
+        public int Limit { get; set; }
+        public decimal? MinimalPrice { get; set; }
+        public decimal? MaximalPrice { get; set; }
+        public DateTime? MinDate { get; set; }
+        public DateTime? MaxDate { get; set; }
+        public string ZipCode { get; set; }
     }
 }
