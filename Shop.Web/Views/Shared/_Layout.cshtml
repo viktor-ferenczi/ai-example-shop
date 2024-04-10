@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using Shop.Data.Models
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -9,14 +9,13 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BuyNow - Online food store</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" /> 
     <environment include="Development">
-        <!-- <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" /> -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -33,7 +32,7 @@
 <body class="@ViewBag.BodyClass d-flex flex-column h-100">
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f8f8f8;">
         <a asp-controller="Home" asp-action="Index" class="navbar-brand">
-            <img src="/images/logo.png" width="140px">
+            <img src="/images/logo.png" width="140px" alt="BuyNow logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -175,4 +174,3 @@
 
     @RenderSection("Scripts", required: false)
 </body>
-

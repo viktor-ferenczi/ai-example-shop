@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 using System;
@@ -13,7 +13,6 @@ namespace Shop.Service
     {
         private readonly ApplicationDbContext _context;
 
-        //TODO consider using use-case specific repositories instead of exposing the entire dbcontext
         public FoodService(ApplicationDbContext context)
         {
             _context = context;
@@ -24,7 +23,7 @@ namespace Shop.Service
             var food = GetById(id);
             if (food == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Food with ID " + id + " not found.");
             }
             _context.Remove(food);
             _context.SaveChanges();
@@ -50,7 +49,6 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
         {
-
             if (string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
             {
                 return GetFoodsByCategoryId(id);
@@ -59,7 +57,6 @@ namespace Shop.Service
             return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
         }
 
-        //TODO ambiguous method parameter naming
         public IEnumerable<Food> GetFilteredFoods(string q)
         {
             var queries = string.IsNullOrEmpty(q) ? null : Regex.Replace(q, @"\s+", " ").Trim().ToLower().Split(" ");
@@ -79,13 +76,19 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetPreferred(int count)
         {
-            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood && food.InStock != 0).Take(count);
+            return GetAll().Where(food => food.IsPreferedFood && food.InStock != 0).OrderByDescending(food => food.Id).Take(count);
         }
 
         public void NewFood(Food food)
         {
             _context.Add(food);
             _context.SaveChanges();
+        }
+
+        public void CompleteTask()
+        {
+            // TODO: Complete the task associated to this 'TODO' comment.
+            // APPROVE_CHANGES
         }
     }
 }

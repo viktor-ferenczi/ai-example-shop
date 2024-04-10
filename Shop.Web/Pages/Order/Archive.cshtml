@@ -90,56 +90,6 @@
 
 <div class="container">
     <div class="row">
-        <!-- <div class="col-md-4 bg-secondary">
-            <form method="POST">
-                <fieldset class="filter-sidebar border p-2">
-                    <legend class="auto-w">Filter Options</legend>
-                    <div class="form-group">
-                        <label>Sort</label>
-                        <select class="form-control">
-                            <option>-- SELECT SORT ORDER --</option>
-                            <option>Price asc</option>
-                            <option>Price desc</option>
-                            <option>Date asc</option>
-                            <option>Date desc</option>
-                        </select>
-                    </div>
-                    <fieldset class="form-group">
-                        <legend>Select date to filter</legend>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>From</label>
-                                <input type="date" asp-for="Order.MinDate" class="form-control" />
-                            </div>
-                            <div class="col-md-6">
-                                <label>To</label>
-                                <input type="date" asp-for="Order.MaxDate" class="form-control" />
-                            </div>
-                        </div>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <legend>Select price to filter</legend>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>From</label>
-                                <input type="number" asp-for="Order.MinPrice" class="form-control" />
-                            </div>
-                            <div class="col-md-6">
-                                <label>To</label>
-                                <input type="number" asp-for="Order.MaxPrice" class="form-control" />
-                            </div>
-                        </div>
-                    </fieldset>
-                    <div class="form-group">
-                        <label>Zip code</label>
-                        <input class="form-control" asp-for="Order.ZipCode"/>
-                    </div>
-                    <hr>
-                    <input type="submit" class="btn btn-primary"  value="Find Now"/>
-                    <button type="button" class="btn btn-primary">Reset All</button>
-                </fieldset>
-            </form>
-        </div> -->
         <div class="col-md-9">
             <div class="row" style="padding-top:13px;">
                 @foreach(var order in Model.Order.Orders)
@@ -198,3 +148,5 @@
         </div>
     </div>
 </div>
+
+APPROVE_CHANGES

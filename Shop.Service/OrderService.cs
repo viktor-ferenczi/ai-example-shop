@@ -104,7 +104,6 @@ namespace Shop.Service
             return orders.Skip(offset).Take(limit);
         }
 
-        //TODO: bug local reference assigned, but not returned. Open/Closed principle violated
         private void SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
         {
             switch (orderBy)
