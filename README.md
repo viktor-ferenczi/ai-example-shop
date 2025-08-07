@@ -1,4 +1,4 @@
-**DO NOT USE THIS AS WEB SHOP, THIS IS ONLY EXAMPLE CODE**
+**DO NOT USE THIS AS A WEB SHOP, THIS IS ONLY EXAMPLE CODE**
 
 **This repository was use for the [ai-dev-proto](https://github.com/viktor-ferenczi/ai-dev-proto) project to test and demonstrate that LLMs can edit source code and produce useful PRs.**
 
@@ -83,5 +83,6 @@ See also the list of [contributors](https://github.com/bugdaryan/FoodStore/graph
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/bugdaryan/FoodStore/blob/master/LICENSE) file for details
+
 
 
